@@ -11,4 +11,8 @@ class Book extends Model
     protected $fillable=[
         'BookID','ISBN','BookTitle','DatePublished','Author','Publisher','Category','SubCategory','Status'
     ];
+
+     protected $casts = [
+        'DatePublished' => 'date',//to format the date
+    ];
 }

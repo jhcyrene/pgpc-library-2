@@ -1,0 +1,19 @@
+body{
+    background-color: rgba(255, 255, 12, 0.082);
+}
+.bg-blue{
+    background-color: rgb(22, 22, 180);
+}
+.btn-blue{
+    background-color: rgb(22, 22, 180);
+    color: whitesmoke;
+}
+.text-blue{
+    color: rgb(22, 22, 180);
+}
+.shadow-warning {
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.6);
+}
+.mt-n5{
+    margin-top:-0.5em;
+}

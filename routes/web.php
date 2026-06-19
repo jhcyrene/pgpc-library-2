@@ -9,3 +9,5 @@ Route::get('/', function () {
 Route::get('catalog',[BookController::class,'catalog']);
 
 Route::post('/books/add',[BookController::class,'addbook']);//add books
+Route::get('booklist',[BookController::class,'booklist']);
+

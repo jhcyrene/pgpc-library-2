@@ -25,9 +25,9 @@ class BookController extends Controller
         $books=Book::all();//get all data
         return view('catalog', compact('books'));//pass the data to page
         }
-        public function booklist()
-        {
-            $books=Book::all();//get all data
-            return view('booklist',compact('books'));
-        }
+    public function booklist()
+    {
+        $books=Book::all();//get all data
+        return view('booklist',compact('books'));
+    }
 }

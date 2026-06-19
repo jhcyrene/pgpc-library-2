@@ -4,7 +4,7 @@
 <div class="container">
     <h4>Book List</h4>
 
-    <table class="table table-sm mt-3">
+    <table class="table table-sm mt-3 text-secondary bg-white shadow rounded">
         <thead class="bg-blue text-white">
             <tr class="small">
                 <th>#</th>

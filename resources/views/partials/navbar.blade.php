@@ -20,7 +20,7 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-brands fa-whmcs"></i> Manage</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="publisher"><i class="fa-solid fa-laptop-file"></i> Publisher</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i> Author</a></li>
+            <li><a class="dropdown-item" href="author"><i class="fa-solid fa-user"></i> Author</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa-solid fa-table-list"></i> Category</a></li>
           </ul>
         </li>

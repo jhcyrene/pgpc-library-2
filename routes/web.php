@@ -15,3 +15,4 @@ Route::get('booklist',[BookController::class,'booklist']);//display books
 Route::post('/publisher/add',[PublisherController::class,'addpublisher']);//add publisher
 Route::get('publisher',[PublisherController::class,'publisherlist']);//display publisher
 
+Route::get('author',function(){return view('author');});

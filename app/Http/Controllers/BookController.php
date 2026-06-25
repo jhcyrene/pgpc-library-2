@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Book;
+use App\Models\Publisher;
+use App\Models\Category;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +25,9 @@ class BookController extends Controller
     }
     public function catalog(){
         $books=Book::all();//get all data
-        return view('catalog', compact('books'));//pass the data to page
+        $publishers=Publisher::orderBy('Name','asc')->get();
+        $categories=Category::orderBy('CategoryName','asc')->get();
+        return view('catalog',compact('books','publishers','categories'));
         }
     public function booklist()
     {

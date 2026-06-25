@@ -43,7 +43,9 @@
                         <label for="publisher">Publisher<i class="text-danger">*</i></label>
                         <select class="form-control form-control-sm" name="publisher" id="publisher" required>
                             <option value="" selected disabled>-Select Publisher-</option>
-                            <option value="1">1</option>
+                            @foreach($publishers as $pub)
+                                <option value="{{ $pub->id }}">{{ $pub->Name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -52,14 +54,15 @@
                         <label for="category">Category<i class="text-danger">*</i></label>
                         <select class="form-control form-control-sm" name="category" id="category" required>
                             <option value="" selected disabled>-Select Category-</option>
-                            <option value="1">1</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->CategoryName }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-sm-5">
                         <label for="subcategory">Sub-Category<i class="text-danger">*</i></label>
                         <select class="form-control form-control-sm" name="subcategory" id="subcategory" required>
                             <option value="" selected disabled>-Select Sub-Category-</option>
-                            <option value="1">1</option>
                         </select>
                     </div>
                 </div>
@@ -87,4 +90,29 @@
         });
     </script>
     @endif
+    <script>
+        $(document).on('change', '#category', function(){
+            var catid = $(this).val();
+            let $subcat=$('#subcategory');
+            $.ajax({
+                url: '/category/subcategory/' + catid,
+                type: 'GET',
+                success: function(response){
+                    var subcategories = response;
+                    var options = '<option value="" selected disabled>-Select Sub-Category-</option>';
+                    var subcategories = response;
+                    
+                    $subcat.empty();
+                    $subcat.append('<option value="" selected disabled>-Select Sub Category-</option>');
+                    for(var i=0; i<subcategories.length; i++){
+                        $subcat.append('<option value="'+subcategories[i].id+'">'+subcategories[i].SubCategoryName+'</option>');
+                    }
+
+                },
+                error: function(xhr){
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script>
 @endsection

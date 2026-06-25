@@ -21,7 +21,7 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="publisher"><i class="fa-solid fa-laptop-file"></i> Publisher</a></li>
             <li><a class="dropdown-item" href="author"><i class="fa-solid fa-user"></i> Author</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-table-list"></i> Category</a></li>
+            <li><a class="dropdown-item" href="category"><i class="fa-solid fa-table-list"></i> Category</a></li>
           </ul>
         </li>
           <li class="nav-item dropdown">

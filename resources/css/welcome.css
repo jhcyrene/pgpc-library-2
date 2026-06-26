@@ -11,9 +11,11 @@
    ========================================= */
 @theme {
   --color-primary: #212E5E;     /* PGPC Navy */
-  --color-accent: #fcc719     /* PGPC gold */
+  --color-accent: #fcc719E6     /* PGPC gold */
   --color-white: #ffffff;
   --color-primaryfade: #212e5ef3;
+  --color-gold: #fcc719CC;
+  --color-primaryblue: #2b3e6b;
 
   --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
 
@@ -45,7 +47,7 @@
    CUSTOM UTILITIES
    ========================================= */
 @utility bg-gradient-hero {
-  background-color: color-mix(in srgb, #212E5E 80%, transparent);
+  background-color: color-mix(in srgb, #212E5E 81%, transparent);
 }
 
 @utility shadow-elegant {
@@ -67,15 +69,17 @@
 
   /* Custom Login Button linked directly to CSS variables */
   .btn-login {
-    background-color: var(--color-primary);
+    background-color: transparent;
     color: var(--color-white);
-    border: none;
+    /* border: var(--color-gold); */
     border-radius: 9999px; /* full rounded */
     padding: 0.5rem 1.5rem;
     font-weight: 600;
     transition: background-color 0.2s ease;
   }
   .btn-login:hover {
-    background-color: color-mix(in srgb, var(--color-gold) 80%, white);
+    color: color-mix(in srgb, var(--color-gold) 85%, white);
+    border: 2px solid var(--color-gold);
   }
+
 }

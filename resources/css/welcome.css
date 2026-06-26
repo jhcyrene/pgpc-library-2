@@ -11,7 +11,7 @@
    ========================================= */
 @theme {
   --color-primary: #212E5E;     /* PGPC Navy */
-  --color-accent: #fcc719;      /* PGPC gold */
+  --color-accent: #fcc719     /* PGPC gold */
   --color-white: #ffffff;
   --color-primaryfade: #212e5ef3;
 
@@ -20,6 +20,7 @@
   --radius-lg: 0.5rem;
   --radius-md: 0.375rem;
   --radius-sm: 0.25rem;
+
 }
 
 /* =========================================
@@ -44,7 +45,7 @@
    CUSTOM UTILITIES
    ========================================= */
 @utility bg-gradient-hero {
-  background-color: color-mix(in srgb, #212E5E 53%, transparent);
+  background-color: color-mix(in srgb, #212E5E 80%, transparent);
 }
 
 @utility shadow-elegant {

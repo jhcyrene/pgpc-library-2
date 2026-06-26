@@ -1,9 +1,80 @@
 @import 'tailwindcss';
+@plugin "daisyui";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
 
+/* =========================================
+   THEME CONFIGURATION
+   Change these colors to update the entire site!
+   ========================================= */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-primary: #212E5E;     /* PGPC Navy */
+  --color-accent: #fcc719;      /* PGPC gold */
+  --color-white: #ffffff;
+  --color-primaryfade: #212e5ef3;
+
+  --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: 0.5rem;
+  --radius-md: 0.375rem;
+  --radius-sm: 0.25rem;
+}
+
+/* =========================================
+   DAISYUI MAPPING
+   ========================================= */
+@layer base {
+  [data-theme="pgpc"] {
+    --p: 227 48% 25%; /* HSL for #212E5E */
+    --pc: 0 0% 100%;  /* White text on primary */
+
+    --a: 227 48% 25%; /* HSL for #212e5e */
+    --ac: 0 0% 100%;  /* White text on accent */
+
+    --b1: 0 0% 100%;  /* Background 1 (White) */
+    --b2: 210 20% 98%;/* Background 2 (gray-50) */
+    --b3: 210 20% 96%;/* Background 3 (gray-100) */
+    --bc: 215 28% 17%;/* Base content (dark text) */
+  }
+}
+
+/* =========================================
+   CUSTOM UTILITIES
+   ========================================= */
+@utility bg-gradient-hero {
+  background-color: color-mix(in srgb, #212E5E 53%, transparent);
+}
+
+@utility shadow-elegant {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+@utility shadow-soft {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Fix for the scrolled state using our variables */
+@layer utilities {
+  .scrolled-brand {
+    color: var(--color-primary) !important;
+  }
+  .scrolled-icon {
+    stroke: var(--color-primary) !important;
+  }
+
+  /* Custom Login Button linked directly to CSS variables */
+  .btn-login {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 9999px; /* full rounded */
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+  .btn-login:hover {
+    background-color: color-mix(in srgb, var(--color-gold) 80%, white);
+  }
 }

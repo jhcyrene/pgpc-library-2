@@ -2,14 +2,14 @@
     <style>
         /* Small alpine.js like behavior using simple vanilla js for the scroll effect and mobile menu */
         .scrolled {
-            background-color: var(--color-primaryfade) !important;
+            background-color: #212e5e !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
             padding-top: 0.75rem !important;
             padding-bottom: 0.75rem !important;
         }
         .scrolled .nav-text { color: #ffffff !important; }
         .scrolled .brand-text { color: #ffffff !important; }
-        .scrolled .menu-icon { stroke: var(--color-primary) !important; }
+        .scrolled .menu-icon { stroke: #ffffff !important; }
     </style>
 
 
@@ -27,14 +27,19 @@
 
             <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="nav-text font-medium transition-colors hover:text-accent text-gray-100">Home</a>
-                <a href="#categories" class="nav-text font-medium transition-colors hover:text-accent text-gray-100">Categories</a>
-                <a href="#about" class="nav-text font-medium transition-colors hover:text-accent text-gray-100">About</a>
-                <a href="#contact" class="nav-text font-medium transition-colors hover:text-accent text-gray-100">Contact</a>
+                <a href="#" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Home</a>
+                <a href="#categories" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Categories</a>
+                <a href="#about" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">About</a>
+                <a href="#contact" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Contact</a>
 
-                <button class="btn btn-login">
-                    Log in
-                </button>
+                <div class="flex items-center gap-2">
+                    <a href="/login" class="btn btn-login">
+                        Log in
+                    </a>
+                    <a href="/register" class="btn btn-login">
+                        Register
+                    </a>
+                </div>
             </nav>
 
             <!-- Mobile Menu Toggle -->
@@ -46,13 +51,18 @@
         </div>
 
         <!-- Mobile Dropdown Panel -->
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-elegant py-4 px-6 flex-col gap-4 md:hidden">
-            <a href="/" class="{{ $active === 'home' ? 'text-gray-900' : 'text-gray-400 hover:text-gray-700' }} font-medium py-2 border-b border-gray-100 transition-colors">Home</a>
-            <a href="#categories" class="text-gray-800 font-medium py-2 border-b border-gray-100">Categories</a>
-            <a href="#about" class="text-gray-800 font-medium py-2 border-b border-gray-100">About</a>
-            <a href="#contact" class="text-gray-800 font-medium py-2 border-b border-gray-100">Contact</a>
-            <button class="btn btn-login">
-                Log in
-            </button>
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-primaryblue shadow-elegant py-4 px-6 flex flex-col gap-4 md:hidden transition-all duration-300 transform origin-top opacity-0 scale-y-0 pointer-events-none">
+            <a href="/" class="{{ $active === 'home' ? 'text-white' : 'text-gray-300 hover:text-gold' }} font-medium py-2 border-b border-white/10 transition-colors">Home</a>
+            <a href="#categories" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Categories</a>
+            <a href="#about" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">About</a>
+            <a href="#contact" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Contact</a>
+            <div class="flex gap-3 mt-2">
+                <a href="/login" class="btn btn-login flex-1 py-3">
+                    Log in
+                </a>
+                <a href="/register" class="btn btn-login flex-1 py-3">
+                    Register
+                </a>
+            </div>
         </div>
     </header>

@@ -25,3 +25,12 @@ Route::post('/category/add',[CategoryController::class,'addcategory']);//add cat
 Route::post('/category/sub',[CategoryController::class,'addsubcategory']);//add subcategory
 Route::get('/category/subcategory/{id}', [CategoryController::class, 'getSubCategory']);
 Route::get('/category/{id}', [CategoryController::class, 'getCategory']);
+
+// Auth Design Routes
+Route::get('/login', function () { return view('auth.login'); });
+Route::get('/register', function () { return view('auth.register'); });
+Route::get('/forgot-password', function () { return view('auth.forgot-password'); });
+
+// Legal Design Routes
+Route::get('/terms', function () { return view('terms.terms-of-service'); });
+Route::get('/privacy', function () { return view('terms.privacy-policy'); });

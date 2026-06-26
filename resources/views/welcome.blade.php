@@ -30,28 +30,29 @@
         <div class="absolute inset-0 z-0 bg-cover bg-center bg-fixed" style="background-image: url('{{ Vite::asset('resources/images/pgpc-ng.png') }}')"></div>
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 z-10 bg-gradient-hero"></div>
+        {{-- <div class="absolute inset-0 bg-primary/60 mix-blend-multiply z-0"></div> --}}
 
         <!-- Hero Content -->
         <div class="container mx-auto px-6 relative z-20 flex flex-col items-center text-center mt-5">
 
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight max-w-4xl tracking-tight">
-                Discover your next great read
-            </h1>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight max-w-4x [text-shadow:_0_4px_8px_var(--color-black)]">
+            Welcome to the PGPC Library
+        </h1>
 
-            <p class="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl font-light">
-                Access thousands of academic resources, journals, and literature to empower your educational journey at Padre Garcia Polytechnic College.
-            </p>
+        <p class="text-lg text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md mb-12">
+            Access thousands of academic resources, journals, and literature to empower your educational journey at Padre Garcia Polytechnic College.
+        </p>
 
             <!-- Search Bar -->
-            <div class="w-full max-w-3xl bg-white p-2 rounded-full shadow-elegant flex items-center mb-8 transform transition-transform hover:scale-[1.01]">
-                <div class="pl-4 pr-2 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="w-full max-w-3xl bg-white p-1 md:p-2 rounded-full shadow-elegant flex items-center mb-8 transform transition-transform hover:scale-[1.01]">
+                <div class="pl-3 md:pl-4 pr-1 md:pr-2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <input type="text" placeholder="Search by title, author, or ISBN..." class="flex-1 bg-transparent border-none outline-none py-3 px-2 text-gray-700 text-lg placeholder:text-gray-400 focus:ring-0" />
+                <input type="text" placeholder="Search by title, author, or ISBN..." class="flex-1 w-full bg-transparent border-none outline-none py-2 md:py-3 px-2 text-gray-700 text-sm md:text-lg placeholder:text-gray-500 focus:ring-0 truncate" />
 
-                <button class="btn bg-primary text-white hover:bg-primary/90 rounded-full px-8 min-h-0 h-12 border-none text-base">
+                <button class="btn bg-primaryfade text-white hover:bg-primary/90 rounded-full px-5 md:px-8 min-h-0 h-10 md:h-12 border-none text-sm md:text-base font-bold shrink-0">
                     Search
                 </button>
             </div>
@@ -149,19 +150,19 @@
                     </p>
                     <ul class="space-y-4 mb-8">
                         <li class="flex items-center gap-3 text-blue-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold/90 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             <span>Extensive collection of academic journals</span>
                         </li>
                         <li class="flex items-center gap-3 text-blue-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold/90 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             <span>Quiet zones for focused study</span>
                         </li>
                         <li class="flex items-center gap-3 text-blue-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold/90 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             <span>Access to digital databases</span>
                         </li>
                     </ul>
-                    <button class="flex items-center gap-2 text-accent font-semibold hover:text-white transition-colors group bg-transparent border-none p-0 cursor-pointer">
+                    <button class="flex items-center gap-2 text-gold/90 font-semibold hover:text-white transition-colors group bg-transparent border-none p-0 cursor-pointer">
                         Learn more about our facilities
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </button>
@@ -170,28 +171,28 @@
                 <!-- Stat Cards -->
                 <div class="lg:w-1/2 w-full grid gap-6">
                     <div class="bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl flex items-center gap-6 transform transition-transform hover:-translate-y-1 hover:bg-white/15">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-accent/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-white/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                         </div>
                         <div>
-                            <div class="text-3xl font-bold text-white mb-1">25,000+</div>
+                            <div class="text-3xl font-bold text-white mb-1">5,000+</div>
                             <div class="text-blue-200 font-medium">Physical Titles</div>
                         </div>
                     </div>
 
                     <div class="bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl flex items-center gap-6 transform transition-transform hover:-translate-y-1 hover:bg-white/15 ml-0 lg:ml-8">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-accent/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-white/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                         </div>
                         <div>
-                            <div class="text-3xl font-bold text-white mb-1">5,000+</div>
+                            <div class="text-3xl font-bold text-white mb-1">1,000+</div>
                             <div class="text-blue-200 font-medium">Active Members</div>
                         </div>
                     </div>
 
                     <div class="bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl flex items-center gap-6 transform transition-transform hover:-translate-y-1 hover:bg-white/15">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-accent/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-white/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <div>
                             <div class="text-3xl font-bold text-white mb-1">Mon - Sat</div>
@@ -223,8 +224,12 @@
 
             // Mobile menu toggle
             mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                mobileMenu.classList.toggle('flex');
+                mobileMenu.classList.toggle('opacity-0');
+                mobileMenu.classList.toggle('scale-y-0');
+                mobileMenu.classList.toggle('pointer-events-none');
+                mobileMenu.classList.toggle('opacity-100');
+                mobileMenu.classList.toggle('scale-y-100');
+                mobileMenu.classList.toggle('pointer-events-auto');
             });
         });
     </script>

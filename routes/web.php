@@ -10,7 +10,10 @@ Route::get('/', function () {
 });
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> b0f52e8047cb4835a3c7c9308e9c5798c88e9088
 Route::get('catalog',[BookController::class,'catalog']);
 
 Route::post('/books/add',[BookController::class,'addbook']);//add books
@@ -25,6 +28,8 @@ Route::post('/category/add',[CategoryController::class,'addcategory']);//add cat
 Route::post('/category/sub',[CategoryController::class,'addsubcategory']);//add subcategory
 Route::get('/category/subcategory/{id}', [CategoryController::class, 'getSubCategory']);
 Route::get('/category/{id}', [CategoryController::class, 'getCategory']);
+<<<<<<< HEAD
+=======
 
 // Auth Design Routes
 Route::get('/login', function () { return view('auth.login'); });
@@ -34,3 +39,4 @@ Route::get('/forgot-password', function () { return view('auth.forgot-password')
 // Legal Design Routes
 Route::get('/terms', function () { return view('terms.terms-of-service'); });
 Route::get('/privacy', function () { return view('terms.privacy-policy'); });
+>>>>>>> b0f52e8047cb4835a3c7c9308e9c5798c88e9088

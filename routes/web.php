@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('homepage');
 });
+
+
 Route::get('catalog',[BookController::class,'catalog']);
 
 Route::post('/books/add',[BookController::class,'addbook']);//add books

@@ -10,10 +10,6 @@ Route::get('/', function () {
 });
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b0f52e8047cb4835a3c7c9308e9c5798c88e9088
 Route::get('catalog',[BookController::class,'catalog']);
 
 Route::post('/books/add',[BookController::class,'addbook']);//add books
@@ -28,8 +24,6 @@ Route::post('/category/add',[CategoryController::class,'addcategory']);//add cat
 Route::post('/category/sub',[CategoryController::class,'addsubcategory']);//add subcategory
 Route::get('/category/subcategory/{id}', [CategoryController::class, 'getSubCategory']);
 Route::get('/category/{id}', [CategoryController::class, 'getCategory']);
-<<<<<<< HEAD
-=======
 
 // Auth Design Routes
 Route::get('/login', function () { return view('auth.login'); });
@@ -39,4 +33,37 @@ Route::get('/forgot-password', function () { return view('auth.forgot-password')
 // Legal Design Routes
 Route::get('/terms', function () { return view('terms.terms-of-service'); });
 Route::get('/privacy', function () { return view('terms.privacy-policy'); });
->>>>>>> b0f52e8047cb4835a3c7c9308e9c5798c88e9088
+
+// Admin Design Routes
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () { return view('admin.index'); });
+    Route::get('/dashboard', function () { return view('admin.dashboard'); });
+    Route::get('/circulation', function () { return view('admin.circulation'); });
+    Route::get('/circulation/checkout', function () { return view('admin.circulation.checkout'); });
+    Route::get('/circulation/checkin', function () { return view('admin.circulation.checkin'); });
+    Route::get('/circulation/renew', function () { return view('admin.circulation.renew'); });
+    Route::get('/circulation/fast-cataloging', function () { return view('admin.circulation.fast-cataloging'); });
+    Route::get('/books', function () { return view('admin.books'); });
+    Route::get('/users', function () { return view('admin.users'); });
+    Route::get('/borrows', function () { return view('admin.borrows'); });
+    Route::get('/reservations', function () { return view('admin.reservations'); });
+    Route::get('/settings', function () { return view('admin.settings'); });
+    Route::get('/profile', function () { return view('admin.profile'); });
+    Route::get('/report', function () { return view('admin.report'); });
+});
+
+// User Design Routes
+Route::prefix('users')->group(function () {
+    Route::get('/', function () { return view('users.index'); });
+    Route::get('/dashboard', function () { return view('users.dashboard'); });
+    Route::get('/borrows', function () { return view('users.borrows'); });
+    Route::get('/reservations', function () { return view('users.reservations'); });
+    Route::get('/lists', function () { return view('users.lists'); });
+    Route::get('/history', function () { return view('users.history'); });
+    Route::get('/fines', function () { return view('users.fines'); });
+    Route::get('/profile', function () { return view('users.profile'); });
+});
+
+// OPAC Route
+Route::get('/opac', function () { return view('opac.list'); });
+// Route::get('/opac/list', function () { return view('opac.list'); });

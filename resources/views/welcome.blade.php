@@ -52,10 +52,11 @@
                 </div>
                 <input type="text" placeholder="Search by title, author, or ISBN..." class="flex-1 w-full bg-transparent border-none outline-none py-2 md:py-3 px-2 text-gray-700 text-sm md:text-lg placeholder:text-gray-500 focus:ring-0 truncate" />
 
+                <a href="/opac">
                 <button class="btn bg-primaryfade text-white hover:bg-primary/90 rounded-full px-5 md:px-8 min-h-0 h-10 md:h-12 border-none text-sm md:text-base font-bold shrink-0">
                     Search
                 </button>
-            </div>
+            </div></a>
 
             <!-- Popular Chips -->
             <div class="flex flex-wrap items-center justify-center gap-3 text-sm">
@@ -206,32 +207,5 @@
 
     <x-footer />
 
-    <!-- Interactive Scripts -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const header = document.getElementById('main-header');
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            // Scroll effect
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-
-            // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('opacity-0');
-                mobileMenu.classList.toggle('scale-y-0');
-                mobileMenu.classList.toggle('pointer-events-none');
-                mobileMenu.classList.toggle('opacity-100');
-                mobileMenu.classList.toggle('scale-y-100');
-                mobileMenu.classList.toggle('pointer-events-auto');
-            });
-        });
-    </script>
 </body>
 </html>

@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Publisher extends Model
 {
-    public $timestamps = false;
-    protected $fillable=[
-        'Name','Address'
+    protected $fillable = [
+        'publisher_name',
+        'publication_origin',
+        'publication_type'
     ];
+
+    public function bookData()
+    {
+        return $this->hasMany(BookData::class);
+    }
 }

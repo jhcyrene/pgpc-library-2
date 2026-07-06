@@ -12,6 +12,48 @@
         .scrolled .menu-icon { stroke: #ffffff !important; }
     </style>
 
+    <!-- Interactive Scripts for Navbar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile menu toggle
+            if(mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent immediate document click
+                    mobileMenu.classList.toggle('opacity-0');
+                    mobileMenu.classList.toggle('scale-y-0');
+                    mobileMenu.classList.toggle('pointer-events-none');
+                    mobileMenu.classList.toggle('opacity-100');
+                    mobileMenu.classList.toggle('scale-y-100');
+                    mobileMenu.classList.toggle('pointer-events-auto');
+                });
+
+                // Close when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        // Check if it's currently open
+                        if (!mobileMenu.classList.contains('opacity-0')) {
+                            mobileMenu.classList.add('opacity-0', 'scale-y-0', 'pointer-events-none');
+                            mobileMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
 
 <header id="main-header" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-5">
         <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
@@ -27,10 +69,11 @@
 
             <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Home</a>
-                <a href="#categories" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Categories</a>
-                <a href="#about" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">About</a>
-                <a href="#contact" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Contact</a>
+                <a href="/" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Home</a>
+                <a href="/opac" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">OPAC</a>
+                <a href="/#categories" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Categories</a>
+                <a href="/#about" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">About</a>
+                <a href="/#contact" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Contact</a>
 
                 <div class="flex items-center gap-2">
                     <a href="/login" class="btn btn-login">
@@ -53,9 +96,10 @@
         <!-- Mobile Dropdown Panel -->
         <div id="mobile-menu" class="absolute top-full left-0 w-full bg-primaryblue shadow-elegant py-4 px-6 flex flex-col gap-4 md:hidden transition-all duration-300 transform origin-top opacity-0 scale-y-0 pointer-events-none">
             <a href="/" class="{{ $active === 'home' ? 'text-white' : 'text-gray-300 hover:text-gold' }} font-medium py-2 border-b border-white/10 transition-colors">Home</a>
-            <a href="#categories" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Categories</a>
-            <a href="#about" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">About</a>
-            <a href="#contact" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Contact</a>
+            <a href="/opac" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">OPAC</a>
+            <a href="/#categories" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Categories</a>
+            <a href="/#about" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">About</a>
+            <a href="/#contact" class="text-gray-300 hover:text-gold font-medium py-2 border-b border-white/10 transition-colors">Contact</a>
             <div class="flex gap-3 mt-2">
                 <a href="/login" class="btn btn-login flex-1 py-3">
                     Log in

@@ -12,8 +12,8 @@
     <title>@yield('title')</title>
 </head>
 <body class="text-secondary">
-    @include('components.navbar')
-    @yield('content')
+    {{-- @include('components.navbar') --}}
+    {{-- @yield('content') --}}
 </body>
 </html>
 @yield('scripts')

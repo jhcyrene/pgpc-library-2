@@ -1,38 +1,66 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Category;
-use App\Models\SubCategory;
-use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+use App\Models\Category;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+
+class CategoryController
 {
-    public function addcategory(Request $request){
-        Category::create([
-            'CategoryName'=>$request->category
-        ]);
-        return redirect()->back()->with('success', 'Category Added!');
-    }
-    public function categorylist()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $categories=Category::all();//get all data
-        return view('category',compact('categories'));
+        //
     }
-    public function getCategory($id)
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category);
+        //
     }
-    public function addsubcategory(Request $request){
-        $category = Category::findOrFail($request->category_id);
-        $category->subcategories()->create([
-            'SubCategoryName' => $request->subcategory
-        ]);
-        return redirect()->back()->with('success', 'Subcategory Added!');
-    }
-   public function getSubCategory($id)
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCategoryRequest $request)
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category->subcategories);
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Category $category)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateCategoryRequest $request, Category $category)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Category $category)
+    {
+        //
     }
 }

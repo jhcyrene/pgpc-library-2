@@ -18,11 +18,14 @@ A web-based Integrated Library Management System designed specifically for Padre
 * **Circulation:** Management of borrowing, returning, and tracking overdue materials.
 * **Notifications:** In-app system alerts for due dates and account statuses (Note: SMS and Email notifications are excluded from this project scope).
 
+##Database Installation
+composer require laravel/breeze --dev
+php artisan breeze:install
+
 ## Getting Started (For Developers)
 
 If you are pulling this project locally to contribute, follow these steps:
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/yourusername/pgpc-library-system.git](https://github.com/yourusername/pgpc-library-system.git)
-   cd pgpc-library-system
+   git clone "https://github.com/yourusername/pgpc-library-system.git"

@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\SubCategory;
 
 class Category extends Model
 {
-    public $timestamps = false;
-    protected $fillable=[
-        'CategoryName'
+    protected $fillable = [
+        'category_name'
     ];
-    public function subcategories()
+
+    public function bookData()
     {
-        return $this->hasMany(SubCategory::class, 'CategoryID');
+        return $this->hasMany(BookData::class);
     }
 }

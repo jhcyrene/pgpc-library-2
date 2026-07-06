@@ -1,37 +1,66 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Book;
-use App\Models\Publisher;
-use App\Models\Category;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 
-use Illuminate\Http\Request;
-
-class BookController extends Controller
+class BookController
 {
-    public function addbook(Request $request){
-        Book::create([
-            'BookID'=>$request->bookid,
-            'ISBN'=>$request->isbn,
-            'BookTitle'=>$request->title,
-            'DatePublished'=>$request->datepublished,
-            'Author'=>$request->author,
-            'Publisher'=>$request->publisher,
-            'Category'=>$request->category,
-            'SubCategory'=>$request->subcategory,
-            'Status'=>'available'
-        ]);
-        return redirect()->back()->with('success', 'Book Added to Catalog!');
-    }
-    public function catalog(){
-        $books=Book::all();//get all data
-        $publishers=Publisher::orderBy('Name','asc')->get();
-        $categories=Category::orderBy('CategoryName','asc')->get();
-        return view('catalog',compact('books','publishers','categories'));
-        }
-    public function booklist()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $books=Book::all();//get all data
-        return view('booklist',compact('books'));
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreBookRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Book $book)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Book $book)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateBookRequest $request, Book $book)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Book $book)
+    {
+        //
     }
 }

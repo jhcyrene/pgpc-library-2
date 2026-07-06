@@ -10,10 +10,13 @@
    Change these colors to update the entire site!
    ========================================= */
 @theme {
-  --color-primary: #212E5E;     /* PGPC Navy */
-  --color-accent: #fcc719E6     /* PGPC gold */
+  --color-primary: #102b70;
+  /* PGPC Navy */
+  --color-accent: #fcc719E6;
+  /* PGPC gold */
   --color-white: #ffffff;
   --color-primaryfade: #212e5ef3;
+  --color-primary2: #102b70;
   --color-gold: #fcc719CC;
   --color-primaryblue: #2b3e6b;
 
@@ -30,16 +33,24 @@
    ========================================= */
 @layer base {
   [data-theme="pgpc"] {
-    --p: 227 48% 25%; /* HSL for #212E5E */
-    --pc: 0 0% 100%;  /* White text on primary */
+    --p: 227 48% 25%;
+    /* HSL for #212E5E */
+    --pc: 0 0% 100%;
+    /* White text on primary */
 
-    --a: 227 48% 25%; /* HSL for #212e5e */
-    --ac: 0 0% 100%;  /* White text on accent */
+    --a: 227 48% 25%;
+    /* HSL for #212e5e */
+    --ac: 0 0% 100%;
+    /* White text on accent */
 
-    --b1: 0 0% 100%;  /* Background 1 (White) */
-    --b2: 210 20% 98%;/* Background 2 (gray-50) */
-    --b3: 210 20% 96%;/* Background 3 (gray-100) */
-    --bc: 215 28% 17%;/* Base content (dark text) */
+    --b1: 0 0% 100%;
+    /* Background 1 (White) */
+    --b2: 210 20% 98%;
+    /* Background 2 (gray-50) */
+    --b3: 210 20% 96%;
+    /* Background 3 (gray-100) */
+    --bc: 215 28% 17%;
+    /* Base content (dark text) */
   }
 }
 
@@ -63,6 +74,7 @@
   .scrolled-brand {
     color: var(--color-primary) !important;
   }
+
   .scrolled-icon {
     stroke: var(--color-primary) !important;
   }
@@ -72,11 +84,13 @@
     background-color: transparent;
     color: var(--color-white);
     /* border: var(--color-gold); */
-    border-radius: 9999px; /* full rounded */
+    border-radius: 9999px;
+    /* full rounded */
     padding: 0.5rem 1.5rem;
     font-weight: 600;
     transition: background-color 0.2s ease;
   }
+
   .btn-login:hover {
     color: color-mix(in srgb, var(--color-gold) 85%, white);
     border: 2px solid var(--color-gold);

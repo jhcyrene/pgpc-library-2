@@ -10,7 +10,7 @@ A web-based Integrated Library Management System designed specifically for Padre
 ## Tech Stack
 * **Backend:** Laravel (PHP)
 * **Frontend:** Laravel Blade, Tailwind CSS v4, DaisyUI
-* **Database:** MySQL
+* **Database:** MySQL/ PostgreSql (Supabase)
 
 ## Core Modules (Planned/In Progress)
 * **OPAC (Online Public Access Catalog):** Allows students to search the library's collection by title, author, or ISBN.

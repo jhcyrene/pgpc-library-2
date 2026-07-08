@@ -25,6 +25,9 @@ Route::post('/category/sub',[CategoryController::class,'addsubcategory']);//add 
 Route::get('/category/subcategory/{id}', [CategoryController::class, 'getSubCategory']);
 Route::get('/category/{id}', [CategoryController::class, 'getCategory']);
 
+Route::get('/cata', function () { return view('admin.circulation.fast-cataloging'); });
+
+
 // Auth Design Routes
 Route::get('/login', function () { return view('auth.login'); });
 Route::get('/register', function () { return view('auth.register'); });

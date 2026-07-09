@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookBorrow extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'book_id',
         'member_id',

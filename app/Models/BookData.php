@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookData extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'call_number',
         'ISBN_code',

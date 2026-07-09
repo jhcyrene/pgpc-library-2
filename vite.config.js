@@ -8,4 +8,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: 'pglibsystem.test',
+        port: 5173,
+        hmr: {
+            host: 'pglibsystem.test',
+            overlay: false,
+        },
+    },
 });

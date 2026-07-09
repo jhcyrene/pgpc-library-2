@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MemberAuth extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'member_id',
         'account_type',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookRequest_Status extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'available_status_id',
         'available_date',

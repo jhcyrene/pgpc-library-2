@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Librarian extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'librarian_number',
         'first_name',

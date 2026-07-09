@@ -21,10 +21,12 @@ return new class extends Migration
             //temporary the author in the bookdata-
             //change if needed to a separate table for authors
 
-            $table->string('classification_letter', 6);//
-            $table->foreignId('category_id')//
-                ->constrained('categories')
-                ->cascadeOnDelete();
+            // $table->string('classification_letter', 6)->nullable();
+
+            // $table->foreign('classification_letter')
+            //     ->references('letter')
+            //     ->on('classifications')
+            //     ->cascadeOnDelete();
 
             $table->foreignId('publisher_id')//
                 ->constrained('publishers')
@@ -34,6 +36,7 @@ return new class extends Migration
             $table->year('publication_year')->nullable();//
             $table->string('edition')->nullable();//
             $table->text('description')->nullable();//
+            $table->string('cover_image')->nullable();//
 
             $table->unsignedInteger('copies_total')->default(1);//
             $table->unsignedInteger('copies_available')->default(1);//

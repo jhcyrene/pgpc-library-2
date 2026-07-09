@@ -20,6 +20,7 @@ class BookData extends Model
         'description',//
         'copies_total',//
         'copies_available',//
+        'cover_image',//
     ];
 
     public function category()

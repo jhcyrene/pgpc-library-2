@@ -14,26 +14,29 @@ return new class extends Migration
         Schema::create('book_data', function (Blueprint $table) {
             $table->id();
 
-            $table->string('call_number')->unique();
-            $table->string('isbn')->unique();
-            $table->string('book_title');
+            $table->string('call_number')->unique();//
+            $table->string('isbn')->unique();//
+            $table->string('book_title');//
+            $table->string('author');//
+            //temporary the author in the bookdata-
+            //change if needed to a separate table for authors
 
-            $table->foreignId('category_id')
+            $table->string('classification_letter', 6);//
+            $table->foreignId('category_id')//
                 ->constrained('categories')
                 ->cascadeOnDelete();
 
-            $table->foreignId('publisher_id')
+            $table->foreignId('publisher_id')//
                 ->constrained('publishers')
                 ->cascadeOnDelete();
 
-            $table->year('publication_year')->nullable();
-            $table->string('edition')->nullable();
-            $table->text('description')->nullable();
 
-            $table->unsignedInteger('copies_total')->default(1);
-            $table->unsignedInteger('copies_available')->default(1);
+            $table->year('publication_year')->nullable();//
+            $table->string('edition')->nullable();//
+            $table->text('description')->nullable();//
 
-            $table->timestamp('date_created')->useCurrent();
+            $table->unsignedInteger('copies_total')->default(1);//
+            $table->unsignedInteger('copies_available')->default(1);//
 
             $table->timestamps();
         });

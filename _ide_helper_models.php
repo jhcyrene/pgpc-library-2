@@ -99,6 +99,8 @@ namespace App\Models{
  * @property string $call_number
  * @property string $isbn
  * @property string $book_title
+ * @property string $author
+ * @property string $classification_letter
  * @property int $category_id
  * @property int $publisher_id
  * @property int|null $publication_year
@@ -106,23 +108,24 @@ namespace App\Models{
  * @property string|null $description
  * @property int $copies_total
  * @property int $copies_available
- * @property string $date_created
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
  * @property-read \App\Models\Category $category
+ * @property-read \App\Models\Classification|null $classification
  * @property-read \App\Models\Publisher $publisher
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereAuthor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereBookTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereCallNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereClassificationLetter($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereCopiesAvailable($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereCopiesTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereDateCreated($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereEdition($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookData whereId($value)
@@ -193,6 +196,15 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Classification newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Classification newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Classification query()
+ */
+	class Classification extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property int $id
  * @property string $employee_number
  * @property string $first_name
@@ -235,7 +247,7 @@ namespace App\Models{
  * @property string|null $contact_number
  * @property string $program
  * @property string $year_level
- * @property int $is_active
+ * @property bool $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\MemberAuth|null $auth

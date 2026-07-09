@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('letter', 6);
-            $table->string('category_name')->unique();
-            $table->text('description')->nullable();
-            $table->timestamps();
+        Schema::create('classifications', function (Blueprint $table) {
+        $table->id();
+        $table->string('letter', 6)->unique(); // Must match the 6-character limit
+        $table->string('definition');          // e.g., "Mathematics / Computer Science"
+        $table->timestamps();
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('classifications');
     }
 };

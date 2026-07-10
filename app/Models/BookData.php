@@ -8,18 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class BookData extends Model
 {
     protected $fillable = [
-        'call_number',
-        'ISBN_code',
-        'book_title',
-        'category_id',
-        'publisher_id',
-        'publication_year',
-        'book_edition',
-        'book_description',
-        'copies_total',
-        'copies_available',
-        'location_id',
-        'dateCreated'
+        'call_number', //
+        'isbn', //
+        'book_title',//
+        'author',//
+        'classification_letter',//
+        'category_id',//
+        'publisher_id',//
+        'publication_year',//
+        'edition',//
+        'description',//
+        'copies_total',//
+        'copies_available',//
+        'cover_image',//
     ];
 
     public function category()
@@ -35,5 +36,10 @@ class BookData extends Model
     public function books()
     {
         return $this->hasMany(Book::class);
+    }
+
+    public function classification()
+    {
+        return $this->belongsTo(Classification::class, 'classification_letter', 'letter');
     }
 }

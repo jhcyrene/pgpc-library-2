@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/js/app.js',
+                'resources/js/loader.js',
                 'resources/css/welcome.css',
                 'resources/images/pgpc-ng.png'
             ],

@@ -1,5 +1,0 @@
-Table users {
-  id integer [pk]
-  name varchar
-  email varchar [unique]
-}

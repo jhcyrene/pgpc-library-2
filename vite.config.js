@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
+
 export default defineConfig({
     plugins: [
         laravel({
@@ -9,7 +10,11 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/loader.js',
                 'resources/css/welcome.css',
-                'resources/images/pgpc-ng.png'
+                'resources/css/preloader.css',
+                'resources/css/loginauth.css',
+            ],
+            assets: [
+                'resources/images/**'
             ],
             refresh: true,
         }),

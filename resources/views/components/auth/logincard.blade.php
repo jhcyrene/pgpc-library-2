@@ -1,11 +1,11 @@
-<div class="relative z-20 w-full max-w-md px-6 py-12 flex flex-col">
+<div class="relative z-20 w-full max-w-md px-5 py-12 flex flex-col">
     <!-- Mobile Back to Home -->
     <a href="/"
         class="md:hidden flex items-center gap-2 text-white/90 hover:text-white transition-colors self-start mb-6 font-medium">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        Back to Homes
+        Back to Home
     </a>
 
     <div class="bg-white rounded-3xl shadow-elegant p-8 md:p-10 transform transition-all">
@@ -13,7 +13,8 @@
         <!-- Logo -->
         <div class="flex justify-center mb-6">
             <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden shadow-soft">
-                <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC Logo" class="w-full h-full object-cover"
+                <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC Logo"
+                    class="w-full h-full object-cover"
                     onerror="this.src='https://ui-avatars.com/api/?name=PG&background=fcc719&color=212e5e'" />
             </div>
         </div>
@@ -68,9 +69,9 @@
                         class="checkbox checkbox-sm rounded border-gray-300 checked:bg-primary checked:border-primary group-hover:border-primary transition-colors" />
                     <span class="text-sm text-gray-600 select-none">Remember me</span>
                 </label>
-                <a href="/forgot-password"
-                    class="text-sm font-semibold text-primary hover:text-primary transition-colors">Forgot
-                    password?</a>
+                <a href="/student/forgot-password"
+                    class="text-sm font-semibold text-primary hover:text-primary transition-colors">
+                    Forgot password?</a>
             </div>
 
             <!-- Submit Button -->

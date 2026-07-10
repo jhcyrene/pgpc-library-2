@@ -15,10 +15,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 });
-
+    
 // // Auth Design Routes
-Route::get('/student/login', function () { return view('auth.login'); });
-Route::get('/student/register', function () { return view('auth.register'); });
+Route::prefix('student')->group(function () {
+    Route::get('/login', function () { return view('auth.login'); });
+    Route::get('/register', function () { return view('auth.register'); });
+    Route::get('/forgot-password', function () { return view('auth.forgotpassword'); });
+    Route::get('/forgot-password?otp=true', function () { return view('auth.otp'); });
+});
+
 
 
 // Route::get('catalog',[BookController::class,'catalog']);

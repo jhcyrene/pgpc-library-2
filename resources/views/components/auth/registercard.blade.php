@@ -120,9 +120,12 @@
                     <input type="checkbox" required
                         class="checkbox checkbox-sm rounded border-gray-300 checked:bg-primary checked:border-primaryfade group-hover:border-primary transition-colors mt-0.5" />
                     <span class="text-sm text-gray-600 leading-tight">
-                        I agree to the <a href="/terms" class="text-primary hover:text-gold font-medium">Terms of
-                            Service</a> and <a href="/privacy"
-                            class="text-primary hover:text-gold font-medium">Privacy Policy</a>
+                        I agree to the <button type="button" onclick="terms_modal.showModal()"
+                            class="text-primary hover:text-gold font-medium bg-transparent border-0 p-0 cursor-pointer">Terms
+                            of
+                            Service</button> and <button type="button" onclick="privacy_modal.showModal()"
+                            class="text-primary hover:text-gold font-medium bg-transparent border-0 p-0 cursor-pointer">Privacy
+                            Policy</button>
                     </span>
                 </label>
             </div>
@@ -146,3 +149,35 @@
         </div>
     </div>
 </div>
+
+<!-- Terms Modal -->
+<dialog id="terms_modal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box w-full sm:w-11/12 max-w-5xl p-0 h-[90vh] sm:h-[85vh] flex flex-col bg-gray-50 overflow-hidden relative rounded-b-none rounded-t-3xl sm:rounded-3xl">
+        <form method="dialog" class="absolute right-4 top-4 z-50">
+            <button
+                class="btn btn-sm btn-circle btn-ghost text-white bg-black/20 hover:bg-black/40 border-0">✕</button>
+        </form>
+        <div class="overflow-y-auto w-full h-full">
+            <x-auth.termsCard />
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop bg-black/50">
+        <button>close</button>
+    </form>
+</dialog>
+
+<!-- Privacy Modal -->
+<dialog id="privacy_modal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box w-full sm:w-11/12 max-w-5xl p-0 h-[90vh] sm:h-[85vh] flex flex-col bg-gray-50 overflow-hidden relative rounded-b-none rounded-t-3xl sm:rounded-3xl">
+        <form method="dialog" class="absolute right-4 top-4 z-50">
+            <button
+                class="btn btn-sm btn-circle btn-ghost text-white bg-black/20 hover:bg-black/40 border-0">✕</button>
+        </form>
+        <div class="overflow-y-auto w-full h-full">
+            <x-auth.privacypolicyCard />
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop bg-black/50">
+        <button>close</button>
+    </form>
+</dialog>

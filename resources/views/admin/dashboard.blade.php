@@ -18,24 +18,24 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 shrink-0 mb-5">
         
         <x-admin.totalcard 
-            title="Total Books Borrowed" 
-            value="1,205" 
-            description="All-time active & returned" 
+            title="Total Book Titles" 
+            value="{{ number_format($stats['total_titles'] ?? 0) }}" 
+            description="Unique books in catalog" 
         />
         <x-admin.totalcard 
-            title="Total Books Borrowed" 
-            value="1,205" 
-            description="All-time active & returned" 
+            title="Total Physical Copies" 
+            value="{{ number_format($stats['total_copies'] ?? 0) }}" 
+            description="Physical items in library" 
         />
         <x-admin.totalcard 
-            title="Total Books Borrowed" 
-            value="1,205" 
-            description="All-time active & returned" 
+            title="Active Members" 
+            value="{{ number_format($stats['active_members'] ?? 0) }}" 
+            description="Users with active accounts" 
         />
         <x-admin.totalcard 
-            title="Total Books Borrowed" 
-            value="1,205" 
-            description="All-time active & returned" 
+            title="Currently Borrowed" 
+            value="{{ number_format($stats['borrowed_items'] ?? 0) }}" 
+            description="Items checked out right now" 
         />
 
     </div>

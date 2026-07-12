@@ -20,10 +20,7 @@
     </x-admin.page-header>
 
     @if(session('success'))
-        <div class="alert alert-success mb-6 rounded-lg shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <span>{{ session('success') }}</span>
-        </div>
+        <x-admin.alert type="success" message="{{ session('success') }}" class="mb-6" />
     @endif
 
     <!-- Summary Cards -->
@@ -92,22 +89,20 @@
                     </div>
                     <input type="text" name="search" value="{{ $search }}" placeholder="Search users..." class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1A2B56] focus:border-[#1A2B56]">
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm h-[38px]">Search</button>
+                <x-admin.button type="submit" variant="primary" size="md">Search</x-admin.button>
                 @if($search)
-                    <a href="{{ route('admin.users.index', ['type' => $type]) }}" class="btn btn-ghost btn-sm h-[38px]">Clear</a>
+                    <x-admin.button variant="ghost" size="md" href="{{ route('admin.users.index', ['type' => $type]) }}">Clear</x-admin.button>
                 @endif
             </form>
         </div>
 
         <!-- Table Wrapper -->
-        <div class="overflow-x-auto">
+        <x-admin.table-wrapper>
             <x-admin.users.user-table :users="$users" />
-        </div>
+        </x-admin.table-wrapper>
         
         <!-- Pagination -->
-        <div class="p-4 border-t border-gray-100">
-            {{ $users->links() }}
-        </div>
+        <x-admin.pagination :paginator="$users" />
     </div>
 
 </x-layout.admin>

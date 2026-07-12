@@ -2,27 +2,29 @@
 
 <!-- Main Dashboard Content -->
     <div class="flex-1 flex flex-col min-h-0 h-full p-6 bg-gray-50/50">
-        <!-- Page Header -->
-        <div class="flex items-center justify-between mb-6 shrink-0">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Book Management</h1>
-                <p class="text-sm text-gray-500 mt-1 font-medium">Manage the library's entire catalog of books and resources.</p>
-            </div>
-            <a href="{{ route('admin.books.create') }}"
-                class="flex items-center gap-2 bg-[#1A2B56] hover:bg-[#243B73] text-white text-sm font-bold px-4 py-2.5 rounded-lg transition-all shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Add New Book
-            </a>
-        </div>
+        <x-admin.page-header 
+            title="Book Management" 
+            description="Manage the library's entire catalog of books and resources."
+            :breadcrumbs="[
+                ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+                ['label' => 'Books']
+            ]"
+        >
+            <x-slot:actions>
+                <x-admin.button href="{{ route('admin.books.create') }}" variant="primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add New Book
+                </x-admin.button>
+            </x-slot:actions>
+        </x-admin.page-header>
 
         @if(session('success'))
-            <x-admin.partials.alert type="success" message="{{ session('success') }}" />
+            <x-admin.alert type="success" message="{{ session('success') }}" class="mb-6" />
         @endif
         @if(session('error'))
-            <x-admin.partials.alert type="error" message="{{ session('error') }}" />
+            <x-admin.alert type="error" message="{{ session('error') }}" class="mb-6" />
         @endif
 
         <!-- Filters & Search -->

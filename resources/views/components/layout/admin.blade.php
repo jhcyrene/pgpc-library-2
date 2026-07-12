@@ -17,62 +17,107 @@
     
 
 </head>
-<body class="bg-base-200 min-h-screen flex text-base-content antialiased font-sans">
+<body class="bg-base-200 min-h-screen flex text-base-content antialiased font-sans overflow-x-hidden">
     
-    <x-admin.sidebar />
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity opacity-0" aria-hidden="true"></div>
 
-    <div class="flex-1 flex flex-col h-screen">
+    <!-- Sidebar Wrapper -->
+    <div id="sidebar-wrapper" class="fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out flex">
+        <x-admin.sidebar />
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col h-screen w-full lg:w-auto min-w-0">
         <x-admin.header />
     
         <!-- Content -->
-        <main class="flex-1 overflow-y-auto p-6">
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
             {{ $slot }}
         </main>
-
     </div>
     
     <script>
-        function toggleNavGroup(button) {
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebarWrapper = document.getElementById('sidebar-wrapper');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function openSidebar() {
+            sidebarWrapper.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            // small delay to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                sidebarOverlay.classList.remove('opacity-0');
+            }, 10);
+            document.body.classList.add('overflow-hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeSidebar() {
+            sidebarWrapper.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('opacity-0');
+            setTimeout(() => {
+                sidebarOverlay.classList.add('hidden');
+            }, 300); // match transition duration
+            document.body.classList.remove('overflow-hidden');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                if (sidebarWrapper.classList.contains('-translate-x-full')) {
+                    openSidebar();
+                } else {
+                    closeSidebar();
+                }
+            });
+        }
+
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !sidebarWrapper.classList.contains('-translate-x-full')) {
+                closeSidebar();
+            }
+        });
+
+        // Close on window resize if moving to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024 && !sidebarWrapper.classList.contains('-translate-x-full')) {
+                closeSidebar();
+            }
+        });
+
+        function toggleNavGroup(groupId) {
+            const button = document.querySelector(`button[aria-controls="${groupId}"]`);
+            if (!button) return;
+
             const expanded = button.getAttribute('aria-expanded') === 'true';
             button.setAttribute('aria-expanded', !expanded);
             
-            const chevron = button.querySelector('.nav-group-chevron');
+            const chevron = document.getElementById(`${groupId}-chevron`);
             if (chevron) {
                 if (expanded) {
-                    chevron.classList.remove('rotate-90', 'text-white');
-                    chevron.classList.add('text-gray-400', 'group-hover:text-gray-300');
-                    
-                    button.classList.remove('bg-white/10', 'text-white', 'font-bold', 'shadow-sm');
-                    button.classList.add('text-gray-300', 'font-medium');
-                    
-                    const icon = button.querySelector('.w-5.h-5');
-                    if (icon) {
-                        icon.classList.remove('text-white');
-                        icon.classList.add('text-gray-400', 'group-hover:text-gray-300');
-                    }
+                    chevron.classList.remove('rotate-90');
                 } else {
-                    chevron.classList.add('rotate-90', 'text-white');
-                    chevron.classList.remove('text-gray-400', 'group-hover:text-gray-300');
-                    
-                    button.classList.add('bg-white/10', 'text-white', 'font-bold', 'shadow-sm');
-                    button.classList.remove('text-gray-300', 'font-medium');
-                    
-                    const icon = button.querySelector('.w-5.h-5');
-                    if (icon) {
-                        icon.classList.add('text-white');
-                        icon.classList.remove('text-gray-400', 'group-hover:text-gray-300');
-                    }
+                    chevron.classList.add('rotate-90');
                 }
             }
             
-            const children = button.nextElementSibling;
-            if (children) {
+            const submenu = document.getElementById(groupId);
+            if (submenu) {
                 if (expanded) {
-                    children.classList.remove('max-h-96', 'opacity-100');
-                    children.classList.add('max-h-0', 'opacity-0');
+                    submenu.classList.remove('max-h-96', 'opacity-100');
+                    submenu.classList.add('max-h-0', 'opacity-0');
                 } else {
-                    children.classList.remove('max-h-0', 'opacity-0');
-                    children.classList.add('max-h-96', 'opacity-100');
+                    submenu.classList.remove('max-h-0', 'opacity-0');
+                    submenu.classList.add('max-h-96', 'opacity-100');
                 }
             }
         }

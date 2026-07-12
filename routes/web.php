@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookDataController;
+use App\Http\Controllers\MemberAuthController;
+use App\Http\Controllers\BookBorrowController;
+use App\Http\Controllers\BookRequestController;
 
 
 
@@ -19,7 +22,17 @@ Route::get('/', function () {
 Route::redirect('/admin', '/admin/dashboard')->name('admin');
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () { return view('admin.dashboard');})->name('dashboard');
+    Route::get('/dashboard', function () {
+        $stats = [
+            'total_titles' => \App\Models\BookData::query()->count(),
+            'total_copies' => \App\Models\Book::query()->count(),
+            'active_members' => \App\Models\Member::query()->whereHas('memberAuth', function($q) { $q->where('account_status', 'active'); })->count() ?? \App\Models\Member::query()->count(),
+            'borrowed_items' => \App\Models\BookBorrow::query()->where('status', 'borrowed')->count(),
+            'overdue_items' => \App\Models\BookBorrow::query()->where('status', 'borrowed')->where('due_date', '<', now())->count(),
+            // 'pending_reservations' => \App\Models\BookRequest::query()->where('status', 'pending')->count() ?? 0,
+        ];
+        return view('admin.dashboard', compact('stats'));
+    })->name('dashboard');
     
     // API Routes
     Route::get('/api/publishers/search', [\App\Http\Controllers\PublisherController::class, 'search'])->name('api.publishers.search');

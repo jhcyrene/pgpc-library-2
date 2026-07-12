@@ -13,7 +13,7 @@
                 </div>
                 Overdue Items
             </div>
-            <span class="text-2xl font-black text-red-700">24</span>
+            <span class="text-2xl font-black text-red-700">{{ $stats['overdue_items'] ?? 0 }}</span>
         </div>
         <!-- Alert Item -->
         <div class="flex justify-between items-center p-4 bg-amber-50/50 hover:bg-amber-50 rounded-xl border border-amber-100 transition-colors group cursor-pointer">
@@ -23,7 +23,7 @@
                 </div>
                 Pending Reservations
             </div>
-            <span class="text-2xl font-black text-amber-700">5</span>
+            <span class="text-2xl font-black text-amber-700">{{ $stats['pending_reservations'] ?? 0 }}</span>
         </div>
     </div>
 </div>

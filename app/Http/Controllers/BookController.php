@@ -13,7 +13,7 @@ class BookController
      */
     public function index()
     {
-        //
+        
     }
 
     /**

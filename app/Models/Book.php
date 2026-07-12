@@ -7,30 +7,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'book_id';
+
     protected $fillable = [
-        'accession_id',
         'book_data_id',
+        'accession_number',
+        'barcode',
         'status',
-        'lastModified'
+        'location',
+        'date_acquired',
+        'last_modified',
+    ];
+
+    protected $casts = [
+        'date_acquired' => 'date',
+        'last_modified' => 'datetime',
     ];
 
     public function bookData()
     {
-        return $this->belongsTo(BookData::class);
+        return $this->belongsTo(BookData::class, 'book_data_id', 'book_data_id');
     }
 
-    public function authors()
+    public function bookBorrows()
     {
-        return $this->belongsToMany(Author::class,'book_authors');
+        return $this->hasMany(BookBorrow::class, 'book_id', 'book_id');
     }
 
-    public function borrows()
+    public function bookRequests()
     {
-        return $this->hasMany(BookBorrow::class);
-    }
-
-    public function requests()
-    {
-        return $this->hasMany(BookRequest::class);
+        return $this->hasMany(BookRequest::class, 'book_id', 'book_id');
     }
 }

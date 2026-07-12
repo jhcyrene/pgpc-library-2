@@ -1,21 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\BookController;
-// use App\Http\Controllers\PublisherController;
-// use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BookDataController;
+
+
 
 Route::get('/', function () {
     return view('home');
 });
 
 // Admin Route Group protected by 'admin' middleware
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+// Route::prefix('admin')->middleware(['auth'])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('admin.dashboard');
+//     })->name('admin.dashboard');
+// });
+
+Route::redirect('/admin', '/admin/dashboard')->name('admin');
+
+Route::prefix('admin')->group(function () {
+    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', function () { return view('admin.dashboard');})->name('admin.dashboard');
+    Route::get('/bookManager', [BookDataController::class, 'index'])->name('admin.bookManager');
+    Route::get('/addBook', function () { return view('admin.addBook');})->name('admin.addBook');
 });
-    
 // // Auth Design Routes
 Route::prefix('student')->group(function () {
     Route::get('/login', function () { return view('auth.login'); });

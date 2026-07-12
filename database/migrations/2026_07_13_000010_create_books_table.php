@@ -6,37 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('book_data_id')
-                ->constrained('book_data')
-                ->cascadeOnDelete();
-
+            $table->id('book_id');
+            $table->foreignId('book_data_id')->constrained('book_data', 'book_data_id')->cascadeOnDelete();
             $table->string('accession_number')->unique();
-
-            $table->enum('status', [
-                'Available',
-                'Borrowed',
-                'Reserved',
-                'Lost',
-                'Damaged'
-            ])->default('Available');
-
+            $table->string('barcode')->nullable()->unique();
+            $table->string('status')->default('Available');
+            $table->string('location')->nullable();
+            $table->date('date_acquired')->nullable();
             $table->timestamp('last_modified')->nullable();
-
             $table->timestamps();
+            
+            $table->index('book_data_id');
+            $table->index('status');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('books');

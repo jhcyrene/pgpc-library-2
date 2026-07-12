@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'author_id';
+
     protected $fillable = [
         'first_name',
-        'last_name'
+        'middle_name',
+        'last_name',
+        'suffix',
     ];
 
-    public function books()
+    public function bookData()
     {
-        return $this->belongsToMany(Book::class,'book_authors');
+        return $this->belongsToMany(BookData::class, 'book_author', 'author_id', 'book_data_id')->withPivot('role');
     }
 }

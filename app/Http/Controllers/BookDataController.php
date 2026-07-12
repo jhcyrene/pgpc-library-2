@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\BookData;
 use App\Http\Requests\StoreBookDataRequest;
 use App\Http\Requests\UpdateBookDataRequest;
+use Illuminate\Routing\Controller;
 
-class BookDataController
+class BookDataController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $allBooks = BookData::with('category')->paginate(10);
+        return view('admin.bookManager', compact('allBooks'));   
     }
 
     /**

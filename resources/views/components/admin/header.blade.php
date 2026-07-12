@@ -11,7 +11,7 @@
 
         <div class="hidden md:block">
             <x-admin.partials.searchBar 
-                action="{{ route('admin.bookManager') }}" 
+                action="{{ route('admin.books.index') }}" 
                 placeholder="Search books, students, or IDs..." 
                 name="search"
             />

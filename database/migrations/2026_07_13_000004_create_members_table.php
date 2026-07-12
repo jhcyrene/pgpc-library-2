@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('program')->nullable();
             $table->string('year_level')->nullable();
             $table->unsignedInteger('member_status_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

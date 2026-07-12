@@ -30,5 +30,54 @@
         </main>
 
     </div>
+    
+    <script>
+        function toggleNavGroup(button) {
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+            
+            const chevron = button.querySelector('.nav-group-chevron');
+            if (chevron) {
+                if (expanded) {
+                    chevron.classList.remove('rotate-90', 'text-white');
+                    chevron.classList.add('text-gray-400', 'group-hover:text-gray-300');
+                    
+                    button.classList.remove('bg-white/10', 'text-white', 'font-bold', 'shadow-sm');
+                    button.classList.add('text-gray-300', 'font-medium');
+                    
+                    const icon = button.querySelector('.w-5.h-5');
+                    if (icon) {
+                        icon.classList.remove('text-white');
+                        icon.classList.add('text-gray-400', 'group-hover:text-gray-300');
+                    }
+                } else {
+                    chevron.classList.add('rotate-90', 'text-white');
+                    chevron.classList.remove('text-gray-400', 'group-hover:text-gray-300');
+                    
+                    button.classList.add('bg-white/10', 'text-white', 'font-bold', 'shadow-sm');
+                    button.classList.remove('text-gray-300', 'font-medium');
+                    
+                    const icon = button.querySelector('.w-5.h-5');
+                    if (icon) {
+                        icon.classList.add('text-white');
+                        icon.classList.remove('text-gray-400', 'group-hover:text-gray-300');
+                    }
+                }
+            }
+            
+            const children = button.nextElementSibling;
+            if (children) {
+                if (expanded) {
+                    children.classList.remove('max-h-96', 'opacity-100');
+                    children.classList.add('max-h-0', 'opacity-0');
+                } else {
+                    children.classList.remove('max-h-0', 'opacity-0');
+                    children.classList.add('max-h-96', 'opacity-100');
+                }
+            }
+        }
+    </script>
+
+    @stack('scripts')
 </body>
 </html>

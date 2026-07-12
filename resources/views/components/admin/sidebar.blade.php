@@ -28,18 +28,34 @@
                 </x-admin.partials.navButton>
 
                 <!-- Book Management -->
-                <x-admin.partials.navButton route="{{ route('admin.bookManager') }}" label="Book Management">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                </x-admin.partials.navButton>
+                <x-admin.navigation.nav-group label="Books" :active="request()->routeIs('admin.books.*')">
+                    <x-slot:icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </x-slot:icon>
+                    
+                    <x-admin.navigation.nav-item label="Book Manager" :href="route('admin.books.index')" :active="request()->routeIs('admin.books.index')" />
+                    <x-admin.navigation.nav-item label="Add Book" :href="route('admin.books.create')" :active="request()->routeIs('admin.books.create')" />
+                    <x-admin.navigation.nav-item label="Quick Add Book" :href="route('admin.books.quick-create')" :active="request()->routeIs('admin.books.quick-create')" />
+                    <x-admin.navigation.nav-item label="Batch Add Books" :href="route('admin.books.batch-create')" :active="request()->routeIs('admin.books.batch-create')" />
+                </x-admin.navigation.nav-group>
 
                 <!-- Users -->
-                <x-admin.partials.navButton route="/admin/users" label="Users">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                </x-admin.partials.navButton>
+                <x-admin.navigation.nav-group label="Users" :active="request()->routeIs('admin.users.*') || request()->routeIs('admin.members.*') || request()->routeIs('admin.librarians.*')">
+                    <x-slot:icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </x-slot:icon>
+
+                    <!-- User manager routes will be implemented soon -->
+                    <x-admin.navigation.nav-item label="All Users" href="/admin/users" :active="request()->routeIs('admin.users.index')" />
+                    <x-admin.navigation.nav-item label="Members" href="/admin/users?type=member" :active="request()->fullUrlIs('*type=member*')" />
+                    <x-admin.navigation.nav-item label="Librarians" href="/admin/users?type=librarian" :active="request()->fullUrlIs('*type=librarian*')" />
+                    <x-admin.navigation.nav-item label="Add Member" href="/admin/members/create" :active="request()->routeIs('admin.members.create')" />
+                    <x-admin.navigation.nav-item label="Add Librarian" href="/admin/librarians/create" :active="request()->routeIs('admin.librarians.create')" />
+                </x-admin.navigation.nav-group>
 
                 <!-- Circulation -->
                 <x-admin.partials.navButton route="/admin/circulation" label="Circulation">

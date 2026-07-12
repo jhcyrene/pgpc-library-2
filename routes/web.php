@@ -18,18 +18,58 @@ Route::get('/', function () {
 
 Route::redirect('/admin', '/admin/dashboard')->name('admin');
 
-Route::prefix('admin')->group(function () {
-    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/dashboard', function () { return view('admin.dashboard');})->name('admin.dashboard');
-    Route::get('/bookManager', [BookDataController::class, 'index'])->name('admin.bookManager');
-    Route::get('/addBook', function () { return view('admin.addBook');})->name('admin.addBook');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () { return view('admin.dashboard');})->name('dashboard');
+    
+    // API Routes
+    Route::get('/api/publishers/search', [\App\Http\Controllers\PublisherController::class, 'search'])->name('api.publishers.search');
+    
+    // Legacy routes for sidebar compatibility
+    Route::get('/bookManager', [BookDataController::class, 'index'])->name('bookManager');
+    Route::get('/addBook', [BookDataController::class, 'create'])->name('addBook');
+    
+    // Book Management Routes
+    Route::resource('books', BookDataController::class);
+
+    // Book Physical Copies
+    Route::get('books/{bookData}/copies', [\App\Http\Controllers\BookController::class, 'index'])->name('books.copies.index');
+    Route::get('books/{bookData}/copies/create', [\App\Http\Controllers\BookController::class, 'create'])->name('books.copies.create');
+    Route::post('books/{bookData}/copies', [\App\Http\Controllers\BookController::class, 'store'])->name('books.copies.store');
+    Route::get('book-copies/{book}/edit', [\App\Http\Controllers\BookController::class, 'edit'])->name('book-copies.edit');
+    Route::put('book-copies/{book}', [\App\Http\Controllers\BookController::class, 'update'])->name('book-copies.update');
+    Route::delete('book-copies/{book}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('book-copies.destroy');
+
+    // Quick Add
+    Route::get('books-quick/create', [\App\Http\Controllers\QuickBookController::class, 'create'])->name('books.quick-create');
+    Route::post('books-quick', [\App\Http\Controllers\QuickBookController::class, 'store'])->name('books.quick-store');
+
+    // Batch Add
+    Route::get('books-batch/create', [\App\Http\Controllers\BatchBookController::class, 'create'])->name('books.batch-create');
+    Route::post('books-batch/preview', [\App\Http\Controllers\BatchBookController::class, 'preview'])->name('books.batch-preview');
+    Route::post('books-batch/import', [\App\Http\Controllers\BatchBookController::class, 'store'])->name('books.batch-store');
+    Route::get('books-batch/template', [\App\Http\Controllers\BatchBookController::class, 'template'])->name('books.batch-template');
+
+    // User Management
+    Route::get('users', [\App\Http\Controllers\UserManagementController::class, 'index'])->name('users.index');
+    Route::get('users/{type}/{id}', [\App\Http\Controllers\UserManagementController::class, 'show'])->name('users.show');
+
+    Route::resource('members', \App\Http\Controllers\MemberController::class)->except(['index', 'show']);
+    Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)->except(['index', 'show']);
+
+    Route::patch('accounts/{memberAuth}/status', [\App\Http\Controllers\MemberAuthController::class, 'updateStatus'])->name('accounts.status');
+    Route::patch('accounts/{memberAuth}/unlock', [\App\Http\Controllers\MemberAuthController::class, 'unlock'])->name('accounts.unlock');
+    Route::put('accounts/{memberAuth}/password', [\App\Http\Controllers\MemberAuthController::class, 'resetPassword'])->name('accounts.password');
 });
 // // Auth Design Routes
 Route::prefix('student')->group(function () {
     Route::get('/login', function () { return view('auth.login'); });
     Route::get('/register', function () { return view('auth.register'); });
-    Route::get('/forgot-password', function () { return view('auth.forgotpassword'); });
-    Route::get('/forgot-password?otp=true', function () { return view('auth.otp'); });
+    Route::get('/forgot-password', function (\Illuminate\Http\Request $request) { 
+        if ($request->query('otp') === 'true') {
+            return view('auth.otp');
+        }
+        return view('auth.forgotpassword'); 
+    });
 });
 
 

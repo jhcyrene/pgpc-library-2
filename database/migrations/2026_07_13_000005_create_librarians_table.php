@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->nullable()->unique();
             $table->string('position')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

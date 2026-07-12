@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('password_token')->nullable();
             $table->timestamp('token_expiry')->nullable();
             $table->timestamp('last_modified')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

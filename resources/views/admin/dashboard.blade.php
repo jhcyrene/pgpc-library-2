@@ -47,7 +47,7 @@
         <!-- Right: Most Borrowed Items (1/3 Width) -->
         <x-admin.subCard 
             title="Most Borrowed Items"
-            description="Most borrowed items in the library"
+            description="Items that are frequently borrowed by users"
         />
 
     </div>

@@ -5,7 +5,7 @@
             <h3 class="text-lg font-extrabold text-slate-900 tracking-tight">Current Borrowers</h3>
             <p class="text-xs font-medium text-slate-500 mt-0.5">Tracking students and borrow dates</p>
         </div>
-        <button class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">View All Records</button>
+        <button type="button" disabled class="text-xs font-bold text-slate-400 bg-slate-100 px-4 py-2 rounded-lg cursor-not-allowed" title="Circulation records are coming soon">Records coming soon</button>
     </div>
     
     <!-- Student Table -->

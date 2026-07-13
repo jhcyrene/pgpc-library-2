@@ -144,21 +144,48 @@ Redirect        (Redirects back to route('admin.users.index'))
 View            (Displays admin.users.index with success message)
 ```
 
-## 7. Login (Planned)
-When a user attempts to log in.
+## 7. Login
+When a student attempts to log in.
 
 ```text
-Route           (POST /student/login -> 'login.store')
+Route           (POST /student/login -> 'student.login.store')
    ↓
-Request         (LoginRequest -> Validates username/email and password format)
+Request         (LoginRequest -> Validates login [username/student_id] and password)
    ↓
-Controller      (AuthController@store)
+Controller      (AuthenticatedSessionController@store)
    ↓
-Laravel Auth    (Auth::attempt() -> Compares password hash against MemberAuth)
+Model           (Finds MemberAuth by username OR Member's student_id_number)
    ↓
-Session         (Generates session token if successful)
+Controller      (Checks Hash::check(password, password_hash))
    ↓
-Redirect        (Redirects to intended page or Dashboard)
+Controller      (Checks if account_status is 'active')
+   ↓
+Laravel Auth    (Auth::guard('member')->login())
+   ↓
+Session         (Regenerates session token to prevent fixation)
+   ↓
+Redirect        (Redirects to intended page or route('student.dashboard'))
+```
+
+## 7.5. Student Registration
+When a public student registers an account.
+
+```text
+Route           (POST /student/register -> 'student.register.store')
+   ↓
+Request         (RegisterStudentRequest -> Validates unique email, student ID, and username)
+   ↓
+Controller      (RegisteredStudentController@store)
+   ↓
+Database        (DB::beginTransaction())
+   ↓
+Model           (Creates Member record with profile data)
+   ↓
+Model           (Creates MemberAuth record linked to member_id, hashes password)
+   ↓
+Database        (DB::commit())
+   ↓
+Redirect        (Redirects to route('student.login') with success message)
 ```
 
 ## 8. Reservation (Planned)

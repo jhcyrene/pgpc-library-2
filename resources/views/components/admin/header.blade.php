@@ -1,3 +1,9 @@
+@php
+    $staffRole = in_array(strtolower((string) Auth::guard('member')->user()?->account_type), ['administrator', 'admin'], true)
+        ? 'Admin'
+        : 'Librarian';
+@endphp
+
 <header class="shrink-0 flex flex-col w-full">
     <!-- 1. Top Utility Bar (White Background) -->
     <div class="h-[60px] bg-white border-b border-gray-200 px-6 grid grid-cols-3 items-center w-full shrink-0">
@@ -12,7 +18,7 @@
             </button>
             
             <div class="hidden sm:block">
-                <span class="hover:text-gray-800 cursor-pointer transition-colors">Admin</span> 
+                <span class="text-gray-500">{{ $staffRole }}</span>
                 <span class="mx-1">&gt;</span> 
                 <span class="text-gray-800 font-bold">{{ ucfirst(request()->segment(2) ?? 'Dashboard') }}</span>
             </div>
@@ -57,4 +63,3 @@
     updateLiveClock();
     setInterval(updateLiveClock, 1000);
 </script>
-

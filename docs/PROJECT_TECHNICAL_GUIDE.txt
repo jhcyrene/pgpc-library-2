@@ -669,3 +669,9 @@ If a table overflows or breaks the page width, look for fixed-width classes like
  * * M o s t   i m p o r t a n t   n e x t   t a s k : * *  
  I m p l e m e n t   t h e   A u t h e n t i c a t i o n   f l o w   u s i n g   t h e   c u s t o m   ` M e m b e r A u t h `   m o d e l   s o   t h a t   L i b r a r i a n s   a n d   S t u d e n t s   c a n   s e c u r e l y   l o g   i n .  
  
+## Authentication Module
+
+The authentication module handles student access securely. It operates using Laravel's native session-based authentication guarding the 'member' provider. 
+
+- **Login (AuthenticatedSessionController):** Allows students to log in using either their username or student_id_number. The system verifies the hashed password in member_auth and enforces an 'active' account status before initiating a session.
+- **Registration (RegisteredStudentController):** A public form that captures full profile details (Student ID, Name, Program, etc.) and login credentials. It uses a database transaction to safely create records in both the members and member_auth tables, automatically hashing the password and assigning default roles (Member and ctive).

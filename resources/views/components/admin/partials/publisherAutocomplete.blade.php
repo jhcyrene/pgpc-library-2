@@ -19,6 +19,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const publisherInput = document.getElementById('publisher');
     const publisherDropdown = document.getElementById('publisher-dropdown');
+    const publisherSearchUrl = @json(route('admin.api.publishers.search'));
     let debounceTimer;
 
     if (!publisherInput || !publisherDropdown) return;
@@ -33,7 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         debounceTimer = setTimeout(() => {
-            fetch(`/admin/api/publishers/search?q=${encodeURIComponent(query)}`)
+            const searchUrl = new URL(publisherSearchUrl);
+            searchUrl.searchParams.set('q', query);
+
+            fetch(searchUrl)
                 .then(response => response.json())
                 .then(data => {
                     publisherDropdown.innerHTML = '';

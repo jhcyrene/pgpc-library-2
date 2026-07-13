@@ -27,7 +27,7 @@
         </div>
     </div>
     
-    <button class="mt-4 shrink-0 w-full py-2.5 border-2 border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900 hover:bg-slate-50 font-bold rounded-xl transition-all text-sm shadow-sm">
-        Generate Report
+    <button type="button" disabled class="mt-4 shrink-0 w-full py-2.5 border-2 border-slate-200 bg-slate-50 text-slate-400 font-bold rounded-xl text-sm cursor-not-allowed">
+        Reports coming soon
     </button>
 </div>

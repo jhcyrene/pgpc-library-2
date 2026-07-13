@@ -1,9 +1,10 @@
 @props([
     'label', 
-    'href', 
+    'href' => null,
     'active' => false, 
     'expanded' => false,
-    'id' => null
+    'id' => null,
+    'disabled' => false,
 ])
 
 @php
@@ -16,7 +17,11 @@
     <div class="flex items-stretch rounded-lg transition-all duration-200 group {{ $active ? 'bg-white/10 shadow-sm' : 'hover:bg-white/5' }}">
         
         <!-- The Main Parent Link -->
+        @if($disabled)
+        <div class="flex-1 flex items-center gap-3 px-3 py-2.5 rounded-l-lg text-gray-500 cursor-not-allowed" aria-disabled="true">
+        @else
         <a href="{{ $href }}" class="flex-1 flex items-center gap-3 px-3 py-2.5 rounded-l-lg outline-none focus:ring-2 focus:ring-inset focus:ring-[#fcc719] {{ $active ? 'text-white font-bold' : 'text-gray-300 hover:text-white font-medium' }}">
+        @endif
             <div class="{{ $active ? 'text-white' : 'text-gray-400 group-hover:text-gray-300' }} w-5 h-5 flex-shrink-0 transition-colors">
                 @if(isset($icon))
                     {{ $icon }}
@@ -27,7 +32,11 @@
                 @endif
             </div>
             <span class="text-sm tracking-wide truncate">{{ $label }}</span>
+        @if($disabled)
+        </div>
+        @else
         </a>
+        @endif
 
         <!-- The Dropdown Toggle Button -->
         <button 

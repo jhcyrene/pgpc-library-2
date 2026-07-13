@@ -1,3 +1,12 @@
+@php
+    $staffAccount = Auth::guard('member')->user();
+    $staffMember = $staffAccount?->librarian;
+    $staffRole = in_array(strtolower((string) $staffAccount?->account_type), ['administrator', 'admin'], true)
+        ? 'Admin'
+        : 'Librarian';
+    $staffName = $staffMember?->first_name ?: $staffRole;
+@endphp
+
 <!-- Left: Primary Circulation Station / Greeting (2/3 Width) -->
 <div class="lg:col-span-2 bg-[#1A2B56] rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[220px] group">
     <!-- Decorative background elements -->
@@ -14,7 +23,7 @@
             
             <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight mb-2">
                 Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 18 ? 'afternoon' : 'evening') }}, 
-                <span class="text-[#FFC107]">Admin</span> 👋
+                <span class="text-[#FFC107]">{{ $staffName }}</span> 👋
             </h1>
             <p class="text-slate-300 text-sm font-medium max-w-lg leading-relaxed">
                 Here's an overview of the library today. Process returning items or check-out new books immediately below.
@@ -23,11 +32,11 @@
         
         <!-- Direct Actions -->
         <div class="flex flex-col sm:flex-row gap-4 mt-auto">
-            <button class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold rounded-xl shadow-md shadow-emerald-500/30 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+            <button type="button" disabled class="px-6 py-3 bg-emerald-500/70 text-white text-sm font-bold rounded-xl shadow-md opacity-70 cursor-not-allowed flex items-center justify-center gap-2" title="Circulation check-in is coming soon">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Quick Check-In (Return)
             </button>
-            <button class="px-6 py-3 bg-[#FFC107] hover:bg-[#FFD54F] text-[#1A2B56] text-sm font-bold rounded-xl shadow-md shadow-[#FFC107]/30 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+            <button type="button" disabled class="px-6 py-3 bg-[#FFC107]/70 text-[#1A2B56] text-sm font-bold rounded-xl shadow-md opacity-70 cursor-not-allowed flex items-center justify-center gap-2" title="Circulation check-out is coming soon">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                 Quick Check-Out (Borrow)
             </button>

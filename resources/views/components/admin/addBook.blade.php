@@ -19,6 +19,10 @@
     if ($selectedCategories === null) {
         $selectedCategories = $isEdit ? $bookData->categories->pluck('category_id')->toArray() : [];
     }
+
+    $currentCoverImage = $isEdit && $bookData->bookDetail?->cover_image
+        ? asset('storage/' . ltrim($bookData->bookDetail->cover_image, '/'))
+        : null;
 @endphp
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -81,7 +85,7 @@
 
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                 <h3 class="text-sm font-bold text-[#1A2B56] mb-4 uppercase tracking-wider">Book Cover</h3>
-                <x-admin.partials.fileUpload name="cover_image" label="" />
+                <x-admin.partials.fileUpload name="cover_image" label="" :current-image="$currentCoverImage" />
                 <p class="text-xs text-gray-500 mt-3 text-center">A high-quality cover image helps users easily identify the book in the catalog.</p>
             </div>
         </div>

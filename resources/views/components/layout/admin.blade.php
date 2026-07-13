@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard - PGPC Library System</title>
+    <title>{{ in_array(strtolower((string) Auth::guard('member')->user()?->account_type), ['administrator', 'admin'], true) ? 'Admin' : 'Librarian' }} Dashboard - PGPC Library System</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -1,91 +1,163 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordRecoveryController;
+use App\Http\Controllers\Auth\RegisteredStudentController;
+use App\Http\Controllers\BatchBookController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookDataController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\LibrarianController;
 use App\Http\Controllers\MemberAuthController;
-use App\Http\Controllers\BookBorrowController;
-use App\Http\Controllers\BookRequestController;
-
-
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\QuickBookController;
+use App\Http\Controllers\StaffDashboardController;
+use App\Http\Controllers\Student\AccountSettingsController;
+use App\Http\Controllers\Student\BorrowTransactionController;
+use App\Http\Controllers\Student\FineController;
+use App\Http\Controllers\Student\ProfileController;
+use App\Http\Controllers\Student\ReservationController;
+use App\Http\Controllers\Student\SavedItemController;
+use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\UserManagementController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
+})->name('home');
+
+Route::get('/opac', [CatalogController::class, 'index'])->name('opac.index');
+
+// Auth Routes
+Route::middleware('guest:member')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'storeStudent'])->name('login.store');
+
+    Route::get('/register', [RegisteredStudentController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredStudentController::class, 'store'])->name('register.store');
+
+    Route::get('/forgot-password', [PasswordRecoveryController::class, 'create'])->name('forgot-password');
+    Route::post('/forgot-password', [PasswordRecoveryController::class, 'sendCode'])
+        ->middleware('throttle:5,1')
+        ->name('forgot-password.send');
+    Route::get('/forgot-password/verify', [PasswordRecoveryController::class, 'showOtp'])->name('forgot-password.otp');
+    Route::post('/forgot-password/verify', [PasswordRecoveryController::class, 'verifyCode'])
+        ->middleware('throttle:10,1')
+        ->name('forgot-password.verify');
+    Route::get('/forgot-password/reset', [PasswordRecoveryController::class, 'showReset'])->name('forgot-password.reset');
+    Route::post('/forgot-password/reset', [PasswordRecoveryController::class, 'reset'])
+        ->middleware('throttle:5,1')
+        ->name('forgot-password.update');
 });
 
-// Admin Route Group protected by 'admin' middleware
-// Route::prefix('admin')->middleware(['auth'])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('admin.dashboard');
-//     })->name('admin.dashboard');
-// });
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:member')->name('logout');
 
-Route::redirect('/admin', '/admin/dashboard')->name('admin');
+// Student Routes
+Route::prefix('student')->name('student.')->group(function () {
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        $stats = [
-            'total_titles' => \App\Models\BookData::query()->count(),
-            'total_copies' => \App\Models\Book::query()->count(),
-            'active_members' => \App\Models\Member::query()->whereHas('memberAuth', function($q) { $q->where('account_status', 'active'); })->count() ?? \App\Models\Member::query()->count(),
-            'borrowed_items' => \App\Models\BookBorrow::query()->where('status', 'borrowed')->count(),
-            'overdue_items' => \App\Models\BookBorrow::query()->where('status', 'borrowed')->where('due_date', '<', now())->count(),
-            // 'pending_reservations' => \App\Models\BookRequest::query()->where('status', 'pending')->count() ?? 0,
-        ];
-        return view('admin.dashboard', compact('stats'));
-    })->name('dashboard');
-    
-    // API Routes
-    Route::get('/api/publishers/search', [\App\Http\Controllers\PublisherController::class, 'search'])->name('api.publishers.search');
-    
-    // Legacy routes for sidebar compatibility
-    Route::get('/bookManager', [BookDataController::class, 'index'])->name('bookManager');
-    Route::get('/addBook', [BookDataController::class, 'create'])->name('addBook');
-    
-    // Book Management Routes
-    Route::resource('books', BookDataController::class);
+    // Protected Student Routes
+    Route::middleware(['student'])->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
 
-    // Book Physical Copies
-    Route::get('books/{bookData}/copies', [\App\Http\Controllers\BookController::class, 'index'])->name('books.copies.index');
-    Route::get('books/{bookData}/copies/create', [\App\Http\Controllers\BookController::class, 'create'])->name('books.copies.create');
-    Route::post('books/{bookData}/copies', [\App\Http\Controllers\BookController::class, 'store'])->name('books.copies.store');
-    Route::get('book-copies/{book}/edit', [\App\Http\Controllers\BookController::class, 'edit'])->name('book-copies.edit');
-    Route::put('book-copies/{book}', [\App\Http\Controllers\BookController::class, 'update'])->name('book-copies.update');
-    Route::delete('book-copies/{book}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('book-copies.destroy');
+        // Borrow Transactions
+        Route::get('/borrow-transactions', [BorrowTransactionController::class, 'index'])->name('borrow-transactions.index');
+        Route::get('/borrow-transactions/current', [BorrowTransactionController::class, 'current'])->name('borrow-transactions.current');
+        Route::get('/borrow-transactions/history', [BorrowTransactionController::class, 'history'])->name('borrow-transactions.history');
+        Route::get('/overdue-items', [BorrowTransactionController::class, 'overdue'])->name('overdue-items.index');
 
-    // Quick Add
-    Route::get('books-quick/create', [\App\Http\Controllers\QuickBookController::class, 'create'])->name('books.quick-create');
-    Route::post('books-quick', [\App\Http\Controllers\QuickBookController::class, 'store'])->name('books.quick-store');
+        // Saved Items
+        Route::get('/saved-items', [SavedItemController::class, 'index'])->name('saved-items.index');
+        Route::post('/saved-items/{bookData}', [SavedItemController::class, 'store'])->name('saved-items.store');
+        Route::delete('/saved-items/{bookData}', [SavedItemController::class, 'destroy'])->name('saved-items.destroy');
 
-    // Batch Add
-    Route::get('books-batch/create', [\App\Http\Controllers\BatchBookController::class, 'create'])->name('books.batch-create');
-    Route::post('books-batch/preview', [\App\Http\Controllers\BatchBookController::class, 'preview'])->name('books.batch-preview');
-    Route::post('books-batch/import', [\App\Http\Controllers\BatchBookController::class, 'store'])->name('books.batch-store');
-    Route::get('books-batch/template', [\App\Http\Controllers\BatchBookController::class, 'template'])->name('books.batch-template');
+        // Reservations
+        Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+        Route::get('/reservations/create/{bookData}', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::post('/reservations/{bookData}', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+        Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
 
-    // User Management
-    Route::get('users', [\App\Http\Controllers\UserManagementController::class, 'index'])->name('users.index');
-    Route::get('users/{type}/{id}', [\App\Http\Controllers\UserManagementController::class, 'show'])->name('users.show');
+        // Fines
+        Route::get('/fines', [FineController::class, 'index'])->name('fines.index');
 
-    Route::resource('members', \App\Http\Controllers\MemberController::class)->except(['index', 'show']);
-    Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)->except(['index', 'show']);
+        // Profile & Settings
+        Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::patch('accounts/{memberAuth}/status', [\App\Http\Controllers\MemberAuthController::class, 'updateStatus'])->name('accounts.status');
-    Route::patch('accounts/{memberAuth}/unlock', [\App\Http\Controllers\MemberAuthController::class, 'unlock'])->name('accounts.unlock');
-    Route::put('accounts/{memberAuth}/password', [\App\Http\Controllers\MemberAuthController::class, 'resetPassword'])->name('accounts.password');
-});
-// // Auth Design Routes
-Route::prefix('student')->group(function () {
-    Route::get('/login', function () { return view('auth.login'); });
-    Route::get('/register', function () { return view('auth.register'); });
-    Route::get('/forgot-password', function (\Illuminate\Http\Request $request) { 
-        if ($request->query('otp') === 'true') {
-            return view('auth.otp');
-        }
-        return view('auth.forgotpassword'); 
+        Route::get('/account-settings', [AccountSettingsController::class, 'edit'])->name('account-settings.edit');
+        Route::put('/account-settings/password', [AccountSettingsController::class, 'updatePassword'])->name('account-settings.password');
     });
 });
 
+Route::middleware('guest:member')->group(function () {
+    Route::get('/staff/login', [AuthenticatedSessionController::class, 'createStaff'])->name('staff.login');
+    Route::post('/staff/login', [AuthenticatedSessionController::class, 'storeStaff'])->name('staff.login.store');
 
+    // Keep old bookmarks and cached forms working without maintaining separate login pages.
+    Route::post('/admin/login', [AuthenticatedSessionController::class, 'storeStaff'])->name('adminlogin.store');
+    Route::post('/librarian/login', [AuthenticatedSessionController::class, 'storeStaff'])->name('librarianlogin.store');
+    Route::get('/admin/login', [AuthenticatedSessionController::class, 'redirectToStaffLogin'])->name('adminlogin');
+    Route::get('/librarian/login', [AuthenticatedSessionController::class, 'redirectToStaffLogin'])->name('librarianlogin');
+});
+
+Route::prefix('librarian')->middleware(['librarian'])->name('librarian.')->group(function () {
+    Route::redirect('/', '/librarian/dashboard')->name('home');
+    Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function () {
+    Route::redirect('/', '/admin/dashboard')->name('home');
+
+    Route::get('/dashboard', [StaffDashboardController::class, 'index'])
+        ->middleware('administrator')
+        ->name('dashboard');
+
+    // API Routes
+    Route::get('/api/publishers/search', [PublisherController::class, 'search'])->name('api.publishers.search');
+
+    // Legacy routes for sidebar compatibility
+    Route::get('/bookManager', [BookDataController::class, 'index'])->name('bookManager');
+    Route::get('/addBook', [BookDataController::class, 'create'])->name('addBook');
+
+    // Book Management Routes
+    Route::resource('books', BookDataController::class)->parameters([
+        'books' => 'bookData',
+    ]);
+
+    // Book Physical Copies
+    Route::get('books/{bookData}/copies', [BookController::class, 'index'])->name('books.copies.index');
+    Route::get('books/{bookData}/copies/create', [BookController::class, 'create'])->name('books.copies.create');
+    Route::post('books/{bookData}/copies', [BookController::class, 'store'])->name('books.copies.store');
+    Route::get('book-copies/{book}/edit', [BookController::class, 'edit'])->name('book-copies.edit');
+    Route::put('book-copies/{book}', [BookController::class, 'update'])->name('book-copies.update');
+    Route::delete('book-copies/{book}', [BookController::class, 'destroy'])->name('book-copies.destroy');
+
+    // Quick Add
+    Route::get('books-quick/create', [QuickBookController::class, 'create'])->name('books.quick-create');
+    Route::post('books-quick', [QuickBookController::class, 'store'])->name('books.quick-store');
+
+    // Batch Add
+    Route::get('books-batch/create', [BatchBookController::class, 'create'])->name('books.batch-create');
+    Route::post('books-batch/preview', [BatchBookController::class, 'preview'])->name('books.batch-preview');
+    Route::post('books-batch/import', [BatchBookController::class, 'store'])->name('books.batch-store');
+    Route::get('books-batch/template', [BatchBookController::class, 'template'])->name('books.batch-template');
+
+    Route::middleware('administrator')->group(function () {
+        // Administrator-only user and account management.
+        Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
+        Route::get('users/{type}/{id}', [UserManagementController::class, 'show'])->name('users.show');
+
+        Route::resource('members', MemberController::class)->except(['index', 'show']);
+        Route::resource('librarians', LibrarianController::class)->except(['index', 'show']);
+
+        Route::patch('accounts/{memberAuth}/status', [MemberAuthController::class, 'updateStatus'])->name('accounts.status');
+        Route::patch('accounts/{memberAuth}/unlock', [MemberAuthController::class, 'unlock'])->name('accounts.unlock');
+        Route::put('accounts/{memberAuth}/password', [MemberAuthController::class, 'resetPassword'])->name('accounts.password');
+    });
+});
 
 // Route::get('catalog',[BookController::class,'catalog']);
 
@@ -103,9 +175,6 @@ Route::prefix('student')->group(function () {
 // Route::get('/category/{id}', [CategoryController::class, 'getCategory']);
 
 // Route::get('/cata', function () { return view('admin.circulation.fast-cataloging'); });
-
-
-
 
 // Route::get('/register', function () { return view('auth.register'); });
 // Route::get('/forgot-password', function () { return view('auth.forgot-password'); });
@@ -130,18 +199,6 @@ Route::prefix('student')->group(function () {
 //     Route::get('/settings', function () { return view('admin.settings'); });
 //     Route::get('/profile', function () { return view('admin.profile'); });
 //     Route::get('/report', function () { return view('admin.report'); });
-// });
-
-// // User Design Routes
-// Route::prefix('users')->group(function () {
-//     Route::get('/', function () { return view('users.index'); });
-//     Route::get('/dashboard', function () { return view('users.dashboard'); });
-//     Route::get('/borrows', function () { return view('users.borrows'); });
-//     Route::get('/reservations', function () { return view('users.reservations'); });
-//     Route::get('/lists', function () { return view('users.lists'); });
-//     Route::get('/history', function () { return view('users.history'); });
-//     Route::get('/fines', function () { return view('users.fines'); });
-//     Route::get('/profile', function () { return view('users.profile'); });
 // });
 
 // // OPAC Route

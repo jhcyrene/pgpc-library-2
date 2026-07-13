@@ -1,15 +1,21 @@
+@php
+    $staffAccountType = strtolower((string) Auth::guard('member')->user()?->account_type);
+    $isAdministrator = in_array($staffAccountType, ['administrator', 'admin'], true);
+    $staffDashboardRoute = $isAdministrator ? route('admin.dashboard') : route('librarian.dashboard');
+@endphp
+
 <aside id="admin-sidebar" class="w-64 flex flex-col h-screen shrink-0 overflow-hidden bg-[#1A2B56]">
 
     <!-- Branding / Logo -->
     <div class="h-[60px] flex items-center px-6 shrink-0 border-b border-white/5">
-        <div class="flex items-center gap-4">
+        <a href="{{ $staffDashboardRoute }}" class="flex items-center gap-4">
             <div class="w-8 h-8 rounded-full border border-white/20 shrink-0 overflow-hidden flex items-center justify-center bg-white">
-                <img src="{{ asset('images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="w-full h-full object-cover">
+                <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="w-full h-full object-cover">
             </div>
             <div class="flex flex-col justify-center">
                 <h2 class="text-sm font-bold text-white leading-tight">PGPC Library</h2>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Navigation -->
@@ -17,8 +23,8 @@
 
         <x-admin.navigation.nav-item 
             label="Dashboard" 
-            :href="route('admin.dashboard')" 
-            :active="request()->routeIs('admin.dashboard')"
+            :href="$staffDashboardRoute"
+            :active="request()->routeIs('admin.dashboard') || request()->routeIs('librarian.dashboard')"
         >
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,7 +54,7 @@
         </x-admin.navigation.nav-group>
 
         <!-- Unimplemented Reservations -->
-        <x-admin.navigation.nav-item label="Reservations" href="javascript:void(0)" badge="Pending" badgeColor="bg-gray-500" class="opacity-60 cursor-not-allowed">
+        <x-admin.navigation.nav-item label="Reservations" badge="Coming soon" badgeColor="bg-gray-600" disabled>
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -60,9 +66,9 @@
 
         <x-admin.navigation.nav-group 
             label="Circulation" 
-            href="javascript:void(0)"
             :active="false"
             id="nav-group-circulation"
+            disabled
         >
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,12 +76,13 @@
                 </svg>
             </x-slot:icon>
             
-            <x-admin.navigation.nav-subitem label="Circulation Desk (WIP)" href="javascript:void(0)" />
-            <x-admin.navigation.nav-subitem label="Check-out (WIP)" href="javascript:void(0)" />
-            <x-admin.navigation.nav-subitem label="Check-in (WIP)" href="javascript:void(0)" />
-            <x-admin.navigation.nav-subitem label="Renew (WIP)" href="javascript:void(0)" />
+            <x-admin.navigation.nav-subitem label="Circulation Desk (Coming soon)" disabled />
+            <x-admin.navigation.nav-subitem label="Check-out (Coming soon)" disabled />
+            <x-admin.navigation.nav-subitem label="Check-in (Coming soon)" disabled />
+            <x-admin.navigation.nav-subitem label="Renew (Coming soon)" disabled />
         </x-admin.navigation.nav-group>
 
+        @if($isAdministrator)
         <x-admin.navigation.nav-section label="Users" />
 
         <x-admin.navigation.nav-group 
@@ -91,15 +98,16 @@
             </x-slot:icon>
 
             <x-admin.navigation.nav-subitem label="User Management" :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" />
-            <x-admin.navigation.nav-subitem label="Members" href="/admin/users?type=member" :active="request()->fullUrlIs('*type=member*')" />
-            <x-admin.navigation.nav-subitem label="Librarians" href="/admin/users?type=librarian" :active="request()->fullUrlIs('*type=librarian*')" />
+            <x-admin.navigation.nav-subitem label="Members" :href="route('admin.users.index', ['type' => 'member'])" :active="request()->fullUrlIs('*type=member*')" />
+            <x-admin.navigation.nav-subitem label="Librarians" :href="route('admin.users.index', ['type' => 'librarian'])" :active="request()->fullUrlIs('*type=librarian*')" />
             <x-admin.navigation.nav-subitem label="Add Member" :href="route('admin.members.create')" :active="request()->routeIs('admin.members.create')" />
             <x-admin.navigation.nav-subitem label="Add Librarian" :href="route('admin.librarians.create')" :active="request()->routeIs('admin.librarians.create')" />
         </x-admin.navigation.nav-group>
+        @endif
 
         <x-admin.navigation.nav-section label="System" />
         
-        <x-admin.navigation.nav-item label="Reports" href="javascript:void(0)" badge="Pending" badgeColor="bg-gray-500" class="opacity-60 cursor-not-allowed">
+        <x-admin.navigation.nav-item label="Reports" badge="Coming soon" badgeColor="bg-gray-600" disabled>
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -107,7 +115,7 @@
             </x-slot:icon>
         </x-admin.navigation.nav-item>
 
-        <x-admin.navigation.nav-item label="Settings" href="javascript:void(0)" badge="Pending" badgeColor="bg-gray-500" class="opacity-60 cursor-not-allowed">
+        <x-admin.navigation.nav-item label="Settings" badge="Coming soon" badgeColor="bg-gray-600" disabled>
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

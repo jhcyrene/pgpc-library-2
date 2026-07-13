@@ -1,3 +1,8 @@
+@props([
+    'title' => 'PGPC Library System | Padre Garcia Polytechnic College',
+    'active' => 'home',
+])
+
 <!DOCTYPE html>
 <html lang="en" data-theme="pgpc">
 
@@ -5,9 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Padre Garcia Polytechnic College - Library System</title>
+    <title>{{ $title }}</title>
     <meta name="description"
-        content="Discover your next great read at the Padre Garcia Polytechnic College Library. Explore our collection of Science, Literature, History, Technology, Arts, and Geography.">
+        content="Access the PGPC Library System to search the catalog, check availability, reserve library resources, and review borrow transactions.">
     <meta name="robots" content="index, follow">
 
     <!-- Fonts -->
@@ -22,6 +27,9 @@
     <style>
         body {
             margin: 0;
+        }
+
+        body.is-loading {
             overflow: hidden;
         }
 
@@ -100,18 +108,29 @@
         }
     </style>
 
+    <noscript>
+        <style>
+            #site-preloader {
+                display: none !important;
+            }
+
+            body {
+                overflow: auto !important;
+            }
+        </style>
+    </noscript>
+
 
 </head>
 
-<body class="antialiased font-sans bg-base-100 text-base-content min-h-screen flex flex-col">
+<body class="is-loading antialiased font-sans bg-base-100 text-base-content min-h-screen flex flex-col">
 
     <div id="site-preloader">
         <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC Logo" class="pgpc-preloader-logo"
             onerror="this.style.display='none'">
     </div>
-    {{-- <script src="{{ Vite::asset('resources/js/loader.js') }}"></script> --}}
 
-    <x-navbar />
+    <x-navbar :active="$active" />
 
     <main class="w-full flex-grow">
         {{ $slot }}
@@ -120,31 +139,46 @@
     <x-footer />
 
     <script>
-        // 1. Create a promise that finishes when the minimum time (2500ms) is up
         const minimumTimePromise = new Promise((resolve) => {
             setTimeout(resolve, 1000);
         });
 
-        // 2. Create a promise that finishes when the browser says all CSS/images are loaded
         const windowLoadPromise = new Promise((resolve) => {
-            window.addEventListener('load', resolve);
+            if (document.readyState === 'complete') {
+                resolve();
+                return;
+            }
+
+            window.addEventListener('load', resolve, {
+                once: true
+            });
         });
 
-        Promise.all([minimumTimePromise, windowLoadPromise]).then(() => {
-            const preloader = document.getElementById('site-preloader');
-            const mainApp = document.getElementById('main-app-wrapper');
-            if (preloader) {
-                // Fade out the preloader
-                preloader.style.opacity = '0';
+        let preloaderFinished = false;
 
-                // Instantly reveal the styled content underneath
-                if (mainApp) mainApp.style.display = 'block'; 
+        function finishPreloader() {
+            if (preloaderFinished) {
+                return;
+            }
+
+            preloaderFinished = true;
+            const preloader = document.getElementById('site-preloader');
+            document.body.classList.remove('is-loading');
+
+            if (preloader) {
+                preloader.style.opacity = '0';
+                preloader.setAttribute('aria-hidden', 'true');
 
                 setTimeout(() => {
                     preloader.style.display = 'none';
                 }, 500);
             }
-        });
+        }
+
+        Promise.all([minimumTimePromise, windowLoadPromise]).then(finishPreloader);
+
+        // Keep the page usable even if a third-party font or image never fires a load event.
+        setTimeout(finishPreloader, 5000);
     </script>
 
 

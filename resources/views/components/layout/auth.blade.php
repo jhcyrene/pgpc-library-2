@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}">
-    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" type="image/x-icon">
 
 
     <title>{{ isset($title) ? $title . ' | ' : '' }}PGPC Library</title>
 
     <style>
-
         #site-preloader {
             position: fixed;
             top: 0;
@@ -130,7 +129,7 @@
                 preloader.style.opacity = '0';
 
                 // Instantly reveal the styled content underneath
-                if (mainApp) mainApp.style.display = 'block'; 
+                if (mainApp) mainApp.style.display = 'block';
 
                 setTimeout(() => {
                     preloader.style.display = 'none';

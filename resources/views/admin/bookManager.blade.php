@@ -6,7 +6,12 @@
             title="Book Management" 
             description="Manage the library's entire catalog of books and resources."
             :breadcrumbs="[
-                ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+                [
+                    'label' => 'Dashboard',
+                    'url' => strtolower((string) auth('member')->user()?->account_type) === 'librarian'
+                        ? route('librarian.dashboard')
+                        : route('admin.dashboard'),
+                ],
                 ['label' => 'Books']
             ]"
         >

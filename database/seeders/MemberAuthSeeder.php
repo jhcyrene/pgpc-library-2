@@ -37,7 +37,13 @@ class MemberAuthSeeder extends Seeder
         ];
 
         foreach ($staffAccounts as $staffAccount) {
-            $librarian = Librarian::where('employee_number', $staffAccount['employee_number'])->firstOrFail();
+            $librarian = Librarian::where('employee_number', $staffAccount['employee_number'])->first();
+
+            if (! $librarian) {
+                $this->command?->warn("Librarian {$staffAccount['employee_number']} not found – skipping.");
+
+                continue;
+            }
 
             $account = MemberAuth::withTrashed()->updateOrCreate(
                 ['librarian_id' => $librarian->librarian_id],
@@ -57,6 +63,8 @@ class MemberAuthSeeder extends Seeder
             if ($account->trashed()) {
                 $account->restore();
             }
+
+            $this->command?->info("Staff account [{$staffAccount['username']}] ready (auth ID: {$account->member_auth_id}).");
         }
 
         // Student/member accounts

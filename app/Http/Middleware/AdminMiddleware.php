@@ -9,6 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMiddleware
 {
     /**
+     * Account types that can access the admin panel.
+     *
+     * Both administrators and librarians share the same back-office layout,
+     * with administrator-only pages further restricted by the separate
+     * AdministratorMiddleware.
+     */
+    private const STAFF_TYPES = ['administrator', 'admin', 'librarian'];
+
+    /**
      * Handle an incoming request.
      *
      * @param  Closure(Request): (Response)  $next
@@ -24,8 +33,9 @@ class AdminMiddleware
         }
 
         $user = auth()->guard('member')->user();
+        $type = strtolower((string) $user->account_type);
 
-        if (in_array(strtolower($user->account_type), ['administrator', 'admin', 'librarian'])) {
+        if (in_array($type, self::STAFF_TYPES, true)) {
             if (strtolower($user->account_status) === 'active') {
                 return $next($request);
             } else {

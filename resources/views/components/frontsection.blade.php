@@ -1,13 +1,13 @@
 <!-- Welcome Hero -->
 <section class="relative overflow-hidden bg-primaryfade pb-20 pt-32 sm:pb-24 sm:pt-36 lg:py-32">
     <div
-        class="absolute inset-0 bg-cover bg-center opacity-[0.12]"
+        class="absolute inset-0 bg-cover bg-center opacity-[0.08]"
         style="background-image: url('{{ Vite::asset('resources/images/school-img.jpg') }}')"
         aria-hidden="true"
     ></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-primaryfade via-primaryfade/95 to-primary/90" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-primaryfade via-primaryfade/95 to-primary/85" aria-hidden="true"></div>
     <div class="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 md:px-12">
-        <div class="grid min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(340px,0.7fr)] lg:gap-16 xl:gap-20">
+        <div class="grid min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:gap-16 xl:gap-20">
             <!-- Main system introduction -->
             <div class="min-w-0 text-center lg:text-left">
                 <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
@@ -48,75 +48,82 @@
                 </div>
             </div>
 
-            <!-- Static OPAC preview -->
-            <div id="about" class="min-w-0 scroll-mt-28 lg:w-full lg:max-w-md lg:justify-self-end">
-                <div class="mb-5 text-center lg:text-left">
-                    <h2 class="text-2xl font-bold text-white sm:text-3xl">Find your next resource</h2>
-                    <p class="mt-2 text-sm leading-6 text-blue-100 sm:text-base">
-                        Search the PGPC catalog and check availability before visiting the library.
-                    </p>
-                </div>
+            <!-- Library Services Information Panel -->
+            <div id="about" class="min-w-0 scroll-mt-28 lg:w-full lg:justify-self-end">
+                <div class="min-w-0 overflow-hidden rounded-2xl border border-white/15 bg-white/[0.07] shadow-elegant backdrop-blur-md">
+                    <!-- Panel header -->
+                    <div class="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
+                        <h2 class="text-lg font-bold text-white sm:text-xl">Library Services</h2>
+                        <span class="rounded-full bg-gold/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primaryfade">Student Services</span>
+                    </div>
 
-                <div class="min-w-0 rounded-3xl border border-white/25 bg-white/95 p-4 shadow-elegant backdrop-blur-sm sm:p-5">
-                    <div class="flex min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-2" aria-label="Catalog search preview">
-                        <svg class="h-5 w-5 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
-                        </svg>
-                        <input
-                            type="text"
-                            placeholder="Search title, author, or ISBN"
-                            readonly
-                            tabindex="-1"
-                            aria-label="Search title, author, or ISBN"
-                            class="min-w-0 flex-1 border-0 bg-transparent p-0 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:ring-0 sm:text-sm"
+                    <!-- Service rows -->
+                    <div class="divide-y divide-white/[0.06] px-5 sm:px-6">
+                        <!-- Search the catalog -->
+                        <div class="flex items-start gap-4 py-4">
+                            <span class="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-gold">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold text-white">Search the Catalog</h3>
+                                <p class="mt-0.5 text-xs leading-relaxed text-blue-100/70">Find books, journals, and resources by title, author, or subject.</p>
+                            </div>
+                        </div>
+
+                        <!-- Check availability -->
+                        <div class="flex items-start gap-4 py-4">
+                            <span class="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-gold">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold text-white">Check Availability</h3>
+                                <p class="mt-0.5 text-xs leading-relaxed text-blue-100/70">See which items are available before your visit to the library.</p>
+                            </div>
+                        </div>
+
+                        <!-- Reserve items -->
+                        <div class="flex items-start gap-4 py-4">
+                            <span class="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-gold">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold text-white">Reserve Items</h3>
+                                <p class="mt-0.5 text-xs leading-relaxed text-blue-100/70">Place holds on books and materials you need for your studies.</p>
+                            </div>
+                        </div>
+
+                        <!-- View borrowing transactions -->
+                        <div class="flex items-start gap-4 py-4">
+                            <span class="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-gold">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold text-white">View Transactions</h3>
+                                <p class="mt-0.5 text-xs leading-relaxed text-blue-100/70">Track your borrowing history, due dates, and return status.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel footer action -->
+                    <div class="border-t border-white/10 px-5 py-4 sm:px-6">
+                        <a
+                            href="{{ route('opac.index') }}"
+                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/20"
                         >
-                        <span class="shrink-0 rounded-lg bg-primaryfade px-3 py-2 text-xs font-bold text-white">Search</span>
+                            Browse Catalog
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </a>
                     </div>
-
-                    <div class="mt-4 grid min-w-0 gap-3" aria-label="Sample catalog results">
-                        <div class="flex min-w-0 gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-soft">
-                            <div class="grid h-14 w-11 shrink-0 place-items-center rounded-lg bg-primaryfade text-gold">
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" />
-                                </svg>
-                            </div>
-                            <div class="min-w-0 flex-1">
-                                <div class="flex min-w-0 flex-wrap items-start justify-between gap-2">
-                                    <div class="min-w-0">
-                                        <h3 class="truncate text-sm font-bold text-slate-800">Introduction to Computing</h3>
-                                        <p class="mt-0.5 text-xs text-slate-500">Library collection</p>
-                                    </div>
-                                    <span class="shrink-0 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-emerald-700">Available</span>
-                                </div>
-                                <div class="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-bold">
-                                    <span class="text-primaryfade">View Details</span>
-                                    <span class="text-amber-600">Reserve</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex min-w-0 gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-soft">
-                            <div class="grid h-14 w-11 shrink-0 place-items-center rounded-lg bg-slate-200 text-primaryfade">
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" />
-                                </svg>
-                            </div>
-                            <div class="min-w-0 flex-1">
-                                <div class="flex min-w-0 flex-wrap items-start justify-between gap-2">
-                                    <div class="min-w-0">
-                                        <h3 class="truncate text-sm font-bold text-slate-800">Research Methods</h3>
-                                        <p class="mt-0.5 text-xs text-slate-500">Library collection</p>
-                                    </div>
-                                    <span class="shrink-0 rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-700">Borrowed</span>
-                                </div>
-                                <div class="mt-2 text-[11px] font-bold text-primaryfade">View Details</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="mt-4 border-t border-slate-100 pt-3 text-center text-xs font-semibold text-slate-400">
-                        Catalog preview
-                    </p>
                 </div>
             </div>
         </div>

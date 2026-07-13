@@ -145,6 +145,11 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::post('books-batch/import', [BatchBookController::class, 'store'])->name('books.batch-store');
     Route::get('books-batch/template', [BatchBookController::class, 'template'])->name('books.batch-template');
 
+    // MARC Import
+    Route::get('books-marc/create', [\App\Http\Controllers\MarcImportController::class, 'create'])->name('books.marc-create');
+    Route::post('books-marc/preview', [\App\Http\Controllers\MarcImportController::class, 'preview'])->name('books.marc-preview');
+    Route::post('books-marc/import', [\App\Http\Controllers\MarcImportController::class, 'store'])->name('books.marc-store');
+
     Route::middleware('administrator')->group(function () {
         // Administrator-only user and account management.
         Route::get('users', [UserManagementController::class, 'index'])->name('users.index');

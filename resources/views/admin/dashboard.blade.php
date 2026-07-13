@@ -44,8 +44,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 flex-1 min-h-0">
         
         <x-admin.fronttable />
-        <!-- Right: Procurement Insights (1/3 Width) -->
-        <x-admin.subCard />
+        <!-- Right: Most Borrowed Items (1/3 Width) -->
+        <x-admin.subCard 
+            title="Most Borrowed Items"
+            description="Most borrowed items in the library"
+        />
 
     </div>
 

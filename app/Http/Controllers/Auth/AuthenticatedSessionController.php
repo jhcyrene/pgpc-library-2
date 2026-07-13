@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Hash;
 class AuthenticatedSessionController extends Controller
 {
     /**
+     * Canonical account-type groups used across portals and middleware.
+     *
+     * Any variation stored in the database (e.g. "Admin", "Administrator",
+     * "Student", "Member") is normalised to lowercase before comparison so
+     * that casing mismatches never lock a user out.
+     */
+    private const STAFF_TYPES = ['administrator', 'admin', 'librarian'];
+    private const STUDENT_TYPES = ['member', 'student'];
+
+    /**
      * Display the login view.
      */
     public function create()
@@ -47,7 +57,7 @@ class AuthenticatedSessionController extends Controller
     {
         return $this->authenticateForPortal(
             $request,
-            ['member', 'student'],
+            self::STUDENT_TYPES,
             route('student.dashboard'),
             true,
         );
@@ -57,7 +67,7 @@ class AuthenticatedSessionController extends Controller
     {
         return $this->authenticateForPortal(
             $request,
-            ['administrator', 'admin', 'librarian'],
+            self::STAFF_TYPES,
             null,
         );
     }
@@ -91,10 +101,10 @@ class AuthenticatedSessionController extends Controller
 
             // Validate broken relationships safely
             if (
-                (in_array($type, ['member', 'student'], true) && ! $user->member_id) ||
-                (in_array($type, ['administrator', 'admin', 'librarian'], true) && ! $user->librarian_id) ||
+                (in_array($type, self::STUDENT_TYPES, true) && ! $user->member_id) ||
+                (in_array($type, self::STAFF_TYPES, true) && ! $user->librarian_id) ||
                 ($user->member_id && $user->librarian_id) ||
-                ! in_array($type, ['administrator', 'admin', 'librarian', 'member', 'student'], true)
+                ! in_array($type, [...self::STAFF_TYPES, ...self::STUDENT_TYPES], true)
             ) {
                 return back()->withErrors([
                     'login' => 'Your account configuration is invalid. Please contact the library administrator.',
@@ -146,7 +156,7 @@ class AuthenticatedSessionController extends Controller
     private function dashboardRouteFor(string $accountType): string
     {
         return match (true) {
-            in_array($accountType, ['member', 'student'], true) => route('student.dashboard'),
+            in_array($accountType, self::STUDENT_TYPES, true) => route('student.dashboard'),
             $accountType === 'librarian' => route('librarian.dashboard'),
             in_array($accountType, ['administrator', 'admin'], true) => route('admin.dashboard'),
             default => route('home'),

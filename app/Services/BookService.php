@@ -36,6 +36,7 @@ class BookService
                     'notes' => $data['notes'] ?? null,
                     'language' => $data['language'] ?? 'English',
                     'copyright_year' => $data['copyright_year'] ?? null,
+                    'marc_record' => $data['marc_record'] ?? null,
                 ]);
 
                 // 2. Handle Publisher (Find or Create)

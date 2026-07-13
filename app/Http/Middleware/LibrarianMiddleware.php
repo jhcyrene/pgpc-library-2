@@ -8,6 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LibrarianMiddleware
 {
+    /**
+     * Account types allowed to access librarian-scoped routes.
+     *
+     * Administrators have full system access, so they may also reach
+     * any page behind this middleware.
+     */
+    private const ALLOWED_TYPES = ['librarian', 'administrator', 'admin'];
+
     public function handle(Request $request, Closure $next): Response
     {
         if (! auth()->guard('member')->check()) {
@@ -15,13 +23,10 @@ class LibrarianMiddleware
         }
 
         $user = auth()->guard('member')->user();
+        $type = strtolower((string) $user->account_type);
 
-        if (strtolower((string) $user->account_type) !== 'librarian') {
-            $route = in_array(strtolower((string) $user->account_type), ['administrator', 'admin'], true)
-                ? 'admin.dashboard'
-                : 'home';
-
-            return redirect()->route($route)->with('error', 'Librarian access is required for that page.');
+        if (! in_array($type, self::ALLOWED_TYPES, true)) {
+            return redirect()->route('home')->with('error', 'Staff access is required for that page.');
         }
 
         if (strtolower((string) $user->account_status) !== 'active') {

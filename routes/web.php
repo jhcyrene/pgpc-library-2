@@ -142,12 +142,13 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     // Batch Add
     Route::get('books-batch/create', [BatchBookController::class, 'create'])->name('books.batch-create');
     Route::post('books-batch/preview', [BatchBookController::class, 'preview'])->name('books.batch-preview');
+    Route::get('books-batch/preview/{batch_id}', [BatchBookController::class, 'showPreview'])->name('books.batch-preview.show');
     Route::post('books-batch/import', [BatchBookController::class, 'store'])->name('books.batch-store');
     Route::get('books-batch/template', [BatchBookController::class, 'template'])->name('books.batch-template');
 
     // MARC Import
-    Route::get('books-marc/create', [\App\Http\Controllers\MarcImportController::class, 'create'])->name('books.marc-create');
     Route::post('books-marc/preview', [\App\Http\Controllers\MarcImportController::class, 'preview'])->name('books.marc-preview');
+    Route::get('books-marc/preview/{batch_id}', [\App\Http\Controllers\MarcImportController::class, 'showPreview'])->name('books.marc-preview.show');
     Route::post('books-marc/import', [\App\Http\Controllers\MarcImportController::class, 'store'])->name('books.marc-store');
 
     Route::middleware('administrator')->group(function () {

@@ -19,11 +19,11 @@
         <div class="absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
 
         <div class="container relative z-10 mx-auto px-5 sm:px-6 md:px-12">
-            <div class="mx-auto max-w-3xl text-center">
+            <div class="mx-auto max-w-5xl text-center">
 
-                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gold">PGPC Library System</p>
-                <h1 class="mt-3 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-                    Online Public Access Catalog
+                <p class="text-xs font-bold uppercase text-gold">PGPC Library System</p>
+                <h1 class="mt-3 whitespace-nowrap text-2xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-6xl">
+                        Online Public Access Catalog
                 </h1>
                 <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-blue-100 sm:text-lg">
                     Search the library collection by title, author, ISBN, or call number and check each title's
@@ -71,5 +71,21 @@
         </div>
     </section>
 
-    @include('opac.list')
+    <x-opac 
+        :categories="$categories"
+        :search="$search"
+        :selectedCategoryId="$selectedCategoryId"
+        :sort="$sort"
+        :hasFilters="$hasFilters"
+        :sortOptions="$sortOptions"
+        :selectedCategory="$selectedCategory"
+        :statusOptions="$statusOptions"
+        :selectedStatuses="$selectedStatuses"
+        :selectedCategoryIds="$selectedCategoryIds"
+        :yearFrom="$yearFrom"
+        :yearTo="$yearTo"
+        :books="$books"
+        :isStudentAccount="$isStudentAccount"
+        :memberAccount="$memberAccount"
+    />
 </x-layout.welcome>

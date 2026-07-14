@@ -19,7 +19,7 @@
     </div>
 
     <!-- Navigation -->
-    <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+    <div class="flex-1 overflow-y-auto sidebar-scroller py-4 px-3 space-y-1">
 
         <x-admin.navigation.nav-item 
             label="Dashboard" 
@@ -51,7 +51,7 @@
             <x-admin.navigation.nav-subitem label="Add Book" :href="route('admin.books.create')" :active="request()->routeIs('admin.books.create')" />
             <x-admin.navigation.nav-subitem label="Quick Add Book" :href="route('admin.books.quick-create')" :active="request()->routeIs('admin.books.quick-create')" />
             <x-admin.navigation.nav-subitem label="Batch Add Books" :href="route('admin.books.batch-create')" :active="request()->routeIs('admin.books.batch-create')" />
-            <x-admin.navigation.nav-subitem label="Import MARC Records" :href="route('admin.books.marc-create')" :active="request()->routeIs('admin.books.marc-*')" />
+
         </x-admin.navigation.nav-group>
 
         <!-- Unimplemented Reservations -->

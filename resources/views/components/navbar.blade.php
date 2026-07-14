@@ -93,9 +93,6 @@
         <nav class="hidden md:flex items-center gap-8">
             <a href="{{ route('home') }}" class="nav-text font-medium transition-colors hover:text-gold {{ $active === 'home' ? 'text-gold' : 'text-gray-100' }}">Home</a>
             <a href="{{ route('opac.index') }}" class="nav-text font-medium transition-colors hover:text-gold {{ $active === 'opac' ? 'text-gold' : 'text-gray-100' }}">OPAC</a>
-            <a href="{{ route('home') }}#categories"
-                class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Categories</a>
-            <a href="{{ route('home') }}#about" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">About</a>
             <a href="{{ route('home') }}#contact" class="nav-text font-medium transition-colors hover:text-gold text-gray-100">Contact</a>
 
             <div class="flex items-center gap-2">

@@ -7,7 +7,7 @@
             </div>
             
             <div class="flex gap-3">
-                <a href="{{ route('admin.books.marc-create') }}" class="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50">Cancel</a>
+                <a href="{{ route('admin.books.batch-create') }}" class="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50">Cancel</a>
             </div>
         </div>
 

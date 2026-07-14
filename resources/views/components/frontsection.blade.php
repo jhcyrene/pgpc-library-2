@@ -1,15 +1,17 @@
 <!-- Welcome Hero -->
-<section class="relative overflow-hidden bg-primaryfade pb-20 pt-32 sm:pb-24 sm:pt-36 lg:py-32">
+<section class="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-primaryfade pb-16 pt-24 lg:pb-20 lg:pt-28">
     <div
-        class="absolute inset-0 bg-cover bg-center opacity-[0.08]"
-        style="background-image: url('{{ Vite::asset('resources/images/school-img.jpg') }}')"
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('{{ Vite::asset('resources/images/pgpc-ng.png') }}')"
         aria-hidden="true"
     ></div>
-    <div class="absolute inset-0 bg-gradient-to-br from-primaryfade via-primaryfade/95 to-primary/85" aria-hidden="true"></div>
-    <div class="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 md:px-12">
+    <div class="absolute inset-0 bg-gradient-to-br from-primaryfade/90 via-primaryfade/70 to-primary/85" aria-hidden="true"></div>
+    
+    <div class="container relative z-10 mx-auto px-6 md:px-12">
         <div class="grid min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:gap-16 xl:gap-20">
             <!-- Main system introduction -->
-            <div class="min-w-0 text-center lg:text-left">
+
+            <div class="min-w-0 w-full max-w-2xl text-center lg:text-left">
                 <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
                     <svg class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5A8.5 8.5 0 003 6.253v13A8.5 8.5 0 017.5 18c1.746 0 3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5A8.5 8.5 0 0121 6.253v13A8.5 8.5 0 0016.5 18c-1.746 0-3.332.477-4.5 1.253" />

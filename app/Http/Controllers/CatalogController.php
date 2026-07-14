@@ -19,18 +19,28 @@ class CatalogController extends Controller
         $search = trim(preg_replace('/\s+/u', ' ', $rawSearch) ?? $rawSearch);
         $search = mb_substr($search, 0, 150);
 
-        $categoryFilter = trim((string) ($request->query('category') ?? $request->query('category_id', '')));
-        $selectedCategoryId = ctype_digit($categoryFilter) && (int) $categoryFilter > 0
-            ? (int) $categoryFilter
-            : null;
+        $categoryInput = $request->query('category', $request->query('category_id', []));
+        if (!is_array($categoryInput) && $categoryInput !== '') {
+            $categoryInput = [$categoryInput];
+        }
+        $selectedCategoryIds = array_filter(array_map('strval', (array) $categoryInput));
 
-        if ($selectedCategoryId === null && $categoryFilter !== '') {
-            $selectedCategoryId = Category::query()
-                ->whereRaw('LOWER(category_name) = ?', [mb_strtolower($categoryFilter)])
+        $selectedCategoryId = null;
+        if (!empty($selectedCategoryIds)) {
+            $selectedCategoryId = ctype_digit($selectedCategoryIds[0]) ? (int) $selectedCategoryIds[0] : null;
+        }
+
+        if ($selectedCategoryId === null && count($selectedCategoryIds) === 1 && !ctype_digit($selectedCategoryIds[0])) {
+            $foundCatId = Category::query()
+                ->whereRaw('LOWER(category_name) = ?', [mb_strtolower($selectedCategoryIds[0])])
                 ->value('category_id');
 
-            if ($selectedCategoryId === null && $search === '') {
-                $search = $categoryFilter;
+            if ($foundCatId) {
+                $selectedCategoryId = $foundCatId;
+                $selectedCategoryIds = [(string) $foundCatId];
+            } else if ($search === '') {
+                $search = $selectedCategoryIds[0];
+                $selectedCategoryIds = [];
             }
         }
 
@@ -46,6 +56,17 @@ class CatalogController extends Controller
         if (! array_key_exists($sort, $sortOptions)) {
             $sort = 'title_asc';
         }
+
+        $statusOptions = [
+            'Available' => 'Available',
+            'Checked Out' => 'Checked Out',
+            'Lost' => 'Lost',
+            'Damaged' => 'Damaged',
+        ];
+        $selectedStatuses = array_filter((array) $request->query('status', []));
+
+        $yearFrom = $request->query('year_from');
+        $yearTo = $request->query('year_to');
 
         $query = BookData::query()
             ->with([
@@ -84,9 +105,26 @@ class CatalogController extends Controller
             }
         }
 
-        if ($selectedCategoryId !== null) {
-            $query->whereHas('categories', function (Builder $query) use ($selectedCategoryId): void {
-                $query->where('categories.category_id', $selectedCategoryId);
+        if (!empty($selectedCategoryIds)) {
+            $query->whereHas('categories', function (Builder $query) use ($selectedCategoryIds): void {
+                $query->whereIn('categories.category_id', $selectedCategoryIds);
+            });
+        }
+
+        if (!empty($yearFrom) || !empty($yearTo)) {
+            $query->whereHas('bookDetail', function (Builder $q) use ($yearFrom, $yearTo): void {
+                if (!empty($yearFrom)) {
+                    $q->where('publication_year', '>=', $yearFrom);
+                }
+                if (!empty($yearTo)) {
+                    $q->where('publication_year', '<=', $yearTo);
+                }
+            });
+        }
+
+        if (!empty($selectedStatuses)) {
+            $query->whereHas('books', function (Builder $q) use ($selectedStatuses): void {
+                $q->whereIn('status', $selectedStatuses);
             });
         }
 
@@ -121,6 +159,11 @@ class CatalogController extends Controller
             'selectedCategoryId',
             'sort',
             'sortOptions',
+            'statusOptions',
+            'selectedStatuses',
+            'selectedCategoryIds',
+            'yearFrom',
+            'yearTo'
         ));
     }
 }

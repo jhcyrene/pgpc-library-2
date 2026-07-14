@@ -67,10 +67,35 @@ class BatchBookController extends Controller
             $batchId = uniqid('batch_');
             Cache::put($batchId, $validatedRows, now()->addMinutes(30));
 
-            return view('admin.books.batch.preview', compact('validatedRows', 'batchId'));
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('admin.books.batch-preview.show', ['batch_id' => $batchId])
+                ]);
+            }
+
+            return redirect()->route('admin.books.batch-preview.show', ['batch_id' => $batchId]);
         } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['error' => 'Error processing file: ' . $e->getMessage()], 400);
+            }
             return back()->with('error', 'Error processing file: ' . $e->getMessage());
         }
+    }
+
+    public function showPreview(Request $request, $batch_id)
+    {
+        $validatedRows = Cache::get($batch_id);
+
+        if (!$validatedRows) {
+            return redirect()->route('admin.books.batch-create')
+                ->with('error', 'Batch session expired or invalid. Please upload the file again.');
+        }
+
+        return view('admin.books.batch.preview', [
+            'validatedRows' => $validatedRows,
+            'batchId' => $batch_id
+        ]);
     }
 
     public function store(Request $request)

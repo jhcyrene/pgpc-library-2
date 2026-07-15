@@ -45,9 +45,14 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified physical copy.
      */
-    public function edit(Book $book)
+    public function edit(\Illuminate\Http\Request $request, Book $book)
     {
         $book->load('bookData.bookDetail', 'bookData.authors');
+        
+        if ($request->ajax()) {
+            return view('admin.books.copies.partials.edit_modal_content', compact('book'));
+        }
+        
         return view('admin.books.copies.edit', compact('book'));
     }
 

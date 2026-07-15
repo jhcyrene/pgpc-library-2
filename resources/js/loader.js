@@ -13,9 +13,14 @@ Promise.all([minimumTimePromise, windowLoadPromise]).then(() => {
     const preloader = document.getElementById('site-preloader');
 
     if (preloader) {
-        preloader.style.opacity = '0';
+        preloader.classList.add('is-finished');
         setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
+            preloader.remove();
+        }, 550);
+    }
+    
+    const portal = document.getElementById('portal-content');
+    if (portal) {
+        portal.classList.add('is-ready');
     }
 });

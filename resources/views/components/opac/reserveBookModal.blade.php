@@ -9,7 +9,7 @@
             </form>
         </div>
 
-        <div class="p-4 sm:p-6 max-h-[70vh] overflow-y-auto">
+        <div class="p-4 sm:p-6 max-h-[70dvh] overflow-y-auto">
             
             <!-- Book Summary -->
             <div class="flex flex-col sm:flex-row gap-4 mb-6">
@@ -212,3 +212,4 @@
         }
     })();
 </script>
+

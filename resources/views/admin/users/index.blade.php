@@ -1,5 +1,5 @@
 <x-layout.admin>
-    <div class="flex flex-col h-[calc(100vh-6.5rem)]">
+    <div class="flex flex-col h-[calc(100dvh-6.5rem)]">
         <div class="flex-none mt-4 mb-2">
             <x-admin.page-header 
                 title="User Management" 
@@ -221,36 +221,26 @@
                 const viewBtn = e.target.closest('.view-user-btn');
                 if (viewBtn) {
                     e.preventDefault();
-                    
-                    const modal = document.getElementById('viewUserModal');
-                    const modalContent = document.getElementById('viewUserModalContent');
-                    
-                    // Show modal with loading state
-                    modalContent.innerHTML = '<div class="flex justify-center p-12"><span class="loading loading-spinner loading-lg text-primary"></span></div>';
-                    modal.showModal();
-                    
-                    // Fetch data
-                    fetch(viewBtn.href, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'text/html'
-                        }
-                    })
-                    .then(res => {
-                        if (!res.ok) throw new Error('Network response was not ok');
-                        return res.text();
-                    })
-                    .then(html => {
-                        modalContent.innerHTML = html;
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        modalContent.innerHTML = '<div class="p-8 text-center text-red-500 font-bold">Failed to load user details.</div>';
-                    });
+                    window.openDetailModal(viewBtn.href, 'viewUserModal');
                 }
             });
         });
     </script>
+
+    <!-- View User Modal -->
+    <dialog id="viewUserModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
+            </form>
+            <div id="viewUserModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+                <!-- AJAX Content goes here -->
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 
     <!-- Add Member Modal -->
     <dialog id="addMemberModal" class="modal">
@@ -359,16 +349,13 @@
     </dialog>
 
     <!-- View User Modal -->
-    <dialog id="viewUserModal" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl overflow-y-auto p-0 rounded-2xl bg-gray-50">
+    <dialog id="viewUserModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-10 bg-white shadow-sm border border-gray-100">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
             </form>
-            <div id="viewUserModalContent" class="p-6">
+            <div id="viewUserModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
                 <!-- AJAX Content goes here -->
-                <div class="flex justify-center p-12">
-                    <span class="loading loading-spinner loading-lg text-primary"></span>
-                </div>
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -389,3 +376,4 @@
         });
     </script>
 </x-layout.admin>
+

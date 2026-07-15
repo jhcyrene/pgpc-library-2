@@ -32,14 +32,14 @@
         
         <!-- Direct Actions -->
         <div class="flex flex-col sm:flex-row gap-4 mt-auto">
-            <button type="button" disabled class="px-6 py-3 bg-emerald-500/70 text-white text-sm font-bold rounded-xl shadow-md opacity-70 cursor-not-allowed flex items-center justify-center gap-2" title="Circulation check-in is coming soon">
+            <a href="{{ route('admin.circulation.index') }}" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2" title="Go to Circulation Check-In">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Quick Check-In (Return)
-            </button>
-            <button type="button" disabled class="px-6 py-3 bg-[#fcc719]/70 text-[#102b70] text-sm font-bold rounded-xl shadow-md opacity-70 cursor-not-allowed flex items-center justify-center gap-2" title="Circulation check-out is coming soon">
+            </a>
+            <a href="{{ route('admin.circulation.index') }}" class="px-6 py-3 bg-[#fcc719] hover:bg-[#e0b216] text-[#102b70] text-sm font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2" title="Go to Circulation Check-Out">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                 Quick Check-Out (Borrow)
-            </button>
+            </a>
         </div>
     </div>
 </div>

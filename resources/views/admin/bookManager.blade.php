@@ -16,12 +16,12 @@
             ]"
         >
             <x-slot:actions>
-                <x-admin.button href="{{ route('admin.books.create') }}" variant="primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button onclick="document.getElementById('add_book_modal').showModal()" class="btn bg-brand-navy hover:bg-brand-navy-light text-white border-none shadow-sm flex items-center gap-2 px-4 min-h-[2.5rem] h-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                     Add New Book
-                </x-admin.button>
+                </button>
             </x-slot:actions>
         </x-admin.page-header>
 
@@ -36,6 +36,53 @@
         <x-admin.partials.mainTable :allBooks="$allBooks" :categories="$categories ?? []" :publishers="$publishers ?? []" />
 
     </div>
+
+    <!-- Add Book Modal -->
+    <dialog id="add_book_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl bg-white p-0 overflow-hidden flex flex-col">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0 relative">
+                <div>
+                    <h3 class="font-bold text-lg text-gray-900">Add New Book</h3>
+                    <p class="text-sm text-gray-500">Register a new book into the library catalog.</p>
+                </div>
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost text-gray-500 hover:text-gray-900">✕</button>
+                </form>
+            </div>
+            
+            <!-- Content -->
+            <div class="p-6 overflow-y-auto max-h-[75dvh]">
+                <x-admin.addBook :categories="$categories ?? []" :publishers="$publishers ?? []" :authors="$authors ?? []" />
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    @if($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('add_book_modal').showModal();
+            });
+        </script>
+    @endif
+
+    <!-- Book Detail Modal -->
+    <dialog id="bookDetailModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
+            </form>
+            <div id="bookDetailModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+                <!-- AJAX Content goes here -->
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 
     <!-- AJAX Loading JS -->
     <script>
@@ -88,30 +135,7 @@
                 const viewBtn = e.target.closest('a[title="View"]');
                 if (viewBtn) {
                     e.preventDefault();
-                    
-                    const btnHtml = viewBtn.innerHTML;
-                    viewBtn.innerHTML = '<span class="loading loading-spinner loading-xs"></span>';
-                    
-                    fetch(viewBtn.href, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'text/html'
-                        }
-                    })
-                    .then(response => response.text())
-                    .then(html => {
-                        viewBtn.innerHTML = btnHtml;
-                        const oldModal = document.getElementById('admin-book-details-modal');
-                        if (oldModal) oldModal.remove();
-                        
-                        document.body.insertAdjacentHTML('beforeend', html);
-                        document.getElementById('admin-book-details-modal').showModal();
-                    })
-                    .catch(() => {
-                        viewBtn.innerHTML = btnHtml;
-                        alert('Failed to load book details.');
-                    });
-                    
+                    window.openDetailModal(viewBtn.href, 'bookDetailModal');
                     return;
                 }
 
@@ -154,3 +178,4 @@
         });
     </script>
 </x-layout.admin>
+

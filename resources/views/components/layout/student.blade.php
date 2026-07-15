@@ -15,7 +15,7 @@
     @vite(['resources/css/welcome.css', 'resources/js/app.js'])
     
 </head>
-<body class="bg-base-200 min-h-screen flex text-base-content antialiased font-sans overflow-x-hidden">
+<body class="bg-base-200 min-h-dvh flex text-base-content antialiased font-sans overflow-x-hidden">
     
     <!-- Mobile Sidebar Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity opacity-0" aria-hidden="true"></div>
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col h-screen w-full lg:w-auto min-w-0 overflow-hidden">
+    <div class="flex-1 flex flex-col h-dvh w-full lg:w-auto min-w-0 overflow-hidden">
         <x-student.header />
     
         <!-- Content -->
@@ -122,3 +122,4 @@
     @stack('scripts')
 </body>
 </html>
+

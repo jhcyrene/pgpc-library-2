@@ -9,6 +9,7 @@ export default defineConfig({
             input: [
                 'resources/js/app.js',
                 'resources/js/loader.js',
+                'resources/js/borrows.js',
                 'resources/css/welcome.css',
                 'resources/css/preloader.css',
                 'resources/css/loginauth.css',
@@ -24,7 +25,7 @@ export default defineConfig({
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
-        // host: '[IP_ADDRESS]', // Exposes Vite to your local network
+        host: true,
         // hmr: {
         //     host: 'pglibsystem.test',
         // },

@@ -65,7 +65,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <a href="{{ route('admin.book-copies.edit', $copy->book_id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md transition-colors" title="Edit">
+                                        <a href="{{ route('admin.book-copies.edit', $copy->book_id) }}" onclick="event.preventDefault(); window.openDetailModal(this.href, 'editCopyModal');" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md transition-colors" title="Edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                             </svg>
@@ -142,6 +142,21 @@
         </div>
     </div>
 
+    <!-- Edit Copy Modal -->
+    <dialog id="editCopyModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-2xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
+            </form>
+            <div id="editCopyModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+                <!-- AJAX Content goes here -->
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
     <script>
         function showBarcodeModal(bookId, barcodeText) {
             const barcodeData = document.getElementById('barcode-data-' + bookId).innerText;
@@ -159,3 +174,4 @@
         }
     </script>
 </x-layout.admin>
+

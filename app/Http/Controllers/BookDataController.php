@@ -72,12 +72,13 @@ class BookDataController extends Controller
         
         $categories = Category::orderBy('category_name')->get();
         $publishers = Publisher::orderBy('publisher_name')->get();
+        $authors = Author::orderBy('last_name')->get();
 
         if ($request->ajax()) {
             return view('admin.books.partials.table', compact('allBooks'))->render();
         }
 
-        return view('admin.bookManager', compact('allBooks', 'categories', 'publishers'));   
+        return view('admin.bookManager', compact('allBooks', 'categories', 'publishers', 'authors'));   
     }
 
     /**
@@ -124,7 +125,7 @@ class BookDataController extends Controller
         ]);
 
         if ($request->ajax()) {
-            return view('admin.books.partials.show_modal', compact('bookData'));
+            return view('admin.books.partials.show-content', compact('bookData'));
         }
 
         return view('admin.books.show', compact('bookData'));

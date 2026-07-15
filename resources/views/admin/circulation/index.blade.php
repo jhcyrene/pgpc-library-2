@@ -206,7 +206,7 @@
                     <button type="button" onclick="resetCheckout()" class="btn btn-outline border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full sm:w-auto font-bold transition-colors">Cancel</button>
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <button type="button" onclick="clearBooks()" class="btn btn-ghost text-gray-500 hover:text-error w-full sm:w-auto font-medium transition-colors">Clear List</button>
-                        <button type="button" onclick="submitCheckout()" id="btn-complete-checkout" class="btn bg-blue-600 hover:bg-blue-700 text-white border-none w-full sm:w-auto font-bold shadow-md shadow-blue-500/20 transition-all">
+                        <button type="button" onclick="submitCheckout()" id="btn-complete-checkout" class="btn bg-brand-navy hover:bg-brand-navy-light text-white border-none w-full sm:w-auto font-bold shadow-md shadow-brand-navy/20 transition-all">
                             Complete Checkout
                         </button>
                     </div>

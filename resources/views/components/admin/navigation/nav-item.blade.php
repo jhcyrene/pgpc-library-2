@@ -23,7 +23,7 @@
     <a href="{{ $href }}" class="{{ $classes }}">
         <div class="flex items-center gap-3">
             @if(isset($icon))
-                <div class="{{ $active ? 'text-white' : 'text-gray-400 group-hover:text-gray-300' }} w-4 h-4 flex-shrink-0 transition-colors">{{ $icon }}</div>
+                <div class="{{ $active ? 'text-brand-gold' : 'text-gray-400 group-hover:text-gray-300' }} w-4 h-4 flex-shrink-0 transition-colors">{{ $icon }}</div>
             @endif
             <span class="text-sm tracking-wide">{{ $label }}</span>
         </div>

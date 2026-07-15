@@ -163,7 +163,7 @@
 </div>
 
 <dialog id="terms_modal" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box h-[85vh] w-full max-w-5xl overflow-y-auto bg-slate-50 p-0">
+    <div class="modal-box h-[85dvh] w-full max-w-5xl overflow-y-auto bg-slate-50 p-0">
         <form method="dialog" class="sticky top-4 z-20 ml-auto mr-4 w-fit"><button class="btn btn-circle btn-sm bg-slate-900/70 text-white">✕</button></form>
         <x-auth.termsCard />
     </div>
@@ -171,7 +171,7 @@
 </dialog>
 
 <dialog id="privacy_modal" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box h-[85vh] w-full max-w-5xl overflow-y-auto bg-slate-50 p-0">
+    <div class="modal-box h-[85dvh] w-full max-w-5xl overflow-y-auto bg-slate-50 p-0">
         <form method="dialog" class="sticky top-4 z-20 ml-auto mr-4 w-fit"><button class="btn btn-circle btn-sm bg-slate-900/70 text-white">✕</button></form>
         <x-auth.privacypolicyCard />
     </div>
@@ -190,3 +190,4 @@
         });
     });
 </script>
+

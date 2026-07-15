@@ -1,102 +1,81 @@
-<div id="reservations-table-container" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full relative">
+<div id="reservations-table-container" class="overflow-hidden flex flex-col h-full relative">
     
     <!-- Loading Overlay -->
     <div id="table-loader" class="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-50 hidden">
         <span class="loading loading-spinner loading-md text-primary"></span>
     </div>
 
-    <!-- Tabs -->
-    <div class="p-4 border-b border-gray-100 flex items-center gap-4 bg-gray-50/50 overflow-x-auto shrink-0 ajax-tabs">
-        <a href="{{ route('admin.reservations.index', ['status' => 'all']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'all' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            All
-        </a>
-        <a href="{{ route('admin.reservations.index', ['status' => 'pending']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'pending' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            Pending
-        </a>
-        <a href="{{ route('admin.reservations.index', ['status' => 'approved']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'approved' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            Approved
-        </a>
-        <a href="{{ route('admin.reservations.index', ['status' => 'ready-for-pickup']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'ready-for-pickup' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            Ready for Pickup
-        </a>
-        <a href="{{ route('admin.reservations.index', ['status' => 'completed']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'completed' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            Completed
-        </a>
-        <a href="{{ route('admin.reservations.index', ['status' => 'cancelled']) }}" 
-           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === 'cancelled' ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-            Cancelled
-        </a>
-    </div>
+    <!-- Removed Tabs -->
 
     <!-- Table -->
     <div class="flex-1 overflow-auto min-h-[300px]">
-        <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 bg-white shadow-sm z-10">
-                <tr class="text-xs uppercase tracking-wider text-gray-500 border-b border-gray-100">
-                    <th class="px-6 py-4 font-semibold">Student</th>
-                    <th class="px-6 py-4 font-semibold">Book Title</th>
-                    <th class="px-6 py-4 font-semibold">Date Requested</th>
-                    <th class="px-6 py-4 font-semibold text-center">Status</th>
-                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
+        <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="bg-white sticky top-0 z-10 shadow-sm ring-1 ring-gray-100 text-gray-500 uppercase text-[10px] font-bold tracking-wider">
+                <tr>
+                    <th class="px-6 py-4">Student</th>
+                    <th class="px-6 py-4">Book Title</th>
+                    <th class="px-6 py-4">Date Requested</th>
+                    <th class="px-6 py-4 text-center">Status</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100 relative">
+            <tbody class="divide-y divide-gray-100 bg-white relative">
                 @forelse($reservations as $reservation)
-                    @php
-                        $statusClass = match(strtolower($reservation->bookRequestStatus->status_name)) {
-                            'pending' => 'bg-warning/10 text-warning',
-                            'approved' => 'bg-info/10 text-info',
-                            'ready for pickup' => 'bg-success/10 text-success',
-                            'completed', 'fulfilled' => 'bg-gray-100 text-gray-600',
-                            'cancelled', 'rejected', 'expired' => 'bg-error/10 text-error',
-                            default => 'bg-gray-100 text-gray-600'
-                        };
-                    @endphp
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50/50 cursor-pointer transition-colors group reservation-row" data-url="{{ route('admin.reservations.show', $reservation) }}">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
+                                <div class="w-9 h-9 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600 font-bold overflow-hidden shrink-0">
                                     {{ substr($reservation->member->first_name, 0, 1) }}
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">{{ $reservation->member->first_name }} {{ $reservation->member->last_name }}</div>
-                                    <div class="text-xs text-gray-500">{{ $reservation->member->student_number }}</div>
+                                    <p class="font-bold text-gray-900 leading-tight">{{ $reservation->member->first_name }} {{ $reservation->member->last_name }}</p>
+                                    <p class="text-xs text-gray-500">ID: {{ $reservation->member->student_number }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium text-gray-800">{{ $reservation->bookData->book_title }}</div>
+                            <p class="font-medium text-gray-900 truncate max-w-[200px]" title="{{ $reservation->bookData->book_title }}">
+                                {{ $reservation->bookData->book_title }}
+                            </p>
                             @if($reservation->book)
-                                <div class="text-xs text-gray-500">Copy ID: {{ $reservation->book->book_id }}</div>
+                                <p class="text-xs text-gray-500">Copy ID: {{ $reservation->book->book_id }}</p>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">
-                            <div class="mb-1">
-                                <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider block">Requested:</span>
-                                {{ $reservation->request_date->format('M d, Y') }}
-                                <span class="text-xs text-gray-400">{{ $reservation->request_date->format('h:i A') }}</span>
-                            </div>
-                            @if($reservation->pickup_date)
-                                <div>
-                                    <span class="text-xs text-primary font-semibold uppercase tracking-wider block">Pickup:</span>
-                                    <span class="font-medium text-primary">{{ $reservation->pickup_date->format('M d, Y') }}</span>
-                                </div>
-                            @endif
+                        <td class="px-6 py-4">
+                            <p class="text-sm font-medium text-gray-900">{{ $reservation->request_date->format('M d, Y') }}</p>
+                            <p class="text-xs text-gray-500">{{ $reservation->request_date->format('h:i A') }}</p>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold {{ $statusClass }} uppercase tracking-wider">
-                                {{ $reservation->bookRequestStatus->status_name }}
+                            @php
+                                $statusName = strtolower($reservation->bookRequestStatus->status_name);
+                                $badgeStyle = match($statusName) {
+                                    'pending' => 'bg-yellow-100 text-yellow-800',
+                                    'approved' => 'bg-blue-100 text-blue-800',
+                                    'ready for pickup' => 'bg-green-100 text-green-800',
+                                    'completed', 'fulfilled' => 'bg-gray-100 text-gray-800',
+                                    'cancelled', 'rejected' => 'bg-red-100 text-red-800',
+                                    'expired' => 'bg-gray-100 text-gray-600',
+                                    default => 'bg-gray-100 text-gray-700'
+                                };
+                            @endphp
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold {{ $badgeStyle }}">
+                                {{ ucwords(strtolower($reservation->bookRequestStatus->status_name)) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="{{ route('admin.reservations.show', $reservation) }}" title="View Reservation" class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-primary transition-colors min-w-[70px]">
-                                View
-                            </a>
+                        <td class="px-6 py-4 text-right relative z-10 flex justify-end items-center gap-2">
+                            @if(strtolower($reservation->bookRequestStatus->status_name) === 'pending')
+                                <button type="button" class="btn btn-sm bg-green-50 text-green-700 hover:bg-green-100 border-none px-3" 
+                                        onclick="window.confirmApprove('{{ route('admin.reservations.status', $reservation) }}'); event.stopPropagation();">
+                                    Approve
+                                </button>
+                                <button type="button" class="btn btn-sm bg-red-50 text-red-700 hover:bg-red-100 border-none px-3" 
+                                        onclick="window.confirmReject('{{ route('admin.reservations.status', $reservation) }}'); event.stopPropagation();">
+                                    Reject
+                                </button>
+                            @endif
+                            <button type="button" class="btn btn-sm btn-ghost text-gray-500 hover:text-brand-navy hover:bg-brand-navy/10 px-3">
+                                View Details
+                            </button>
                         </td>
                     </tr>
                 @empty

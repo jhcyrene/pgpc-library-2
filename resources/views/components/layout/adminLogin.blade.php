@@ -23,97 +23,19 @@
     <title>{{ $title }} | PGPC Library</title>
     <link rel="icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}">
 
-    <style>
-        #site-preloader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #102b70;
-            transition: opacity .5s ease, visibility .5s ease;
-        }
-
-        #site-preloader.is-finished {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .pgpc-preloader-logo {
-            width: clamp(130px, 18vw, 210px);
-            height: clamp(130px, 18vw, 210px);
-            border-radius: 9999px;
-            object-fit: cover;
-            box-shadow: 0 22px 55px rgba(0, 0, 0, .22);
-            animation: pgpc-pulse 1.8s cubic-bezier(.4, 0, .6, 1) infinite;
-        }
-
-        .pgpc-preloader-ring {
-            position: absolute;
-            width: clamp(155px, 21vw, 245px);
-            height: clamp(155px, 21vw, 245px);
-            border: 2px solid rgba(255, 255, 255, .2);
-            border-top-color: #fcc719;
-            border-radius: 9999px;
-            animation: pgpc-spin 1.2s linear infinite;
-        }
-
-        #portal-content {
-            opacity: 0;
-            transition: opacity .35s ease;
-        }
-
-        #portal-content.is-ready {
-            opacity: 1;
-        }
-
-        @keyframes pgpc-spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pgpc-pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.035);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            .pgpc-preloader-logo,
-            .pgpc-preloader-ring {
-                animation: none;
-            }
-
-            #site-preloader,
-            #portal-content {
-                transition-duration: .01ms;
-            }
-        }
-    </style>
-
-    @vite(['resources/js/app.js', 'resources/css/loginauth.css'])
+    @vite(['resources/css/preloader.css', 'resources/js/app.js', 'resources/css/loginauth.css', 'resources/js/loader.js'])
 </head>
 
-<body class="min-h-screen bg-slate-100 font-sans text-slate-900 antialiased">
+<body class="min-h-dvh bg-slate-100 font-sans text-slate-900 antialiased">
     <div id="site-preloader" role="status" aria-label="Loading PGPC Library">
         <div class="pgpc-preloader-ring" aria-hidden="true"></div>
         <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo" class="pgpc-preloader-logo">
     </div>
 
     <main id="portal-content"
-        class="relative min-h-screen overflow-hidden lg:grid {{ $formSide === 'left' ? 'lg:grid-cols-[minmax(440px,0.92fr)_minmax(0,1.08fr)]' : 'lg:grid-cols-[minmax(0,1.08fr)_minmax(440px,0.92fr)]' }}">
+        class="relative min-h-dvh overflow-hidden lg:grid {{ $formSide === 'left' ? 'lg:grid-cols-[minmax(440px,0.92fr)_minmax(0,1.08fr)]' : 'lg:grid-cols-[minmax(0,1.08fr)_minmax(440px,0.92fr)]' }}">
         <section
-            class="relative hidden min-h-screen overflow-hidden bg-[#102b70] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16 {{ $formSide === 'left' ? 'lg:order-2' : 'lg:order-1' }}">
+            class="relative hidden min-h-dvh overflow-hidden bg-[#102b70] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16 {{ $formSide === 'left' ? 'lg:order-2' : 'lg:order-1' }}">
             <img src="{{ Vite::asset('resources/images/pgpc-ng.png') }}" alt="PGPC library"
                 class="absolute inset-0 h-full w-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-br from-[#071943]/95 via-[#102b70]/88 to-[#102b70]/70"></div>
@@ -180,7 +102,7 @@
         </section>
 
         <section
-            class="relative flex min-h-screen items-center justify-center bg-slate-50 px-5 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
+            class="relative flex min-h-dvh items-center justify-center bg-slate-50 px-5 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
             <div
                 class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#102b70] via-[#fcc719] to-[#102b70] lg:hidden">
             </div>
@@ -205,26 +127,6 @@
         </section>
     </main>
 
-    <script>
-        (() => {
-            const minimumDisplay = new Promise((resolve) => setTimeout(resolve, 650));
-            const pageLoaded = document.readyState === 'complete' ?
-                Promise.resolve() :
-                new Promise((resolve) => window.addEventListener('load', resolve, {
-                    once: true
-                }));
-
-            Promise.all([minimumDisplay, pageLoaded]).then(() => {
-                const preloader = document.getElementById('site-preloader');
-                const content = document.getElementById('portal-content');
-
-                content?.classList.add('is-ready');
-                preloader?.classList.add('is-finished');
-                window.setTimeout(() => preloader?.remove(), 550);
-            });
-        })();
-    </script>
-
     <noscript>
         <style>
             #site-preloader {
@@ -239,3 +141,4 @@
 </body>
 
 </html>
+

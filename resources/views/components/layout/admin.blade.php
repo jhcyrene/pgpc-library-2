@@ -12,12 +12,19 @@
     <link rel="icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    @vite(['resources/css/welcome.css', 'resources/js/app.js'])
+    @vite(['resources/css/preloader.css', 'resources/css/welcome.css', 'resources/js/app.js', 'resources/js/loader.js'])
 
     
 
 </head>
-<body class="bg-base-200 min-h-screen flex text-base-content antialiased font-sans overflow-x-hidden">
+<body class="bg-base-200 min-h-dvh flex text-base-content antialiased font-sans overflow-x-hidden relative" id="portal-content">
+
+    <x-preloader />
+
+    <!-- Watermark Background -->
+    <div class="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden opacity-5">
+        <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" class="w-full max-w-3xl object-contain grayscale" alt="Watermark">
+    </div>
     
     <!-- Mobile Sidebar Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity opacity-0" aria-hidden="true"></div>
@@ -28,7 +35,7 @@
     </div>
 
     <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col h-screen w-full lg:w-auto min-w-0">
+    <div class="flex-1 flex flex-col h-dvh w-full lg:w-auto min-w-0 relative z-10">
         <x-admin.header />
     
         <!-- Content -->
@@ -126,3 +133,4 @@
     @stack('scripts')
 </body>
 </html>
+

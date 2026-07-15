@@ -216,6 +216,52 @@ class LoanController extends Controller
         ]);
     }
 
+    public function show($groupId)
+    {
+        $parts = explode('_', $groupId);
+        if (count($parts) !== 2) abort(404);
+
+        $memberId = $parts[0];
+        $issueDateStart = Carbon::parse($parts[1])->startOfMinute();
+        $issueDateEnd = Carbon::parse($parts[1])->endOfMinute();
+
+        $borrows = BookBorrow::with(['member.memberAuth', 'book.bookData.authors', 'book.bookData.bookDetail', 'fineDue'])
+            ->where('member_id', $memberId)
+            ->whereBetween('issue_date', [$issueDateStart, $issueDateEnd])
+            ->get();
+
+        if ($borrows->isEmpty()) abort(404);
+
+        $first = $borrows->first();
+
+        // Calculate aggregate status
+        $hasOverdue = false;
+        $hasActive = false;
+        $totalFine = 0;
+
+        foreach ($borrows as $item) {
+            if ($item->status === 'Borrowed') {
+                if ($item->due_date < now()) {
+                    $hasOverdue = true;
+                } else {
+                    $hasActive = true;
+                }
+            }
+            if ($item->fineDue && $item->fineDue->fine_status === 'Unpaid') {
+                $totalFine += $item->fineDue->fine_total;
+            }
+        }
+
+        $groupStatus = 'Returned';
+        if ($hasOverdue) {
+            $groupStatus = 'Overdue';
+        } elseif ($hasActive) {
+            $groupStatus = 'Active';
+        }
+
+        return view('admin.borrows.partials.show-content', compact('borrows', 'first', 'groupId', 'groupStatus', 'totalFine'));
+    }
+
     public function payFines(Request $request)
     {
         $request->validate([

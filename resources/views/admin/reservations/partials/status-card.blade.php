@@ -10,12 +10,12 @@
     
     @php
         $statusClass = match(strtolower($reservation->bookRequestStatus->status_name)) {
-            'pending' => 'bg-warning/10 text-warning',
-            'approved' => 'bg-info/10 text-info',
-            'ready for pickup' => 'bg-success/10 text-success',
-            'completed', 'fulfilled' => 'bg-gray-100 text-gray-600',
-            'cancelled', 'rejected', 'expired' => 'bg-error/10 text-error',
-            default => 'bg-gray-100 text-gray-600'
+            'pending' => 'bg-yellow-100 text-yellow-800',
+            'approved' => 'bg-blue-100 text-blue-800',
+            'ready for pickup' => 'bg-green-100 text-green-800',
+            'completed', 'fulfilled' => 'bg-gray-100 text-gray-800',
+            'cancelled', 'rejected', 'expired' => 'bg-red-100 text-red-800',
+            default => 'bg-gray-100 text-gray-800'
         };
         $currentStatus = strtolower($reservation->bookRequestStatus->status_name);
     @endphp
@@ -73,7 +73,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="Approved">
-                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                        <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors">
                             Approve
                         </button>
                     </form>
@@ -122,7 +122,7 @@
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="status" value="Fulfilled">
-                    <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                    <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors">
                         Mark as Fulfilled
                     </button>
                 </form>

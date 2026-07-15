@@ -10,15 +10,19 @@
    Change these colors to update the entire site!
    ========================================= */
 @theme {
-  --color-primary: #102b70;
+  --color-primary: #1A2B56;
   /* PGPC Navy */
-  --color-accent: #fcc719E6;
+  --color-accent: #F4B400;
   /* PGPC gold */
   --color-white: #ffffff;
-  --color-primaryfade: #212e5ef3;
-  --color-primary2: #102b70;
-  --color-gold: #fcc719CC;
-  --color-primaryblue: #2b3e6b;
+  --color-primaryfade: #243b73f3;
+  --color-primary2: #1A2B56;
+  --color-gold: #F4B400;
+  --color-primaryblue: #243B73;
+  
+  --color-brand-navy: #1A2B56;
+  --color-brand-navy-light: #243B73;
+  --color-brand-gold: #F4B400;
 
   --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
 
@@ -34,11 +38,11 @@
 @layer base {
   [data-theme="pgpc"] {
     color-scheme: light;
-    --color-primary: #102b70;
+    --color-primary: #1A2B56;
     --color-primary-content: #ffffff;
-    --color-secondary: #1a2b56;
+    --color-secondary: #1A2B56;
     --color-secondary-content: #ffffff;
-    --color-accent: #fcc719;
+    --color-accent: #F4B400;
     --color-accent-content: #1a2b56;
     --color-neutral: #334155;
     --color-neutral-content: #ffffff;

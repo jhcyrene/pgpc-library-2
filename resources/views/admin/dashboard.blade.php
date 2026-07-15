@@ -1,7 +1,7 @@
 <x-layout.admin>
 
 <!-- DASHBOARD MAIN WRAPPER -->
-<div class="w-full mx-auto flex flex-col h-[calc(100vh-6rem)] max-h-full font-sans text-slate-800">
+<div class="w-full mx-auto flex flex-col h-[calc(100dvh-6rem)] max-h-full font-sans text-slate-800">
 
     <!-- ========================================== -->
     <!-- ROW 1: HERO & DIRECT ACTIONS (Split Layout) -->
@@ -169,3 +169,4 @@
 </script>
 
 </x-layout.admin>
+

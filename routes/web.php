@@ -144,6 +144,7 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
 
     // Borrows
     Route::get('/borrows', [\App\Http\Controllers\LoanController::class, 'index'])->name('borrows.index');
+    Route::get('/borrows/{borrow}', [\App\Http\Controllers\LoanController::class, 'show'])->name('borrows.show');
     Route::get('/api/borrows', [\App\Http\Controllers\LoanController::class, 'list'])->name('api.borrows.list');
     Route::post('/api/borrows/pay', [\App\Http\Controllers\LoanController::class, 'payFines'])->name('api.borrows.pay');
     Route::get('/api/borrows/stats', [\App\Http\Controllers\LoanController::class, 'stats'])->name('api.borrows.stats');
@@ -189,6 +190,10 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::get('reservations', [\App\Http\Controllers\BookRequestController::class, 'index'])->name('reservations.index');
     Route::get('reservations/{reservation}', [\App\Http\Controllers\BookRequestController::class, 'show'])->name('reservations.show');
     Route::patch('reservations/{reservation}/status', [\App\Http\Controllers\BookRequestController::class, 'updateStatus'])->name('reservations.status');
+
+    // System Settings
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index')->middleware('administrator');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'store'])->name('settings.store')->middleware('administrator');
 });
 
 // Route::get('catalog',[BookController::class,'catalog']);

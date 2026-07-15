@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Book;
 use App\Models\BookBorrow;
 use App\Models\FineDue;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -64,15 +65,16 @@ class CirculationController extends Controller
 
     public function searchMembers(Request $request)
     {
-        $query = $request->get('q');
+        $query = $request->input('q');
+        $like = DB::connection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
         if (strlen($query) < 1) {
             return response()->json([]);
         }
 
-        $members = Member::where('first_name', 'ilike', "%{$query}%")
-            ->orWhere('last_name', 'ilike', "%{$query}%")
-            ->orWhere('student_id_number', 'ilike', "%{$query}%")
-            ->orWhere('email', 'ilike', "%{$query}%")
+        $members = Member::where('first_name', $like, "%{$query}%")
+            ->orWhere('last_name', $like, "%{$query}%")
+            ->orWhere('student_id_number', $like, "%{$query}%")
+            ->orWhere('email', $like, "%{$query}%")
             ->limit(10)
             ->get(['member_id', 'first_name', 'last_name', 'student_id_number', 'email', 'program', 'year_level']);
 
@@ -126,7 +128,7 @@ class CirculationController extends Controller
 
         return response()->json([
             'book' => $book,
-            'due_date' => now()->addDays((int) env('DEFAULT_BORROW_DAYS', 3))->format('M d, Y')
+            'due_date' => now()->addDays((int) Setting::get('default_borrow_days', 3))->format('M d, Y')
         ]);
     }
 
@@ -169,7 +171,7 @@ class CirculationController extends Controller
                         'member_id' => $member->member_id,
                         'librarian_id' => auth()->id(),
                         'issue_date' => now(),
-                        'due_date' => now()->addDays((int) env('DEFAULT_BORROW_DAYS', 3)),
+                        'due_date' => now()->addDays((int) Setting::get('default_borrow_days', 3)),
                         'status' => 'Borrowed'
                     ]);
 
@@ -231,7 +233,7 @@ class CirculationController extends Controller
                 if ($borrow->return_date > $borrow->due_date) {
                     $daysOverdue = Carbon::parse($borrow->due_date)->startOfDay()->diffInDays(now()->startOfDay());
                     if ($daysOverdue > 0) {
-                        $fineRate = (float) env('DAILY_FINE_AMOUNT', 10.0);
+                        $fineRate = (float) Setting::get('daily_fine_amount', 10.0);
                         $fineAmount = $daysOverdue * $fineRate;
 
                         FineDue::create([

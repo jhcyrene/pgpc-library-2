@@ -16,7 +16,7 @@
     'memberAccount',
 ])
 
-<section class="min-h-[55vh] overflow-hidden bg-slate-50 py-8 sm:py-10">
+<section class="min-h-[55dvh] overflow-hidden bg-slate-50 py-8 sm:py-10">
     <div class="container mx-auto px-5 sm:px-6 md:px-12">
         <div class="grid min-w-0 gap-5 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start xl:grid-cols-[16rem_minmax(0,1fr)]">
             @include('opac.sidefilter', [
@@ -216,3 +216,4 @@
 
 <!-- AJAX Reservation Modal Handler -->
 <div id="modal-container"></div>
+

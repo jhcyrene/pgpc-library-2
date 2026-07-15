@@ -6,13 +6,13 @@
 
             <!-- Brand Column -->
             <div>
-                <div class="flex items-center gap-3 mb-6">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                        <img src="/images/logo.jfif" alt="PGPC Logo" class="w-full h-full object-cover"
+                        <img src="{{ Vite::asset('resources/images/logo.jfif') }}" alt="PGPC Logo" class="w-full h-full object-cover"
                             onerror="this.src='https://ui-avatars.com/api/?name=PG&background=fcc719&color=212e5e'" />
                     </div>
                     <span class="font-bold text-xl text-white">PGPC Library</span>
-                </div>
+                </a>
                 <p class="text-sm text-gray-400 leading-relaxed mb-6">
                     Taga-PGPC Ako: Matalino, Disiplinado, Mabuting Tao, Ipinagmamalaki ko!
                 </p>
@@ -25,11 +25,11 @@
             <div>
                 <h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="hover:text-accent transition-colors">Home</a></li>
-                    <li><a href="#about" class="hover:text-accent transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">OPAC Search</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">New Arrivals</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">Rules & Regulations</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-accent transition-colors">Home</a></li>
+                    <li><a href="{{ route('home') }}#about" class="hover:text-accent transition-colors">About Us</a></li>
+                    <li><a href="{{ route('opac.index') }}" class="hover:text-accent transition-colors">OPAC Search</a></li>
+                    <li><a href="{{ route('opac.index', ['sort' => 'newest']) }}" class="hover:text-accent transition-colors">New Arrivals</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-accent transition-colors">Student Portal</a></li>
                 </ul>
             </div>
 
@@ -37,12 +37,12 @@
             <div>
                 <h4 class="text-white font-bold mb-6 text-lg">Top Categories</h4>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="hover:text-accent transition-colors">Computer Science</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">Engineering</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">Education</a></li>
-                    <li><a href="#" class="hover:text-accent transition-colors">Business & Accountancy</a>
+                    <li><a href="{{ route('opac.index', ['category' => 'Computer Science']) }}" class="hover:text-accent transition-colors">Computer Science</a></li>
+                    <li><a href="{{ route('opac.index', ['category' => 'Engineering']) }}" class="hover:text-accent transition-colors">Engineering</a></li>
+                    <li><a href="{{ route('opac.index', ['category' => 'Education']) }}" class="hover:text-accent transition-colors">Education</a></li>
+                    <li><a href="{{ route('opac.index', ['category' => 'Business & Accountancy']) }}" class="hover:text-accent transition-colors">Business & Accountancy</a>
                     </li>
-                    <li><a href="#" class="hover:text-accent transition-colors">General References</a></li>
+                    <li><a href="{{ route('opac.index', ['category' => 'General References']) }}" class="hover:text-accent transition-colors">General References</a></li>
                 </ul>
             </div>
 
@@ -66,7 +66,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <span> (043) 515 7722</span>
+                        <a href="tel:+63435157722" class="hover:text-accent transition-colors">(043) 515 7722</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold shrink-0" fill="none"
@@ -74,7 +74,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span>info@padregarcia.gov.ph</span>
+                        <a href="mailto:info@padregarcia.gov.ph" class="hover:text-accent transition-colors">info@padregarcia.gov.ph</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold shrink-0" fill="none"

@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'category_id';
+
     protected $fillable = [
-        'letter',
-        'category_name'
+        'category_name',
+        'description',
     ];
 
     public function bookData()
     {
-        return $this->hasMany(BookData::class);
+        return $this->belongsToMany(BookData::class, 'book_category', 'category_id', 'book_data_id')->withTimestamps();
     }
 }

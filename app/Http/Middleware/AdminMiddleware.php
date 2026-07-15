@@ -9,19 +9,43 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMiddleware
 {
     /**
+     * Account types that can access the admin panel.
+     *
+     * Both administrators and librarians share the same back-office layout,
+     * with administrator-only pages further restricted by the separate
+     * AdministratorMiddleware.
+     */
+    private const STAFF_TYPES = ['administrator', 'admin', 'librarian'];
+
+    /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // For PGPC Library System, we assume standard auth check with an admin role.
-        // Adjust the role check as necessary based on the actual User model structure.
-        if (auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->is_admin)) {
-            return $next($request);
+        if (! auth()->guard('member')->check()) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Unauthenticated.'], 401);
+            }
+
+            return redirect()->route('staff.login');
         }
 
-        // For now, redirect to home if not admin to prevent unauthorized access
-        return redirect('/')->with('error', 'Unauthorized access.');
+        $user = auth()->guard('member')->user();
+        $type = strtolower((string) $user->account_type);
+
+        if (in_array($type, self::STAFF_TYPES, true)) {
+            if (strtolower($user->account_status) === 'active') {
+                return $next($request);
+            } else {
+                auth()->guard('member')->logout();
+                $request->session()->invalidate();
+
+                return redirect()->route('staff.login')->withErrors(['login' => 'Your account is currently unavailable. Please contact the library administrator.']);
+            }
+        }
+
+        return redirect()->route('home')->with('error', 'Unauthorized access.');
     }
 }

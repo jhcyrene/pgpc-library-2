@@ -4,35 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Member extends Model
 {
+    use HasFactory, SoftDeletes;
+
+    protected $primaryKey = 'member_id';
+
     protected $fillable = [
-        'student_number',
+        'student_id_number',
         'first_name',
-        'last_name',
         'middle_name',
+        'last_name',
         'email',
         'contact_num',
         'program',
         'year_level',
-        'created_at',
-        'modified_at',
-        'member_status_id'
+        'member_status_id',
     ];
 
-    public function auth()
+    public function memberAuth()
     {
-        return $this->hasOne(MemberAuth::class);
+        return $this->hasOne(MemberAuth::class, 'member_id', 'member_id');
     }
 
-    public function requests()
+    public function bookBorrows()
     {
-        return $this->hasMany(BookRequest::class);
+        return $this->hasMany(BookBorrow::class, 'member_id', 'member_id');
     }
 
-    public function borrows()
+    public function bookRequests()
     {
-        return $this->hasMany(BookBorrow::class);
+        return $this->hasMany(BookRequest::class, 'member_id', 'member_id');
     }
 }

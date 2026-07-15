@@ -1,3 +1,8 @@
+@props([
+    'title' => 'PGPC Library System | Padre Garcia Polytechnic College',
+    'active' => 'home',
+])
+
 <!DOCTYPE html>
 <html lang="en" data-theme="pgpc">
 
@@ -5,9 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Padre Garcia Polytechnic College - Library System</title>
+    <title>{{ $title }}</title>
     <meta name="description"
-        content="Discover your next great read at the Padre Garcia Polytechnic College Library. Explore our collection of Science, Literature, History, Technology, Arts, and Geography.">
+        content="Access the PGPC Library System to search the catalog, check availability, reserve library resources, and review borrow transactions.">
     <meta name="robots" content="index, follow">
 
     <!-- Fonts -->
@@ -17,25 +22,36 @@
         rel="stylesheet">
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" type="image/x-icon">
 
-    @vite(['resources/css/welcome.css', 'resources/js/app.js'])
+    @vite(['resources/css/preloader.css', 'resources/css/welcome.css', 'resources/js/app.js', 'resources/js/loader.js'])
 
-    <link rel="stylesheet" href="{{ Vite::asset('resources/css/preloader.css') }}">
+    <noscript>
+        <style>
+            #site-preloader {
+                display: none !important;
+            }
+
+            body {
+                overflow: auto !important;
+            }
+        </style>
+    </noscript>
 
 
 </head>
 
-<body class="antialiased font-sans bg-base-100 text-base-content min-h-screen flex flex-col">
+<body class="is-loading antialiased font-sans bg-base-100 text-base-content min-h-dvh flex flex-col" id="portal-content">
 
     <x-preloader />
-    <script src="{{ Vite::asset('resources/js/loader.js') }}"></script>
 
-    <x-navbar />
+    <x-navbar :active="$active" />
 
     <main class="w-full flex-grow">
         {{ $slot }}
     </main>
 
     <x-footer />
+
 </body>
 
 </html>
+

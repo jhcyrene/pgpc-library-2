@@ -7,39 +7,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookData extends Model
 {
+    use HasFactory;
+
+    protected $table = 'book_data';
+    protected $primaryKey = 'book_data_id';
+
     protected $fillable = [
-        'call_number', //
-        'isbn', //
-        'book_title',//
-        'author',//
-        'classification_letter',//
-        'category_id',//
-        'publisher_id',//
-        'publication_year',//
-        'edition',//
-        'description',//
-        'copies_total',//
-        'copies_available',//
-        'cover_image',//
+        'book_title',
+        'subtitle',
+        'description',
+        'series_title',
+        'notes',
+        'language',
+        'copyright_year',
+        'marc_record',
     ];
 
-    public function category()
+    public function authors()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Author::class, 'book_author', 'book_data_id', 'author_id')->withPivot('role');
     }
 
-    public function publisher()
+    public function categories()
     {
-        return $this->belongsTo(Publisher::class);
+        return $this->belongsToMany(Category::class, 'book_category', 'book_data_id', 'category_id')->withTimestamps();
+    }
+
+    public function bookDetail()
+    {
+        return $this->hasOne(BookDetail::class, 'book_data_id', 'book_data_id');
     }
 
     public function books()
     {
-        return $this->hasMany(Book::class);
-    }
-
-    public function classification()
-    {
-        return $this->belongsTo(Classification::class, 'classification_letter', 'letter');
+        return $this->hasMany(Book::class, 'book_data_id', 'book_data_id');
     }
 }

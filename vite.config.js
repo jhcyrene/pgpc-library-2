@@ -2,14 +2,20 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
+
 export default defineConfig({
     plugins: [
         laravel({
             input: [
                 'resources/js/app.js',
                 'resources/js/loader.js',
+                'resources/js/borrows.js',
                 'resources/css/welcome.css',
-                'resources/images/pgpc-ng.png'
+                'resources/css/preloader.css',
+                'resources/css/loginauth.css',
+            ],
+            assets: [
+                'resources/images/**'
             ],
             refresh: true,
         }),
@@ -19,6 +25,10 @@ export default defineConfig({
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
+
+        // hmr: {
+        //     host: 'pglibsystem.test',
+        // },
 
     },
 });

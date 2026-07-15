@@ -10,15 +10,19 @@
    Change these colors to update the entire site!
    ========================================= */
 @theme {
-  --color-primary: #102b70;
+  --color-primary: #1A2B56;
   /* PGPC Navy */
-  --color-accent: #fcc719E6;
+  --color-accent: #F4B400;
   /* PGPC gold */
   --color-white: #ffffff;
-  --color-primaryfade: #212e5ef3;
-  --color-primary2: #102b70;
-  --color-gold: #fcc719CC;
-  --color-primaryblue: #2b3e6b;
+  --color-primaryfade: #243b73f3;
+  --color-primary2: #1A2B56;
+  --color-gold: #F4B400;
+  --color-primaryblue: #243B73;
+  
+  --color-brand-navy: #1A2B56;
+  --color-brand-navy-light: #243B73;
+  --color-brand-gold: #F4B400;
 
   --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
 
@@ -33,24 +37,27 @@
    ========================================= */
 @layer base {
   [data-theme="pgpc"] {
-    --p: 227 48% 25%;
-    /* HSL for #212E5E */
-    --pc: 0 0% 100%;
-    /* White text on primary */
-
-    --a: 227 48% 25%;
-    /* HSL for #212e5e */
-    --ac: 0 0% 100%;
-    /* White text on accent */
-
-    --b1: 0 0% 100%;
-    /* Background 1 (White) */
-    --b2: 210 20% 98%;
-    /* Background 2 (gray-50) */
-    --b3: 210 20% 96%;
-    /* Background 3 (gray-100) */
-    --bc: 215 28% 17%;
-    /* Base content (dark text) */
+    color-scheme: light;
+    --color-primary: #1A2B56;
+    --color-primary-content: #ffffff;
+    --color-secondary: #1A2B56;
+    --color-secondary-content: #ffffff;
+    --color-accent: #F4B400;
+    --color-accent-content: #1a2b56;
+    --color-neutral: #334155;
+    --color-neutral-content: #ffffff;
+    --color-base-100: #ffffff;
+    --color-base-200: #f8fafc;
+    --color-base-300: #e2e8f0;
+    --color-base-content: #1e293b;
+    --color-info: #2563eb;
+    --color-info-content: #ffffff;
+    --color-success: #059669;
+    --color-success-content: #ffffff;
+    --color-warning: #d97706;
+    --color-warning-content: #ffffff;
+    --color-error: #dc2626;
+    --color-error-content: #ffffff;
   }
 }
 
@@ -96,4 +103,24 @@
     border: 2px solid var(--color-gold);
   }
 
+}
+
+/* Custom Thin Scrollbar for Sidebar to prevent layout shift */
+.sidebar-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  scrollbar-gutter: stable;
+}
+.sidebar-scroller::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 9999px;
+}
+.sidebar-scroller::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255,255,255,0.4);
 }

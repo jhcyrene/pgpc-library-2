@@ -18,9 +18,7 @@
     @endif
 
     @if (session('error'))
-        <div role="alert" class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-            {{ session('error') }}
-        </div>
+        <x-alert type="error" message="{{ session('error') }}" class="mb-4" />
     @endif
 
     @php

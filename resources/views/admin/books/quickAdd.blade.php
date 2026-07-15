@@ -17,8 +17,8 @@
         </div>
 
         <div class="flex-1 overflow-y-auto">
-            <div class="max-w-4xl mx-auto">
-                <form action="{{ route('admin.books.quick-store') }}" method="POST" class="space-y-6">
+            <div class="w-full">
+                <form action="{{ route('admin.books.quick-store') }}" method="POST" class="flex flex-col gap-6">
                     @csrf
 
                     @if($errors->any())
@@ -44,10 +44,11 @@
                     @endif
 
                     @if(session('error'))
-                        <x-admin.partials.alert type="error" message="{{ session('error') }}" />
+                        <x-alert type="error" message="{{ session('error') }}" />
                     @endif
 
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-5">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+                        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-5">
                         <h3 class="text-sm font-bold text-[#1A2B56] mb-2 uppercase tracking-wider">Book Information</h3>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -83,7 +84,25 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <x-admin.partials.input name="accession_number" label="Accession Number" placeholder="Required" required="true" value="{{ old('accession_number') }}" />
-                            <x-admin.partials.input name="barcode" label="Barcode" placeholder="Optional" value="{{ old('barcode') }}" />
+                            <div class="flex flex-col gap-1.5">
+                                <label for="barcode" class="text-sm font-semibold text-gray-700">Barcode</label>
+                                <div class="flex">
+                                    <input 
+                                        type="text" 
+                                        id="barcode" 
+                                        name="barcode" 
+                                        value="{{ old('barcode') }}" 
+                                        placeholder="Optional"
+                                        class="w-full px-4 py-2.5 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-[#1A2B56] focus:border-[#1A2B56] outline-none transition-all shadow-sm text-gray-800 text-sm"
+                                    >
+                                    <button type="button" onclick="document.getElementById('barcode').value = 'PGPC-BAR-' + Math.random().toString(36).substr(2, 9).toUpperCase();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2.5 rounded-r-lg border border-l-0 border-gray-300 text-sm font-medium transition-colors" title="Generate Random Barcode">
+                                        Generate
+                                    </button>
+                                </div>
+                                @error('barcode')
+                                    <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -91,9 +110,10 @@
                             <x-admin.partials.input name="location" label="Location / Shelf" placeholder="Optional" value="{{ old('location') }}" />
                             <x-admin.partials.input name="date_acquired" type="date" label="Date Acquired" value="{{ old('date_acquired', now()->toDateString()) }}" />
                         </div>
+                        </div>
                     </div>
 
-                    <div class="flex items-center justify-end gap-3 pt-6">
+                    <div class="flex items-center justify-end gap-3 pb-6">
                         <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-[#1A2B56] border border-transparent rounded-lg hover:bg-[#243B73] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#1A2B56] transition-colors shadow-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />

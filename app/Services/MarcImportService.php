@@ -49,7 +49,7 @@ class MarcImportService
             throw new RuntimeException('The uploaded MARC file is not readable. Please choose the file again.');
         }
 
-        $contents = file_get_contents($path);
+        $contents = $file->get();
         if ($contents === false || $contents === '') {
             throw new RuntimeException('The uploaded MARC file is empty or could not be read.');
         }
@@ -219,9 +219,10 @@ class MarcImportService
      * Validate parsed records and return the same structure used by
      * the batch CSV preview.
      */
-    public function validateRecords(array $records): array
+    public function validateRecords(array $records, array $options = []): array
     {
         $validated = [];
+        $autoGenerateBarcodes = !empty($options['auto_generate_barcodes']);
 
         foreach ($records as $index => $parsed) {
             $errors = [];
@@ -231,6 +232,10 @@ class MarcImportService
             }
             if (empty($parsed['main_author_last_name'])) {
                 $errors[] = 'Main author is required.';
+            }
+
+            if (empty($parsed['barcode']) && $autoGenerateBarcodes) {
+                $parsed['barcode'] = 'PGPC-BAR-' . strtoupper(uniqid());
             }
 
             $status = empty($errors) ? 'valid' : 'invalid';

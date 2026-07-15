@@ -24,6 +24,10 @@ export default defineConfig({
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
+        // host: '[IP_ADDRESS]', // Exposes Vite to your local network
+        // hmr: {
+        //     host: 'pglibsystem.test',
+        // },
 
     },
 });

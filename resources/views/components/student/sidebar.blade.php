@@ -50,8 +50,12 @@
         <div class="flex items-center gap-1">
             <a href="{{ route('student.profile.show') }}"
                 class="flex min-w-0 flex-1 items-center gap-2 rounded-xl px-2 py-2 transition-colors hover:bg-white/10 {{ request()->routeIs('student.profile.*') ? 'bg-white/10' : '' }}">
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FFC107] text-sm font-black text-[#1A2B56]">
-                    {{ $initials }}
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full {{ !Auth::guard('member')->user()->profile_image ? 'bg-[#FFC107] text-[#1A2B56]' : '' }} text-sm font-black overflow-hidden">
+                    @if(Auth::guard('member')->user()->profile_image)
+                        <img src="{{ Auth::guard('member')->user()->profile_image }}" alt="Profile" class="w-full h-full object-cover">
+                    @else
+                        {{ $initials }}
+                    @endif
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-bold text-white">{{ $student->first_name }} {{ $student->last_name }}</p>

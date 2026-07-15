@@ -28,6 +28,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/opac', [CatalogController::class, 'index'])->name('opac.index');
+Route::get('/opac-search', [CatalogController::class, 'advancedSearch'])->name('opac.search');
+Route::get('/opac/book/{bookData}', [CatalogController::class, 'show'])->name('opac.book.show');
 
 // Auth Routes
 Route::middleware('guest:member')->group(function () {
@@ -106,6 +108,7 @@ Route::middleware('guest:member')->group(function () {
 Route::prefix('librarian')->middleware(['librarian'])->name('librarian.')->group(function () {
     Route::redirect('/', '/librarian/dashboard')->name('home');
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/stats', [StaffDashboardController::class, 'stats'])->name('dashboard.stats');
 });
 
 Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function () {
@@ -114,6 +117,9 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])
         ->middleware('administrator')
         ->name('dashboard');
+    Route::get('/dashboard/stats', [StaffDashboardController::class, 'stats'])
+        ->middleware('administrator')
+        ->name('dashboard.stats');
 
     // API Routes
     Route::get('/api/publishers/search', [PublisherController::class, 'search'])->name('api.publishers.search');
@@ -126,6 +132,21 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::resource('books', BookDataController::class)->parameters([
         'books' => 'bookData',
     ]);
+
+    // Circulation
+    Route::get('/circulation', [\App\Http\Controllers\CirculationController::class, 'index'])->name('circulation.index');
+    Route::get('/api/circulation/stats', [\App\Http\Controllers\CirculationController::class, 'stats'])->name('circulation.stats');
+    Route::get('/api/circulation/members/search', [\App\Http\Controllers\CirculationController::class, 'searchMembers'])->name('circulation.member.search');
+    Route::get('/api/circulation/member/{identifier}', [\App\Http\Controllers\CirculationController::class, 'getMember'])->name('circulation.member');
+    Route::get('/circulation/book/{identifier}', [\App\Http\Controllers\CirculationController::class, 'getBook'])->name('circulation.book');
+    Route::post('/circulation/checkout', [\App\Http\Controllers\CirculationController::class, 'checkout'])->name('circulation.checkout');
+    Route::post('/circulation/checkin', [\App\Http\Controllers\CirculationController::class, 'checkin'])->name('circulation.checkin');
+
+    // Borrows
+    Route::get('/borrows', [\App\Http\Controllers\LoanController::class, 'index'])->name('borrows.index');
+    Route::get('/api/borrows', [\App\Http\Controllers\LoanController::class, 'list'])->name('api.borrows.list');
+    Route::post('/api/borrows/pay', [\App\Http\Controllers\LoanController::class, 'payFines'])->name('api.borrows.pay');
+    Route::get('/api/borrows/stats', [\App\Http\Controllers\LoanController::class, 'stats'])->name('api.borrows.stats');
 
     // Book Physical Copies
     Route::get('books/{bookData}/copies', [BookController::class, 'index'])->name('books.copies.index');
@@ -163,6 +184,11 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
         Route::patch('accounts/{memberAuth}/unlock', [MemberAuthController::class, 'unlock'])->name('accounts.unlock');
         Route::put('accounts/{memberAuth}/password', [MemberAuthController::class, 'resetPassword'])->name('accounts.password');
     });
+
+    // Reservations (Book Requests)
+    Route::get('reservations', [\App\Http\Controllers\BookRequestController::class, 'index'])->name('reservations.index');
+    Route::get('reservations/{reservation}', [\App\Http\Controllers\BookRequestController::class, 'show'])->name('reservations.show');
+    Route::patch('reservations/{reservation}/status', [\App\Http\Controllers\BookRequestController::class, 'updateStatus'])->name('reservations.status');
 });
 
 // Route::get('catalog',[BookController::class,'catalog']);

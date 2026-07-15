@@ -36,9 +36,10 @@ class BatchBookImportService
         return $data;
     }
 
-    public function validateRows(array $rows): array
+    public function validateRows(array $rows, array $options = []): array
     {
         $validatedRows = [];
+        $autoGenerateBarcodes = !empty($options['auto_generate_barcodes']);
         
         foreach ($rows as $index => $row) {
             $status = 'valid';
@@ -55,12 +56,17 @@ class BatchBookImportService
                 $errors[] = 'Accession number is required';
             } else {
                 // Check accession duplicate in DB
-                if (Book::where('accession_number', $row['accession_number'])->exists()) {
+                if (\App\Models\Book::where('accession_number', $row['accession_number'])->exists()) {
                     $errors[] = 'Accession number already exists';
                 }
             }
 
-            if (!empty($row['barcode']) && Book::where('barcode', $row['barcode'])->exists()) {
+            if (empty($row['barcode']) && $autoGenerateBarcodes) {
+                // Generate a unique barcode if missing and option is enabled
+                $row['barcode'] = 'PGPC-BAR-' . strtoupper(uniqid());
+            }
+
+            if (!empty($row['barcode']) && \App\Models\Book::where('barcode', $row['barcode'])->exists()) {
                 $errors[] = 'Barcode already exists';
             }
 

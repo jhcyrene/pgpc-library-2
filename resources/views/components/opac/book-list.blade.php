@@ -1,3 +1,21 @@
+@props([
+    'categories',
+    'search',
+    'selectedCategoryId',
+    'sort',
+    'hasFilters',
+    'sortOptions',
+    'selectedCategory',
+    'statusOptions',
+    'selectedStatuses',
+    'selectedCategoryIds',
+    'yearFrom',
+    'yearTo',
+    'books',
+    'isStudentAccount',
+    'memberAccount',
+])
+
 <section class="min-h-[55vh] overflow-hidden bg-slate-50 py-8 sm:py-10">
     <div class="container mx-auto px-5 sm:px-6 md:px-12">
         <div class="grid min-w-0 gap-5 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start xl:grid-cols-[16rem_minmax(0,1fr)]">
@@ -28,7 +46,7 @@
                     @if ($search !== '' || $selectedCategory)
                         <p class="min-w-0 text-sm leading-6 text-slate-500 sm:max-w-sm sm:text-right">
                             @if ($search !== '')
-                                Results for <span class="break-words font-bold text-slate-700">“{{ $search }}”</span>
+                                Results for <span class="font-bold text-slate-700">“{{ $search }}”</span>
                             @endif
                             @if ($search !== '' && $selectedCategory)
                                 <span class="mx-1 text-slate-300" aria-hidden="true">•</span>
@@ -62,10 +80,10 @@
                             <article class="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition duration-300 hover:border-primary/20 hover:shadow-elegant sm:p-4">
                                 <div class="flex min-w-0 flex-col gap-4 sm:flex-row">
                                     <div class="mx-auto w-24 shrink-0 sm:mx-0 sm:w-28">
-                                        <div class="relative aspect-[2/3] overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 shadow-soft">
+                                        <a href="{{ route('opac.book.show', $book) }}" class="ajax-book-details-btn relative aspect-[2/3] block overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 shadow-soft">
                                             @if ($book->bookDetail?->cover_image)
                                                 <img
-                                                    src="{{ asset('storage/' . ltrim($book->bookDetail->cover_image, '/')) }}"
+                                                    src="{{ str_starts_with($book->bookDetail->cover_image, 'data:image') ? $book->bookDetail->cover_image : asset('storage/' . ltrim($book->bookDetail->cover_image, '/')) }}"
                                                     alt="Cover of {{ $book->book_title }}"
                                                     class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                                                 >
@@ -77,7 +95,7 @@
                                                     <span class="mt-2 text-[10px] font-bold uppercase tracking-wider">PGPC Library</span>
                                                 </div>
                                             @endif
-                                        </div>
+                                        </a>
                                     </div>
 
                                     <div class="flex min-w-0 flex-1 flex-col">
@@ -94,9 +112,11 @@
                                                     <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">General Collection</p>
                                                 @endif
 
-                                                <h3 class="mt-1 break-words text-lg font-bold leading-snug text-slate-900 sm:text-xl">
-                                                    {{ $book->book_title }}
-                                                </h3>
+                                                <a href="{{ route('opac.book.show', $book) }}" class="ajax-book-details-btn group/title block mt-1">
+                                                    <h3 class="break-words text-lg font-bold leading-snug text-slate-900 sm:text-xl transition-colors group-hover/title:text-primary">
+                                                        {{ $book->book_title }}
+                                                    </h3>
+                                                </a>
                                                 @if ($book->subtitle)
                                                     <p class="mt-0.5 break-words text-sm font-medium leading-5 text-slate-500">
                                                         {{ $book->subtitle }}
@@ -162,8 +182,8 @@
                                             <div class="w-full sm:w-auto">
                                                 @if ($isStudentAccount)
                                                     <a href="{{ route('student.reservations.create', $book) }}"
-                                                        class="btn h-auto min-h-10 w-full rounded-xl border-none bg-primaryfade px-5 py-2 font-bold text-white transition hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:w-auto">
-                                                        Reserve This Title
+                                                        class="ajax-reserve-btn btn h-auto min-h-10 w-full rounded-xl border-none bg-primaryfade px-5 py-2 font-bold text-white transition hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:w-auto">
+                                                        Reserve This Book
                                                     </a>
                                                 @elseif (! $memberAccount)
                                                     <a href="{{ route('student.reservations.create', $book) }}"
@@ -193,3 +213,6 @@
         </div>
     </div>
 </section>
+
+<!-- AJAX Reservation Modal Handler -->
+<div id="modal-container"></div>

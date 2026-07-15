@@ -17,6 +17,7 @@ class BookRequest extends Model
         'member_id',
         'book_request_status_id',
         'request_date',
+        'pickup_date',
         'approved_at',
         'ready_at',
         'fulfilled_at',
@@ -27,6 +28,7 @@ class BookRequest extends Model
 
     protected $casts = [
         'request_date' => 'datetime',
+        'pickup_date' => 'datetime',
         'approved_at' => 'datetime',
         'ready_at' => 'datetime',
         'fulfilled_at' => 'datetime',

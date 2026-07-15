@@ -34,7 +34,7 @@
         </div>
 
         @if(session('status'))
-            <div class="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('status') }}</div>
+            <x-alert type="success" message="{{ session('status') }}" class="mb-5" />
         @endif
 
         <!-- Form -->

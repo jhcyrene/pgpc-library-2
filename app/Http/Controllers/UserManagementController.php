@@ -86,6 +86,10 @@ class UserManagementController extends Controller
         $activeAccounts = DB::table('member_auth')->where('account_status', 'Active')->count();
         $lockedAccounts = DB::table('member_auth')->whereIn('account_status', ['Locked', 'Suspended'])->count();
 
+        if ($request->ajax()) {
+            return view('admin.users.partials.table', compact('users'))->render();
+        }
+
         return view('admin.users.index', compact('users', 'type', 'search', 'totalMembers', 'totalLibrarians', 'activeAccounts', 'lockedAccounts'));
     }
 
@@ -93,9 +97,15 @@ class UserManagementController extends Controller
     {
         if ($type === 'member') {
             $user = Member::with('memberAuth')->withCount(['bookBorrows', 'bookRequests'])->findOrFail($id);
+            if (request()->ajax()) {
+                return view('admin.users.partials.show-content', compact('user', 'type'));
+            }
             return view('admin.users.show', compact('user', 'type'));
         } elseif ($type === 'librarian') {
             $user = Librarian::with('memberAuth')->findOrFail($id);
+            if (request()->ajax()) {
+                return view('admin.users.partials.show-content', compact('user', 'type'));
+            }
             return view('admin.users.show', compact('user', 'type'));
         }
 

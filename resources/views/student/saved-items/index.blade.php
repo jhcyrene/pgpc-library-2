@@ -54,7 +54,7 @@
                             @endif
                             
                             <div class="mt-auto pt-4 flex gap-2">
-                                <a href="{{ route('student.reservations.create', $item->bookData) }}" class="btn btn-sm btn-primary flex-1">Reserve</a>
+                                <a href="{{ route('student.reservations.create', $item->bookData) }}" class="ajax-reserve-btn btn btn-sm btn-primary flex-1">Reserve</a>
                             </div>
                         </div>
                     </div>
@@ -69,3 +69,6 @@
         @endif
     </div>
 </x-layout.student>
+
+<!-- AJAX Reservation Modal Handler -->
+<div id="modal-container"></div>

@@ -21,7 +21,7 @@
     }
 
     $currentCoverImage = $isEdit && $bookData->bookDetail?->cover_image
-        ? asset('storage/' . ltrim($bookData->bookDetail->cover_image, '/'))
+        ? (str_starts_with($bookData->bookDetail->cover_image, 'data:image') ? $bookData->bookDetail->cover_image : asset('storage/' . ltrim($bookData->bookDetail->cover_image, '/')))
         : null;
 @endphp
 
@@ -54,9 +54,7 @@
     @endif
 
     @if(session('error'))
-        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md">
-            <p class="text-sm text-red-700">{{ session('error') }}</p>
-        </div>
+        <x-alert type="error" message="{{ session('error') }}" class="mb-4" />
     @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -69,7 +67,25 @@
                 
                 <div class="space-y-4">
                     <x-admin.partials.input name="accession_number" label="Accession Number" placeholder="Required" required="true" value="{{ old('accession_number') }}" />
-                    <x-admin.partials.input name="barcode" label="Barcode" placeholder="Optional" value="{{ old('barcode') }}" />
+                    <div class="flex flex-col gap-1.5">
+                        <label for="barcode" class="text-sm font-semibold text-gray-700">Barcode</label>
+                        <div class="flex">
+                            <input 
+                                type="text" 
+                                id="barcode" 
+                                name="barcode" 
+                                value="{{ old('barcode') }}" 
+                                placeholder="Optional"
+                                class="w-full px-4 py-2.5 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-[#1A2B56] focus:border-[#1A2B56] outline-none transition-all shadow-sm text-gray-800 text-sm"
+                            >
+                            <button type="button" onclick="document.getElementById('barcode').value = 'PGPC-BAR-' + Math.random().toString(36).substr(2, 9).toUpperCase();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2.5 rounded-r-lg border border-l-0 border-gray-300 text-sm font-medium transition-colors" title="Generate Random Barcode">
+                                Generate
+                            </button>
+                        </div>
+                        @error('barcode')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
                     
                     <x-admin.partials.select name="status" label="Status">
                         <option value="Available" @selected(old('status') == 'Available')>Available</option>

@@ -77,6 +77,7 @@ class ReservationService
             $reservation->book_data_id = $bookData->book_data_id;
             $reservation->book_request_status_id = $pendingStatus->book_request_status_id;
             $reservation->request_date = now();
+            $reservation->pickup_date = $data['pickup_date'] ?? null;
             $reservation->remarks = $data['remarks'] ?? null;
             $reservation->save();
 

@@ -32,14 +32,7 @@
                 </div>
 
                 @if(session('error'))
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md">
-                        <div class="flex items-center gap-2">
-                            <svg class="h-5 w-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.74-3l-6.93-12a2 2 0 00-3.48 0L3.33 16a2 2 0 001.74 3z" />
-                            </svg>
-                            <p class="text-sm text-red-700 font-medium">{{ session('error') }}</p>
-                        </div>
-                    </div>
+                    <x-alert type="error" message="{{ session('error') }}" class="mb-6" />
                 @endif
                 
                 @if($errors->any())
@@ -68,6 +61,18 @@
                             <p id="file-error" class="mt-2 hidden text-xs font-semibold text-red-600" role="alert"></p>
                             <input id="import_file" name="import_file" type="file" class="sr-only" accept=".csv,.mrc,.marc,.xml,.marcxml">
                         </label>
+                        
+                        <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <div>
+                                <label for="auto_generate_barcodes" class="text-sm font-medium text-gray-800">Auto-generate Missing Barcodes</label>
+                                <p class="text-xs text-gray-500">Automatically generate a unique barcode for books missing one in the import file.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="auto_generate_barcodes" name="auto_generate_barcodes" class="sr-only peer" checked value="1">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1A2B56]"></div>
+                            </label>
+                        </div>
+
 
                         <button id="submit-btn" type="submit" disabled class="flex w-full items-center justify-center gap-2 rounded-lg border border-transparent bg-[#1A2B56] px-5 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#243B73] focus:outline-none focus:ring-2 focus:ring-[#1A2B56] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,6 +200,11 @@
                 const formData = new FormData();
                 formData.append('_token', '{{ csrf_token() }}');
                 formData.append(inputName, file);
+                
+                const autoGenerateCheckbox = document.getElementById('auto_generate_barcodes');
+                if (autoGenerateCheckbox && autoGenerateCheckbox.checked) {
+                    formData.append('auto_generate_barcodes', '1');
+                }
 
                 try {
                     const response = await fetch(actionUrl, {

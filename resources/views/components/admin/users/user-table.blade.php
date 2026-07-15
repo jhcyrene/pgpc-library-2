@@ -51,7 +51,7 @@
                 </td>
                 <td class="px-4 py-3 text-right">
                     <div class="flex items-center justify-end gap-2">
-                        <a href="{{ route('admin.users.show', ['type' => strtolower($user->type), 'id' => $user->id]) }}" class="btn btn-sm btn-ghost text-blue-600 hover:bg-blue-50">
+                        <a href="{{ route('admin.users.show', ['type' => strtolower($user->type), 'id' => $user->id]) }}" class="btn btn-sm btn-ghost text-blue-600 hover:bg-blue-50 view-user-btn">
                             View
                         </a>
                         <a href="{{ strtolower($user->type) === 'member' ? route('admin.members.edit', $user->id) : route('admin.librarians.edit', $user->id) }}" class="btn btn-sm btn-ghost text-gray-600">

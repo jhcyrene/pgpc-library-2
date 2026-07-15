@@ -54,8 +54,12 @@
 
         </x-admin.navigation.nav-group>
 
-        <!-- Unimplemented Reservations -->
-        <x-admin.navigation.nav-item label="Reservations" badge="Coming soon" badgeColor="bg-gray-600" disabled>
+        <!-- Reservations -->
+        <x-admin.navigation.nav-item 
+            label="Reservations" 
+            :href="route('admin.reservations.index')"
+            :active="request()->routeIs('admin.reservations.*')"
+        >
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -65,45 +69,43 @@
 
         <x-admin.navigation.nav-section label="Circulation" />
 
-        <x-admin.navigation.nav-group 
-            label="Circulation" 
-            :active="false"
-            id="nav-group-circulation"
-            disabled
+        <x-admin.navigation.nav-item 
+            label="Circulation Desk" 
+            :href="route('admin.circulation.index')"
+            :active="request()->routeIs('admin.circulation.*')"
         >
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                 </svg>
+        </x-admin.navigation.nav-item>
+
+        <x-admin.navigation.nav-item 
+            label="Borrows" 
+            :href="route('admin.borrows.index')"
+            :active="request()->routeIs('admin.borrows.*')"
+        >
+            <x-slot:icon>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
             </x-slot:icon>
-            
-            <x-admin.navigation.nav-subitem label="Circulation Desk (Coming soon)" disabled />
-            <x-admin.navigation.nav-subitem label="Check-out (Coming soon)" disabled />
-            <x-admin.navigation.nav-subitem label="Check-in (Coming soon)" disabled />
-            <x-admin.navigation.nav-subitem label="Renew (Coming soon)" disabled />
-        </x-admin.navigation.nav-group>
+        </x-admin.navigation.nav-item>
 
         @if($isAdministrator)
         <x-admin.navigation.nav-section label="Users" />
 
-        <x-admin.navigation.nav-group 
-            label="Users" 
+        <x-admin.navigation.nav-item 
+            label="User Management" 
             :href="route('admin.users.index')"
             :active="request()->routeIs('admin.users.*') || request()->routeIs('admin.members.*') || request()->routeIs('admin.librarians.*')"
-            id="nav-group-users"
         >
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
             </x-slot:icon>
-
-            <x-admin.navigation.nav-subitem label="User Management" :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" />
-            <x-admin.navigation.nav-subitem label="Members" :href="route('admin.users.index', ['type' => 'member'])" :active="request()->fullUrlIs('*type=member*')" />
-            <x-admin.navigation.nav-subitem label="Librarians" :href="route('admin.users.index', ['type' => 'librarian'])" :active="request()->fullUrlIs('*type=librarian*')" />
-            <x-admin.navigation.nav-subitem label="Add Member" :href="route('admin.members.create')" :active="request()->routeIs('admin.members.create')" />
-            <x-admin.navigation.nav-subitem label="Add Librarian" :href="route('admin.librarians.create')" :active="request()->routeIs('admin.librarians.create')" />
-        </x-admin.navigation.nav-group>
+        </x-admin.navigation.nav-item>
         @endif
 
         <x-admin.navigation.nav-section label="System" />

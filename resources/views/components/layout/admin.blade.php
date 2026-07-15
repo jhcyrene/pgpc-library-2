@@ -32,7 +32,7 @@
         <x-admin.header />
     
         <!-- Content -->
-        <main class="flex-1 m-5 overflow-y-auto p-2">
+        <main class="flex-1 m-5 overflow-y-auto p-2 mt-0">
             {{ $slot }}
         </main>
     </div>

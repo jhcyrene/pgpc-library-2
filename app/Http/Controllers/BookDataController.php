@@ -73,6 +73,10 @@ class BookDataController extends Controller
         $categories = Category::orderBy('category_name')->get();
         $publishers = Publisher::orderBy('publisher_name')->get();
 
+        if ($request->ajax()) {
+            return view('admin.books.partials.table', compact('allBooks'))->render();
+        }
+
         return view('admin.bookManager', compact('allBooks', 'categories', 'publishers'));   
     }
 
@@ -110,7 +114,7 @@ class BookDataController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BookData $bookData)
+    public function show(Request $request, BookData $bookData)
     {
         $bookData->load([
             'bookDetail.publisher',
@@ -118,6 +122,10 @@ class BookDataController extends Controller
             'categories',
             'books'
         ]);
+
+        if ($request->ajax()) {
+            return view('admin.books.partials.show_modal', compact('bookData'));
+        }
 
         return view('admin.books.show', compact('bookData'));
     }

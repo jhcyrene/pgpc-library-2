@@ -32,7 +32,25 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <x-admin.partials.input name="accession_number" label="Accession Number" placeholder="Required" required="true" value="{{ old('accession_number', $book->accession_number) }}" />
-                        <x-admin.partials.input name="barcode" label="Barcode" placeholder="Optional" value="{{ old('barcode', $book->barcode) }}" />
+                        <div class="flex flex-col gap-1.5">
+                            <label for="barcode" class="text-sm font-semibold text-gray-700">Barcode</label>
+                            <div class="flex">
+                                <input 
+                                    type="text" 
+                                    id="barcode" 
+                                    name="barcode" 
+                                    value="{{ old('barcode', $book->barcode) }}" 
+                                    placeholder="Optional"
+                                    class="w-full px-4 py-2.5 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-[#1A2B56] focus:border-[#1A2B56] outline-none transition-all shadow-sm text-gray-800 text-sm"
+                                >
+                                <button type="button" onclick="document.getElementById('barcode').value = 'PGPC-BAR-' + Math.random().toString(36).substr(2, 9).toUpperCase();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2.5 rounded-r-lg border border-l-0 border-gray-300 text-sm font-medium transition-colors" title="Generate Random Barcode">
+                                    Generate
+                                </button>
+                            </div>
+                            @error('barcode')
+                                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

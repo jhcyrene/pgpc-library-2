@@ -21,7 +21,7 @@
     </div>
 
     <div class="flex items-center gap-3 w-full sm:w-auto">
-        <select name="category_id" onchange="this.form.submit()"
+        <select name="category_id"
             class="border border-gray-200 rounded-lg text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-[#1A2B56] bg-gray-50 text-gray-700 font-medium">
             <option value="">All Categories</option>
             @foreach($categories ?? [] as $category)
@@ -30,7 +30,7 @@
                 </option>
             @endforeach
         </select>
-        <select name="publisher_id" onchange="this.form.submit()"
+        <select name="publisher_id"
             class="border border-gray-200 rounded-lg text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-[#1A2B56] bg-gray-50 text-gray-700 font-medium">
             <option value="">All Publishers</option>
             @foreach($publishers ?? [] as $publisher)

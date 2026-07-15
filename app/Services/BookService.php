@@ -299,29 +299,14 @@ class BookService
 
     private function storeCoverImage(UploadedFile $coverImage): string
     {
-        $path = $coverImage->store('book-covers', 'public');
+        $mime = $coverImage->getClientMimeType();
+        $base64 = base64_encode($coverImage->get());
 
-        if ($path === false) {
-            throw new RuntimeException('The book cover could not be stored.');
-        }
-
-        return $path;
+        return "data:{$mime};base64,{$base64}";
     }
 
     private function deleteCoverImage(?string $path): void
     {
-        if (! $path) {
-            return;
-        }
-
-        try {
-            $disk = Storage::disk('public');
-
-            if ($disk->exists($path) && ! $disk->delete($path)) {
-                logger()->warning('Unable to delete a book cover image.', ['path' => $path]);
-            }
-        } catch (Throwable $exception) {
-            report($exception);
-        }
+        // No-op: cover image is now stored as base64 in the database.
     }
 }

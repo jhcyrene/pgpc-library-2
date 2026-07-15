@@ -8,9 +8,13 @@
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-8">
                 <div class="flex flex-col sm:flex-row items-center gap-6 mb-8 pb-8 border-b border-gray-100">
-                    <div class="avatar placeholder">
-                        <div class="bg-primary/10 text-primary rounded-full w-24 h-24 text-2xl font-bold border-4 border-white shadow-sm">
-                            <span>{{ substr($member->first_name, 0, 1) }}{{ substr($member->last_name, 0, 1) }}</span>
+                    <div class="avatar {{ !Auth::guard('member')->user()->profile_image ? 'placeholder' : '' }}">
+                        <div class="{{ !Auth::guard('member')->user()->profile_image ? 'bg-primary/10 text-primary' : '' }} rounded-full w-24 h-24 text-2xl font-bold border-4 border-white shadow-sm overflow-hidden">
+                            @if(Auth::guard('member')->user()->profile_image)
+                                <img src="{{ Auth::guard('member')->user()->profile_image }}" alt="Profile Image" class="w-full h-full object-cover" />
+                            @else
+                                <span>{{ substr($member->first_name, 0, 1) }}{{ substr($member->last_name, 0, 1) }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="text-center sm:text-left">

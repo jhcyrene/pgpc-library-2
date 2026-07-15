@@ -38,6 +38,48 @@ class ReservationController extends Controller
         
         $eligibility = $this->reservationService->checkEligibility($member, $bookData);
         
+        if (request()->ajax() || request()->wantsJson()) {
+            $events = [];
+            
+            $reservations = \App\Models\BookRequest::where('book_data_id', $bookData->book_data_id)
+                ->whereNotNull('pickup_date')
+                ->whereHas('bookRequestStatus', function ($q) {
+                    $q->whereIn('status_name', ['Pending', 'Approved', 'Ready for pickup']);
+                })->get();
+                
+            foreach ($reservations as $res) {
+                $events[] = [
+                    'title' => 'Reserved',
+                    'start' => $res->pickup_date->format('Y-m-d'),
+                    'color' => '#f59e0b',
+                    'allDay' => true,
+                ];
+            }
+            
+            $borrows = \App\Models\BookBorrow::whereHas('book', function ($q) use ($bookData) {
+                $q->where('book_data_id', $bookData->book_data_id);
+            })->whereIn('status', ['Borrowed', 'Overdue'])->get();
+            
+            foreach ($borrows as $borrow) {
+                if ($borrow->issue_date && $borrow->due_date) {
+                    $events[] = [
+                        'title' => 'Borrowed',
+                        'start' => $borrow->issue_date->format('Y-m-d'),
+                        'end' => \Carbon\Carbon::parse($borrow->due_date)->addDay()->format('Y-m-d'),
+                        'color' => '#ef4444',
+                        'allDay' => true,
+                    ];
+                }
+            }
+            
+            $html = view('components.opac.reserveBookModal', compact('bookData', 'eligibility', 'events'))->render();
+            
+            return response()->json([
+                'success' => true,
+                'html' => $html
+            ]);
+        }
+        
         return view('student.reservations.create', compact('bookData', 'eligibility'));
     }
 
@@ -47,9 +89,23 @@ class ReservationController extends Controller
         
         try {
             $reservation = $this->reservationService->createReservation($member, $bookData, $request->validated());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Reservation successfully created!'
+                ]);
+            }
+            
             return redirect()->route('student.reservations.show', $reservation)
                 ->with('success', 'Reservation successfully created!');
         } catch (Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 400);
+            }
             return back()->with('error', $e->getMessage());
         }
     }

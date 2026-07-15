@@ -52,7 +52,7 @@
                                 class="min-w-0 flex-1 border-0 bg-transparent py-3 text-base text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0">
                         </div>
                         <button type="submit"
-                            class="btn h-auto min-h-12 w-full rounded-xl border-none bg-gold px-7 py-3 font-bold text-primaryfade transition hover:bg-[#ffd84c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto sm:rounded-full">
+                            class="btn h-auto min-h-12 w-full rounded-xl border-none bg-gold px-7 py-3 font-bold text-primaryfade transition hover:bg-[#ffd84c] focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto sm:rounded-full">
                             Search Catalog
                         </button>
                     </div>
@@ -71,7 +71,7 @@
         </div>
     </section>
 
-    <x-opac 
+    <x-opac.book-list 
         :categories="$categories"
         :search="$search"
         :selectedCategoryId="$selectedCategoryId"

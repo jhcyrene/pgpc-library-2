@@ -19,47 +19,8 @@
                     <th class="px-5 py-3.5 text-right">Status</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-5 py-4 font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Juan Dela Cruz</td>
-                    <td class="px-5 py-4 font-medium">Advanced Calculus</td>
-                    <td class="px-5 py-4 text-slate-500 text-xs">July 08, 2026</td>
-                    <td class="px-5 py-4 text-right">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200">
-                            Active
-                        </span>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-5 py-4 font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Maria Clara</td>
-                    <td class="px-5 py-4 font-medium">Philippine History</td>
-                    <td class="px-5 py-4 text-slate-500 text-xs">June 15, 2026</td>
-                    <td class="px-5 py-4 text-right">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold text-red-700 bg-red-100 border border-red-200">
-                            Overdue
-                        </span>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-5 py-4 font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Jose Rizal</td>
-                    <td class="px-5 py-4 font-medium">Noli Me Tangere</td>
-                    <td class="px-5 py-4 text-slate-500 text-xs">July 10, 2026</td>
-                    <td class="px-5 py-4 text-right">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200">
-                            Active
-                        </span>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-5 py-4 font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Andres Bonifacio</td>
-                    <td class="px-5 py-4 font-medium">Data Structures</td>
-                    <td class="px-5 py-4 text-slate-500 text-xs">July 11, 2026</td>
-                    <td class="px-5 py-4 text-right">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200">
-                            Active
-                        </span>
-                    </td>
-                </tr>
+            <tbody id="dashboard-borrowers-tbody" class="divide-y divide-slate-100">
+                <!-- Javascript will inject rows here -->
             </tbody>
         </table>
     </div>

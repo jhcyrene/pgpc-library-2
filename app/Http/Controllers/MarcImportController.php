@@ -75,7 +75,8 @@ class MarcImportController extends Controller
                 return back()->with('error', 'No bibliographic records found in the uploaded file.');
             }
 
-            $validatedRows = $this->marcService->validateRecords($records);
+            $options = ['auto_generate_barcodes' => $request->boolean('auto_generate_barcodes')];
+            $validatedRows = $this->marcService->validateRecords($records, $options);
 
             $batchId = 'marc_' . Str::uuid();
             Cache::put($batchId, $validatedRows, now()->addMinutes(30));

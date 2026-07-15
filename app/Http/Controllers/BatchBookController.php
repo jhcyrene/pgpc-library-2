@@ -61,7 +61,8 @@ class BatchBookController extends Controller
                 return back()->with('error', 'The uploaded CSV file is empty or invalid.');
             }
 
-            $validatedRows = $this->batchService->validateRows($rows);
+            $options = ['auto_generate_barcodes' => $request->boolean('auto_generate_barcodes')];
+            $validatedRows = $this->batchService->validateRows($rows, $options);
             
             // Cache the validated rows for the actual import step
             $batchId = uniqid('batch_');

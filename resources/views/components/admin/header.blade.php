@@ -6,7 +6,7 @@
 
 <header class="shrink-0 flex flex-col w-full">
     <!-- 1. Top Utility Bar (White Background) -->
-    <div class="h-[60px] bg-white border-b border-gray-200 px-6 grid grid-cols-3 items-center w-full shrink-0">
+    <div class="h-[60px] bg-white border-b border-gray-200 px-4 md:px-6 flex justify-between md:grid md:grid-cols-3 items-center w-full shrink-0">
         
         <!-- Left: Breadcrumbs & Mobile Menu -->
         <div class="flex items-center gap-4 text-sm font-medium text-gray-500">

@@ -5,26 +5,8 @@
     </div>
     
     <!-- Procurement List -->
-    <div class="space-y-3 flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
-        <div class="group flex flex-col justify-between p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all cursor-pointer">
-            <div class="flex justify-between items-start mb-1.5">
-                <p class="text-sm font-bold text-slate-900 group-hover:text-amber-600 transition-colors">Data Structures in C++</p>
-                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold text-amber-700 bg-amber-100 border border-amber-200 shadow-sm whitespace-nowrap ml-2">
-                    High Demand
-                </span>
-            </div>
-            <p class="text-xs font-medium text-slate-500">0 available <span class="mx-1 text-slate-300">|</span> 15 total</p>
-        </div>
-        
-        <div class="group flex flex-col justify-between p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all cursor-pointer">
-            <div class="flex justify-between items-start mb-1.5">
-                <p class="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Intro to Psychology</p>
-                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold text-blue-700 bg-blue-100 border border-blue-200 shadow-sm whitespace-nowrap ml-2">
-                    Trending
-                </span>
-            </div>
-            <p class="text-xs font-medium text-slate-500">1 available <span class="mx-1 text-slate-300">|</span> 10 total</p>
-        </div>
+    <div id="dashboard-most-borrowed-container" class="space-y-3 flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
+        <!-- Javascript will inject most borrowed items here -->
     </div>
     
     <button type="button" disabled class="mt-4 shrink-0 w-full py-2.5 border-2 border-slate-200 bg-slate-50 text-slate-400 font-bold rounded-xl text-sm cursor-not-allowed">

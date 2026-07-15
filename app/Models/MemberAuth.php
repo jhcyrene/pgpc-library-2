@@ -21,6 +21,7 @@ class MemberAuth extends Authenticatable
         'account_status',
         'username',
         'password_hash',
+        'profile_image',
         'failed_attempts',
         'last_login',
         'password_changed_at',

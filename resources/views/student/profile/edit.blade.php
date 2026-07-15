@@ -13,11 +13,19 @@
             <div class="p-6 md:p-8">
                 <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h1>
 
-                <form action="{{ route('student.profile.update') }}" method="POST">
+                <form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     <div class="space-y-6">
+                        <div>
+                            <label for="profile_image" class="block text-sm font-semibold text-gray-700 mb-1.5">Profile Picture</label>
+                            <input type="file" id="profile_image" name="profile_image" accept="image/jpeg,image/png,image/jpg" class="file-input file-input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all rounded-xl">
+                            @error('profile_image')
+                                <p class="text-error text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            <p class="text-xs text-gray-500 mt-2">Recommended size: 256x256px. Max size: 2MB.</p>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label for="first_name" class="block text-sm font-semibold text-gray-700 mb-1.5">First Name</label>

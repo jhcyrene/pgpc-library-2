@@ -67,6 +67,14 @@
                         </a>
                     </p>
                 @endguest
+
+                <p class="mt-3 text-sm text-blue-100">
+                    Need more specific results?
+                    <a href="{{ route('opac.search') }}"
+                        class="font-bold text-gold underline decoration-transparent underline-offset-4 transition hover:decoration-current">
+                        Advanced Search
+                    </a>
+                </p>
             </div>
         </div>
     </section>
@@ -88,4 +96,41 @@
         :isStudentAccount="$isStudentAccount"
         :memberAccount="$memberAccount"
     />
+
+    {{-- AJAX Book Detail Modal (wider, with skeleton) --}}
+    <dialog id="opac-book-detail-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-4xl bg-white p-0 overflow-hidden rounded-2xl border-t-4 border-brand-gold shadow-elegant">
+            <div class="bg-brand-navy px-6 py-4 flex justify-between items-center sticky top-0 z-20">
+                <h3 class="font-bold text-lg text-white">Book Details</h3>
+                <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost text-white/70 hover:text-white hover:bg-white/10">✕</button></form>
+            </div>
+            <div id="opac-modal-body" class="p-6 sm:p-8 max-h-[75dvh] overflow-y-auto">
+                {{-- Skeleton loading --}}
+                <div id="opac-modal-skeleton" class="animate-pulse">
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="w-36 h-52 bg-gray-200 rounded-xl shrink-0 mx-auto sm:mx-0"></div>
+                        <div class="flex-1 space-y-3">
+                            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                            <div class="h-7 bg-gray-200 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                <div class="h-16 bg-gray-100 rounded-xl"></div>
+                                <div class="h-16 bg-gray-100 rounded-xl"></div>
+                                <div class="h-16 bg-gray-100 rounded-xl"></div>
+                                <div class="h-16 bg-gray-100 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 space-y-2">
+                        <div class="h-4 bg-gray-200 rounded w-1/5"></div>
+                        <div class="h-3 bg-gray-100 rounded w-full"></div>
+                        <div class="h-3 bg-gray-100 rounded w-5/6"></div>
+                    </div>
+                </div>
+                {{-- AJAX content injected here --}}
+                <div id="opac-modal-content" class="hidden"></div>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    </dialog>
 </x-layout.welcome>

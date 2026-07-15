@@ -1,21 +1,29 @@
 <x-layout.student title="Borrowing History">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="Borrowing History" 
             subtitle="A complete record of all the books you've read." 
         />
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                <h3 class="font-bold text-gray-800">Showing {{ $borrows->firstItem() ?? 0 }} to {{ $borrows->lastItem() ?? 0 }} of {{ $borrows->total() }} items</h3>
-                
-                <form method="GET" action="{{ route('student.borrow-transactions.history') }}" class="flex items-center gap-2 text-sm">
-                    <label for="sort" class="text-gray-600 font-medium hidden sm:block">Sort by:</label>
-                    <select name="sort" id="sort" class="select select-sm select-bordered w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all rounded-lg" onchange="this.form.submit()">
-                        <option value="return_date_desc" {{ request('sort') == 'return_date_desc' ? 'selected' : '' }}>Returned (Newest first)</option>
-                        <option value="return_date_asc" {{ request('sort') == 'return_date_asc' ? 'selected' : '' }}>Returned (Oldest first)</option>
-                    </select>
-                </form>
+            <div class="p-4 md:p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+                    <div>
+                        <p class="text-sm font-semibold text-gray-600">
+                            Showing <span class="text-gray-900 font-bold">{{ $borrows->firstItem() ?? 0 }}</span> to <span class="text-gray-900 font-bold">{{ $borrows->lastItem() ?? 0 }}</span> of <span class="text-gray-900 font-bold">{{ $borrows->total() }}</span> items
+                        </p>
+                    </div>
+                    
+                    <div class="w-full sm:w-auto">
+                        <form method="GET" action="{{ route('student.borrow-transactions.history') }}" class="flex items-center gap-3 justify-end">
+                            <label for="sort" class="text-xs font-bold uppercase tracking-wider text-gray-500 shrink-0">Sort By</label>
+                            <select name="sort" id="sort" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-60 focus:border-primary focus:ring-primary/20 transition-all rounded-lg" onchange="this.form.submit()">
+                                <option value="return_date_desc" {{ request('sort') == 'return_date_desc' ? 'selected' : '' }}>Returned (Newest first)</option>
+                                <option value="return_date_asc" {{ request('sort') == 'return_date_asc' ? 'selected' : '' }}>Returned (Oldest first)</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="overflow-x-auto">

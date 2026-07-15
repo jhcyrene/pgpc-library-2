@@ -57,40 +57,44 @@
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col flex-1 overflow-hidden relative">
             <!-- Filter Bar -->
-            <div class="p-4 border-b border-gray-100 bg-white flex flex-col md:flex-row gap-4 justify-between items-center z-20 shrink-0">
-                <div class="w-full md:w-1/3 relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <div class="p-4 md:p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                <div class="flex flex-col lg:flex-row gap-4 justify-between items-start">
+                    <!-- Search -->
+                    <div class="relative w-full lg:w-96 shrink-0">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <input type="text" id="search-reservations" class="input input-bordered w-full pl-10 h-10 text-sm focus:border-blue-500 focus:ring-blue-500 transition-colors shadow-sm bg-white" placeholder="Search by student, book, ID..." value="{{ request('search') }}">
                     </div>
-                    <input type="text" id="search-reservations" class="input input-sm h-10 border-gray-200 focus:border-brand-navy focus:ring-brand-navy w-full pl-10 bg-gray-50" placeholder="Search by student, book, ID..." value="{{ request('search') }}">
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-start lg:justify-end">
-                    <select id="status-filter" class="select select-sm h-10 border-gray-200 bg-gray-50 focus:border-brand-navy w-full sm:w-36">
-                        <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="ready-for-pickup" {{ request('status') == 'ready-for-pickup' ? 'selected' : '' }}>Ready for Pickup</option>
-                        <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                        <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                        <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                    </select>
 
-                    <select id="date-filter" class="select select-sm h-10 border-gray-200 bg-gray-50 focus:border-brand-navy w-full sm:w-40">
-                        <option value="all" {{ request('date_filter') == 'all' ? 'selected' : '' }}>Any Request Date</option>
-                        <option value="today" {{ request('date_filter') == 'today' ? 'selected' : '' }}>Today</option>
-                        <option value="this_week" {{ request('date_filter') == 'this_week' ? 'selected' : '' }}>This Week</option>
-                        <option value="this_month" {{ request('date_filter') == 'this_month' ? 'selected' : '' }}>This Month</option>
-                    </select>
+                    <!-- Filters -->
+                    <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-start lg:justify-end">
+                        <select id="status-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-36">
+                            <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                            <option value="ready-for-pickup" {{ request('status') == 'ready-for-pickup' ? 'selected' : '' }}>Ready for Pickup</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                        </select>
 
-                    <select id="sort-filter" class="select select-sm h-10 border-gray-200 bg-gray-50 focus:border-brand-navy w-full sm:w-40">
-                        <option value="request_date_desc" {{ request('sort') == 'request_date' && request('dir') == 'desc' ? 'selected' : '' }}>Newest First</option>
-                        <option value="request_date_asc" {{ request('sort') == 'request_date' && request('dir') == 'asc' ? 'selected' : '' }}>Oldest First</option>
-                        <option value="student_name_asc" {{ request('sort') == 'student_name' && request('dir') == 'asc' ? 'selected' : '' }}>Student A-Z</option>
-                    </select>
+                        <select id="date-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-40">
+                            <option value="all" {{ request('date_filter') == 'all' ? 'selected' : '' }}>Any Request Date</option>
+                            <option value="today" {{ request('date_filter') == 'today' ? 'selected' : '' }}>Today</option>
+                            <option value="this_week" {{ request('date_filter') == 'this_week' ? 'selected' : '' }}>This Week</option>
+                            <option value="this_month" {{ request('date_filter') == 'this_month' ? 'selected' : '' }}>This Month</option>
+                        </select>
 
-                    <button type="button" onclick="resetFilters()" class="btn btn-sm btn-ghost text-gray-500">Reset</button>
+                        <select id="sort-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-40">
+                            <option value="request_date_desc" {{ request('sort') == 'request_date' && request('dir') == 'desc' ? 'selected' : '' }}>Newest First</option>
+                            <option value="request_date_asc" {{ request('sort') == 'request_date' && request('dir') == 'asc' ? 'selected' : '' }}>Oldest First</option>
+                            <option value="student_name_asc" {{ request('sort') == 'student_name' && request('dir') == 'asc' ? 'selected' : '' }}>Student A-Z</option>
+                        </select>
+
+                        <button type="button" onclick="resetFilters()" class="btn btn-ghost btn-sm text-gray-500 hover:text-gray-900 w-full sm:w-auto">Reset</button>
+                    </div>
                 </div>
             </div>
 

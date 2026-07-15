@@ -77,10 +77,10 @@
                 @else
                     <div class="grid min-w-0 gap-3">
                         @foreach ($books as $book)
-                            <article class="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition duration-300 hover:border-primary/20 hover:shadow-elegant sm:p-4">
+                            <article class="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition duration-300 hover:border-primary/20 hover:shadow-elegant sm:p-4 cursor-pointer" data-book-url="{{ route('opac.book.show', $book) }}">
                                 <div class="flex min-w-0 flex-col gap-4 sm:flex-row">
                                     <div class="mx-auto w-24 shrink-0 sm:mx-0 sm:w-28">
-                                        <a href="{{ route('opac.book.show', $book) }}" class="ajax-book-details-btn relative aspect-[2/3] block overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 shadow-soft">
+                                        <div class="relative aspect-[2/3] block overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 shadow-soft">
                                             @if ($book->bookDetail?->cover_image)
                                                 <img
                                                     src="{{ str_starts_with($book->bookDetail->cover_image, 'data:image') ? $book->bookDetail->cover_image : asset('storage/' . ltrim($book->bookDetail->cover_image, '/')) }}"
@@ -95,7 +95,7 @@
                                                     <span class="mt-2 text-[10px] font-bold uppercase tracking-wider">PGPC Library</span>
                                                 </div>
                                             @endif
-                                        </a>
+                                        </div>
                                     </div>
 
                                     <div class="flex min-w-0 flex-1 flex-col">
@@ -112,11 +112,11 @@
                                                     <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">General Collection</p>
                                                 @endif
 
-                                                <a href="{{ route('opac.book.show', $book) }}" class="ajax-book-details-btn group/title block mt-1">
-                                                    <h3 class="break-words text-lg font-bold leading-snug text-slate-900 sm:text-xl transition-colors group-hover/title:text-primary">
+                                                <div class="block mt-1">
+                                                    <h3 class="break-words text-lg font-bold leading-snug text-slate-900 sm:text-xl transition-colors group-hover:text-primary">
                                                         {{ $book->book_title }}
                                                     </h3>
-                                                </a>
+                                                </div>
                                                 @if ($book->subtitle)
                                                     <p class="mt-0.5 break-words text-sm font-medium leading-5 text-slate-500">
                                                         {{ $book->subtitle }}
@@ -179,14 +179,35 @@
                                                 {{ $book->copies_available }} of {{ $book->copies_total }} available
                                             </p>
 
-                                            <div class="w-full sm:w-auto">
+                                            <div class="flex items-center gap-2 w-full sm:w-auto">
                                                 @if ($isStudentAccount)
-                                                    <a href="{{ route('student.reservations.create', $book) }}"
+                                                    @php
+                                                        $isSaved = $memberAccount?->member
+                                                            ? \App\Models\SavedItem::where('member_id', $memberAccount->member->member_id)->where('book_data_id', $book->book_data_id)->exists()
+                                                            : false;
+                                                    @endphp
+                                                    @if($isSaved)
+                                                        <form action="{{ route('student.saved-items.destroy', $book) }}" method="POST" class="inline" onclick="event.stopPropagation()">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn h-auto min-h-10 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-bold text-red-600 transition hover:bg-red-100" title="Remove from saved">
+                                                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('student.saved-items.store', $book) }}" method="POST" class="inline" onclick="event.stopPropagation()">
+                                                            @csrf
+                                                            <button type="submit" class="btn h-auto min-h-10 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-500 transition hover:bg-slate-50 hover:border-primary hover:text-primary" title="Save to list">
+                                                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    <a href="{{ route('student.reservations.create', $book) }}" onclick="event.stopPropagation()"
                                                         class="ajax-reserve-btn btn h-auto min-h-10 w-full rounded-xl border-none bg-primaryfade px-5 py-2 font-bold text-white transition hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:w-auto">
                                                         Reserve This Book
                                                     </a>
                                                 @elseif (! $memberAccount)
-                                                    <a href="{{ route('student.reservations.create', $book) }}"
+                                                    <a href="{{ route('login') }}" onclick="event.stopPropagation()"
                                                         class="btn h-auto min-h-10 w-full rounded-xl border border-primaryfade bg-white px-5 py-2 font-bold text-primaryfade transition hover:border-primary hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:w-auto">
                                                         Log In to Reserve
                                                     </a>

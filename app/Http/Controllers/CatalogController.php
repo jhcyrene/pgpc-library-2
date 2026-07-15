@@ -285,10 +285,22 @@ class CatalogController extends Controller
             },
         ]);
 
+        $memberAccount = \Illuminate\Support\Facades\Auth::guard('member')->user();
+        $isStudentAccount = $memberAccount
+            && $memberAccount->member_id
+            && in_array(strtolower((string) $memberAccount->account_type), ['member', 'student'], true);
+
+        $isSaved = false;
+        if ($isStudentAccount && $memberAccount->member) {
+            $isSaved = \App\Models\SavedItem::where('member_id', $memberAccount->member->member_id)
+                ->where('book_data_id', $bookData->book_data_id)
+                ->exists();
+        }
+
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'html' => view('components.opac.bookDetailsModal', compact('bookData'))->render()
+                'html' => view('components.opac.book-detail-content', compact('bookData', 'isStudentAccount', 'memberAccount', 'isSaved'))->render()
             ]);
         }
         

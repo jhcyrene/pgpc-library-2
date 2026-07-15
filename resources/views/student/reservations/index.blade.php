@@ -1,5 +1,5 @@
 <x-layout.student title="Reservations">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="My Reservations" 
             subtitle="Manage your book requests and track their status." 

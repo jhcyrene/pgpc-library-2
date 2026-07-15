@@ -1,5 +1,5 @@
 <x-layout.student title="Borrow Transactions Overview">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="Borrowing Overview" 
             subtitle="A high-level view of your borrowing activity." 

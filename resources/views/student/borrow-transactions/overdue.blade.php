@@ -1,5 +1,5 @@
 <x-layout.student title="Overdue Items">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="Overdue Items" 
             subtitle="Books that are past their due date and need to be returned immediately." 

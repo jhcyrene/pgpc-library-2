@@ -5,23 +5,21 @@
         <p class="mt-3 leading-7 text-slate-500">Sign in to access your personal library account.</p>
     </div>
 
-    @if ($errors->any())
-        <div role="alert" class="mb-6 flex gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-            <svg class="mt-0.5 h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.74-3l-6.93-12a2 2 0 00-3.48 0L3.33 16a2 2 0 001.74 3z" />
-            </svg>
-            <div>
-                <p class="font-bold">We couldn't sign you in.</p>
-                <p class="mt-0.5">{{ $errors->first() }}</p>
-            </div>
+    <div id="ajax-general-error" role="alert" class="mb-6 flex gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 @if(!$errors->any()) hidden @endif">
+        <svg class="mt-0.5 h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.74-3l-6.93-12a2 2 0 00-3.48 0L3.33 16a2 2 0 001.74 3z" />
+        </svg>
+        <div>
+            <p class="font-bold">We couldn't sign you in.</p>
+            <p class="mt-0.5" data-alert-message>{{ $errors->first() }}</p>
         </div>
-    @endif
+    </div>
 
     @if (session('success'))
         <x-alert type="success" message="{{ session('success') }}" class="mb-6" />
     @endif
 
-    <form action="{{ route('login.store') }}" method="POST" class="space-y-5">
+    <form action="{{ route('login.store') }}" method="POST" class="space-y-5" data-ajax-form>
         @csrf
 
         <div>
@@ -42,6 +40,7 @@
                     class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"
                 >
             </div>
+            <p data-error-for="login" class="mt-1.5 text-xs font-medium text-red-600 hidden"></p>
         </div>
 
         <div>
@@ -77,6 +76,7 @@
                     </svg>
                 </button>
             </div>
+            <p data-error-for="password" class="mt-1.5 text-xs font-medium text-red-600 hidden"></p>
         </div>
 
         <label class="inline-flex cursor-pointer items-center gap-3 text-sm text-slate-600">

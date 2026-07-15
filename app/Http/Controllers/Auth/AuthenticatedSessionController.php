@@ -94,9 +94,9 @@ class AuthenticatedSessionController extends Controller
             $type = strtolower((string) $user->account_type);
 
             if (! in_array($type, $allowedTypes, true)) {
-                return back()->withErrors([
+                throw \Illuminate\Validation\ValidationException::withMessages([
                     'login' => 'This account cannot sign in through this portal.',
-                ])->onlyInput('login');
+                ]);
             }
 
             // Validate broken relationships safely
@@ -106,17 +106,17 @@ class AuthenticatedSessionController extends Controller
                 ($user->member_id && $user->librarian_id) ||
                 ! in_array($type, [...self::STAFF_TYPES, ...self::STUDENT_TYPES], true)
             ) {
-                return back()->withErrors([
+                throw \Illuminate\Validation\ValidationException::withMessages([
                     'login' => 'Your account configuration is invalid. Please contact the library administrator.',
-                ])->onlyInput('login');
+                ]);
             }
 
             // Check account status
             $status = strtolower($user->account_status);
             if ($status !== 'active') {
-                return back()->withErrors([
+                throw \Illuminate\Validation\ValidationException::withMessages([
                     'login' => 'Your account is currently unavailable. Please contact the library administrator.',
-                ])->onlyInput('login');
+                ]);
             }
 
             Auth::guard('member')->login($user, $request->boolean('remember'));
@@ -131,19 +131,22 @@ class AuthenticatedSessionController extends Controller
             $user->save();
 
             $destination = $defaultRoute ?? $this->dashboardRouteFor($type);
+            $redirectUrl = $useIntendedUrl ? session()->pull('url.intended', $destination) : $destination;
 
-            return $useIntendedUrl
-                ? redirect()->intended($destination)
-                : redirect()->to($destination);
+            if ($request->expectsJson()) {
+                return response()->json(['redirect' => $redirectUrl]);
+            }
+
+            return redirect()->to($redirectUrl);
         }
 
         if ($user) {
             $user->increment('failed_attempts');
         }
 
-        return back()->withErrors([
+        throw \Illuminate\Validation\ValidationException::withMessages([
             'login' => 'The username or password is incorrect.',
-        ])->onlyInput('login');
+        ]);
     }
 
     private function redirectAuthenticatedUser()

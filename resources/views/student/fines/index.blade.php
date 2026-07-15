@@ -1,5 +1,5 @@
 <x-layout.student title="Fines & Penalties">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="Fines & Penalties" 
             subtitle="View your outstanding balances and payment history." 

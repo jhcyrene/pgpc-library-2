@@ -52,12 +52,22 @@ class RegisteredStudentController extends Controller
 
             DB::commit();
 
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'redirect' => route('login'),
+                    'message' => 'Registration successful. You can now log in.'
+                ]);
+            }
+
             return redirect()->route('login')->with('success', 'Registration successful. You can now log in.');
 
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
-            return back()->with('error', 'An error occurred during registration. Please try again.')->withInput();
+            
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'student_id_number' => 'An error occurred during registration. Please try again.',
+            ]);
         }
     }
 }

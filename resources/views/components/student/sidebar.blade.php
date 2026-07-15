@@ -3,7 +3,7 @@
     $initials = strtoupper(substr($student->first_name ?? 'S', 0, 1) . substr($student->last_name ?? '', 0, 1));
 @endphp
 
-<aside id="student-sidebar" class="flex h-dvh w-56 shrink-0 flex-col overflow-hidden bg-[#102b70]">
+<aside id="student-sidebar" class="flex h-dvh w-64 shrink-0 flex-col overflow-hidden bg-[#102b70]">
     <div class="flex h-[60px] shrink-0 items-center border-b border-white/5 px-4">
         <a href="{{ route('student.dashboard') }}" class="group flex min-w-0 items-center gap-3">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white">

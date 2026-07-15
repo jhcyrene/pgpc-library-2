@@ -5,7 +5,7 @@
             <h3 class="text-lg font-extrabold text-slate-900 tracking-tight">Current Borrowers</h3>
             <p class="text-xs font-medium text-slate-500 mt-0.5">Tracking students and borrow dates</p>
         </div>
-        <button type="button" disabled class="text-xs font-bold text-slate-400 bg-slate-100 px-4 py-2 rounded-lg cursor-not-allowed" title="Circulation records are coming soon">Records coming soon</button>
+        <a href="{{ route('admin.borrows.index') }}" class="text-xs font-bold text-[#102b70] bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded-lg transition-colors" title="View all circulation records">View All Records</a>
     </div>
     
     <!-- Student Table -->

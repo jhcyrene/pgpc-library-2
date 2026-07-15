@@ -1,5 +1,5 @@
 <x-layout.student title="Saved Items">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto w-full">
         <x-student.page-header 
             title="My Saved Items" 
             subtitle="Books you've bookmarked for later." 

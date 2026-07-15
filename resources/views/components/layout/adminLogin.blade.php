@@ -33,9 +33,9 @@
     </div>
 
     <main id="portal-content"
-        class="relative min-h-dvh overflow-hidden lg:grid {{ $formSide === 'left' ? 'lg:grid-cols-[minmax(440px,0.92fr)_minmax(0,1.08fr)]' : 'lg:grid-cols-[minmax(0,1.08fr)_minmax(440px,0.92fr)]' }}">
+        class="relative min-h-dvh lg:h-dvh overflow-hidden lg:grid {{ $formSide === 'left' ? 'lg:grid-cols-[minmax(440px,0.92fr)_minmax(0,1.08fr)]' : 'lg:grid-cols-[minmax(0,1.08fr)_minmax(440px,0.92fr)]' }}">
         <section
-            class="relative hidden min-h-dvh overflow-hidden bg-[#102b70] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16 {{ $formSide === 'left' ? 'lg:order-2' : 'lg:order-1' }}">
+            class="relative hidden min-h-dvh lg:h-dvh overflow-hidden bg-[#102b70] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16 {{ $formSide === 'left' ? 'lg:order-2' : 'lg:order-1' }}">
             <img src="{{ Vite::asset('resources/images/pgpc-ng.png') }}" alt="PGPC library"
                 class="absolute inset-0 h-full w-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-br from-[#071943]/95 via-[#102b70]/88 to-[#102b70]/70"></div>
@@ -102,12 +102,12 @@
         </section>
 
         <section
-            class="relative flex min-h-dvh items-center justify-center bg-slate-50 px-5 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
+            class="relative flex flex-col min-h-dvh lg:min-h-0 lg:h-dvh lg:overflow-y-auto bg-slate-50 px-5 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
             <div
                 class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#102b70] via-[#fcc719] to-[#102b70] lg:hidden">
             </div>
             <div class="absolute right-0 top-0 h-64 w-64 rounded-bl-full bg-blue-50/80"></div>
-            <div class="relative z-10 w-full {{ $formWidth === 'wide' ? 'max-w-2xl' : 'max-w-md' }}">
+            <div class="relative z-10 w-full {{ $formWidth === 'wide' ? 'max-w-2xl' : 'max-w-md' }} m-auto">
                 <div class="mb-8 flex items-center justify-between lg:hidden">
                     <a href="{{ route('home') }}"
                         class="inline-flex items-center gap-2 text-sm font-bold text-[#102b70]">

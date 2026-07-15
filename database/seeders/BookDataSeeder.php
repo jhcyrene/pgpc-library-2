@@ -43,4 +43,3 @@ class BookDataSeeder extends Seeder
         }
     }
 }
-

@@ -1,5 +1,5 @@
 <dialog id="book-details-modal" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box w-11/12 max-w-2xl bg-white p-0 overflow-hidden">
+    <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-2xl bg-white p-0">
         
         <!-- Header -->
         <div class="bg-gray-50/50 p-4 sm:p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 z-20">
@@ -7,7 +7,7 @@
             <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4" onclick="document.getElementById('book-details-modal').remove()">✕</button>
         </div>
 
-        <div class="p-4 sm:p-6 max-h-[70dvh] overflow-y-auto">
+        <div class="p-4 sm:p-6">
             
             <div class="flex flex-col sm:flex-row gap-6">
                 <!-- Cover Image -->

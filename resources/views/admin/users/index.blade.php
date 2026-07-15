@@ -1,5 +1,5 @@
 <x-layout.admin>
-    <div class="flex flex-col h-[calc(100dvh-6.5rem)]">
+    <div class="flex flex-col h-auto lg:h-[calc(100dvh-6.5rem)]">
         <div class="flex-none mt-4 mb-2">
             <x-admin.page-header 
                 title="User Management" 
@@ -229,11 +229,11 @@
 
     <!-- View User Modal -->
     <dialog id="viewUserModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-gray-50 p-0 rounded-2xl">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
             </form>
-            <div id="viewUserModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+            <div id="viewUserModalContent" class="p-6 sm:p-8 transition-opacity duration-300">
                 <!-- AJAX Content goes here -->
             </div>
         </div>
@@ -243,11 +243,11 @@
     </dialog>
 
     <!-- Add Member Modal -->
-    <dialog id="addMemberModal" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl overflow-y-auto">
+    <dialog id="addMemberModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-white p-6 rounded-2xl">
             <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Member</h3>
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
             </form>
             <form action="{{ route('admin.members.store') }}" method="POST">
                 @csrf
@@ -296,11 +296,11 @@
     </dialog>
 
     <!-- Add Librarian Modal -->
-    <dialog id="addLibrarianModal" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl overflow-y-auto">
+    <dialog id="addLibrarianModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-white p-6 rounded-2xl">
             <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Librarian</h3>
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
             </form>
             <form action="{{ route('admin.librarians.store') }}" method="POST">
                 @csrf
@@ -348,20 +348,7 @@
         </form>
     </dialog>
 
-    <!-- View User Modal -->
-    <dialog id="viewUserModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
-            </form>
-            <div id="viewUserModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
-                <!-- AJAX Content goes here -->
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

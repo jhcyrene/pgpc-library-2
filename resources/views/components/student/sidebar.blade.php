@@ -4,7 +4,7 @@
 @endphp
 
 <aside id="student-sidebar" class="flex h-dvh w-64 shrink-0 flex-col overflow-hidden bg-[#102b70]">
-    <div class="flex h-[60px] shrink-0 items-center border-b border-white/5 px-4">
+    <div class="flex h-[60px] shrink-0 items-center justify-between border-b border-white/5 px-4">
         <a href="{{ route('student.dashboard') }}" class="group flex min-w-0 items-center gap-3">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white">
                 <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="h-full w-full object-cover">
@@ -14,6 +14,16 @@
                 <p class="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-white/45">Student Portal</p>
             </div>
         </a>
+
+        <!-- Mobile Close Button -->
+        <button
+            type="button"
+            aria-label="Close navigation menu"
+            class="lg:hidden inline-flex min-h-11 min-w-11 items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#fcc719]"
+            onclick="closeSidebar()"
+        >
+            <span aria-hidden="true" class="text-xl font-bold">&times;</span>
+        </button>
     </div>
 
     <nav class="flex-1 overflow-y-auto px-3 py-4" aria-label="Student navigation">

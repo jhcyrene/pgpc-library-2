@@ -1,6 +1,6 @@
 @props(['users'])
 
-<table class="table w-full">
+<table class="table w-full min-w-[700px]">
     <thead>
         <tr class="bg-gray-50/50 text-gray-500 border-b border-gray-100">
             <th class="font-medium px-4 py-3 text-left">User</th>

@@ -8,8 +8,8 @@
     <!-- Removed Tabs -->
 
     <!-- Table -->
-    <div class="flex-1 overflow-auto min-h-[300px]">
-        <table class="w-full text-left text-sm whitespace-nowrap">
+    <div class="w-full overflow-x-auto overscroll-x-contain flex-1 min-h-[300px]">
+        <table class="w-full min-w-[700px] text-left text-sm whitespace-nowrap">
             <thead class="bg-white sticky top-0 z-10 shadow-sm ring-1 ring-gray-100 text-gray-500 uppercase text-[10px] font-bold tracking-wider">
                 <tr>
                     <th class="px-6 py-4">Student</th>

@@ -37,7 +37,7 @@
                     autofocus
                     autocomplete="username"
                     placeholder="Enter username or student ID"
-                    class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"
+                    class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-base sm:text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"
                 >
             </div>
             <p data-error-for="login" class="mt-1.5 text-xs font-medium text-red-600 hidden"></p>
@@ -59,7 +59,7 @@
                     required
                     autocomplete="current-password"
                     placeholder="Enter your password"
-                    class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-14 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"
+                    class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-14 text-base sm:text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"
                 >
                 <button
                     type="button"

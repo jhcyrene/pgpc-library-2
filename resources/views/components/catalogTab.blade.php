@@ -73,7 +73,7 @@
             </a>
         </div>
 
-        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($categories as $category)
                 <a href="{{ route('opac.index', ['category' => $category['route']]) }}"
                     class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#102b70]/10 hover:shadow-xl hover:shadow-slate-100 focus:outline-none focus:ring-2 focus:ring-[#102b70] focus:ring-offset-2"

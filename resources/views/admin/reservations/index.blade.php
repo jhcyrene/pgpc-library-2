@@ -102,13 +102,12 @@
         </div>
     </div>
 
-    <!-- Reservation Detail Modal -->
     <dialog id="reservationDetailModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-gray-50 p-0 rounded-2xl">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
             </form>
-            <div id="reservationDetailModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+            <div id="reservationDetailModalContent" class="p-6 sm:p-8 transition-opacity duration-300">
                 <!-- AJAX Content goes here -->
             </div>
         </div>

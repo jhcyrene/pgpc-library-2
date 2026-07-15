@@ -1,7 +1,7 @@
 <x-layout.admin>
 
 <!-- Main Dashboard Content -->
-    <div class="flex-1 flex flex-col min-h-0 h-full p-6 bg-gray-50/50">
+    <div class="flex-1 flex flex-col min-h-0 h-auto lg:h-full p-6 bg-gray-50/50">
         <x-admin.page-header 
             title="Book Management" 
             description="Manage the library's entire catalog of books and resources."
@@ -38,10 +38,10 @@
     </div>
 
     <!-- Add Book Modal -->
-    <dialog id="add_book_modal" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl bg-white p-0 overflow-hidden flex flex-col">
+    <dialog id="add_book_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-white p-0 rounded-2xl">
             <!-- Header -->
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0 relative">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0 relative sticky top-0 z-10">
                 <div>
                     <h3 class="font-bold text-lg text-gray-900">Add New Book</h3>
                     <p class="text-sm text-gray-500">Register a new book into the library catalog.</p>
@@ -52,7 +52,7 @@
             </div>
             
             <!-- Content -->
-            <div class="p-6 overflow-y-auto max-h-[75dvh]">
+            <div class="p-6">
                 <x-admin.addBook :categories="$categories ?? []" :publishers="$publishers ?? []" :authors="$authors ?? []" />
             </div>
         </div>
@@ -71,11 +71,11 @@
 
     <!-- Book Detail Modal -->
     <dialog id="bookDetailModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-5xl bg-gray-50 p-0 sm:p-0 rounded-2xl overflow-hidden flex flex-col max-h-[90dvh]">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-gray-50 p-0 rounded-2xl">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20 text-gray-500 hover:bg-gray-100 bg-white shadow-sm border border-gray-100">✕</button>
             </form>
-            <div id="bookDetailModalContent" class="p-6 sm:p-8 overflow-y-auto flex-1 transition-opacity duration-300">
+            <div id="bookDetailModalContent" class="p-6 sm:p-8 transition-opacity duration-300">
                 <!-- AJAX Content goes here -->
             </div>
         </div>

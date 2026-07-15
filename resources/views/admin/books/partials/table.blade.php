@@ -1,7 +1,7 @@
 <!-- Table -->
 <div id="books-table-container" class="bg-white border-x border-b border-gray-200 rounded-b-xl shadow-sm flex flex-col min-h-0 flex-1">
-    <div class="overflow-x-auto flex-1">
-        <table class="w-full text-left border-collapse">
+    <div class="w-full overflow-x-auto overscroll-x-contain flex-1">
+        <table class="w-full min-w-[750px] text-left border-collapse">
             <thead
                 class="sticky top-0 z-10 bg-gray-50 border-y border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider shadow-sm">
                 <tr>

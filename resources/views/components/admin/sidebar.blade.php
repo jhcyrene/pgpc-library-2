@@ -7,7 +7,7 @@
 <aside id="admin-sidebar" class="w-100 flex flex-col h-dvh shrink-0 overflow-hidden bg-brand-navy">
 
     <!-- Branding / Logo -->
-    <div class="h-[60px] flex items-center px-6 pb-5 pt-5 shrink-0 border-b border-white/5">
+    <div class="h-[60px] flex items-center justify-between px-6 pb-5 pt-5 shrink-0 border-b border-white/5">
         <a href="{{ $staffDashboardRoute }}" class="flex items-center gap-4">
             <div class="w-8 h-8 rounded-full border border-white/20 shrink-0 overflow-hidden flex items-center justify-center bg-white">
                 <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="w-full h-full object-cover">
@@ -16,6 +16,16 @@
                 <h2 class="text-sm font-bold text-white leading-tight">PGPC Library</h2>
             </div>
         </a>
+
+        <!-- Mobile Close Button -->
+        <button
+            type="button"
+            aria-label="Close navigation menu"
+            class="lg:hidden inline-flex min-h-11 min-w-11 items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#fcc719]"
+            onclick="closeSidebar()"
+        >
+            <span aria-hidden="true" class="text-xl font-bold">&times;</span>
+        </button>
     </div>
 
     <!-- Navigation -->

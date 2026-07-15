@@ -70,6 +70,7 @@
             document.body.classList.remove('overflow-hidden');
             if (mobileMenuBtn) {
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenuBtn.focus();
             }
         }
 

@@ -99,12 +99,13 @@
 
     {{-- AJAX Book Detail Modal (wider, with skeleton) --}}
     <dialog id="opac-book-detail-modal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-4xl bg-white p-0 overflow-hidden rounded-2xl border-t-4 border-brand-gold shadow-elegant">
-            <div class="bg-brand-navy px-6 py-4 flex justify-between items-center sticky top-0 z-20">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-2xl bg-white p-0">
+            <!-- Header -->
+            <div class="bg-brand-navy text-white px-6 py-4 flex justify-between items-center sticky top-0 z-20">
                 <h3 class="font-bold text-lg text-white">Book Details</h3>
                 <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost text-white/70 hover:text-white hover:bg-white/10">✕</button></form>
             </div>
-            <div id="opac-modal-body" class="p-6 sm:p-8 max-h-[75dvh] overflow-y-auto">
+            <div id="opac-modal-body" class="p-6 sm:p-8">
                 {{-- Skeleton loading --}}
                 <div id="opac-modal-skeleton" class="animate-pulse">
                     <div class="flex flex-col sm:flex-row gap-6">

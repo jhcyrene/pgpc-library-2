@@ -102,7 +102,7 @@
         </section>
 
         <section
-            class="relative flex flex-col min-h-dvh lg:min-h-0 lg:h-dvh lg:overflow-y-auto bg-slate-50 px-5 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
+            class="relative flex flex-col min-h-dvh lg:min-h-0 lg:h-dvh lg:overflow-y-auto bg-slate-50 px-4 py-8 sm:px-8 lg:px-12 {{ $formSide === 'left' ? 'lg:order-1' : 'lg:order-2' }}">
             <div
                 class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#102b70] via-[#fcc719] to-[#102b70] lg:hidden">
             </div>
@@ -110,7 +110,7 @@
             <div class="relative z-10 w-full {{ $formWidth === 'wide' ? 'max-w-2xl' : 'max-w-md' }} m-auto">
                 <div class="mb-8 flex items-center justify-between lg:hidden">
                     <a href="{{ route('home') }}"
-                        class="inline-flex items-center gap-2 text-sm font-bold text-[#102b70]">
+                        class="inline-flex items-center gap-2 text-sm font-bold text-[#102b70] hover:text-[#0b225e]">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -118,8 +118,15 @@
                         </svg>
                         Home
                     </a>
-                    <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo"
-                        class="h-11 w-11 rounded-full shadow-sm">
+                    
+                    <div class="flex items-center gap-2.5">
+                        <div class="text-right">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-[#102b70] leading-none">PGPC Library</span>
+                            <span class="block text-[8px] font-semibold text-slate-500 uppercase tracking-widest mt-0.5 leading-none">System</span>
+                        </div>
+                        <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo"
+                            class="h-10 w-10 rounded-full shadow-sm ring-2 ring-[#102b70]/10">
+                    </div>
                 </div>
 
                 {{ $slot }}

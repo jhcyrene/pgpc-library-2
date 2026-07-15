@@ -20,7 +20,7 @@
     @endif
 
     @php
-        $inputClass = 'h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100';
+        $inputClass = 'h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-base sm:text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100';
         $labelClass = 'mb-2 block text-sm font-bold text-slate-700';
         $errorClass = 'mt-1.5 text-xs font-medium text-red-600';
     @endphp

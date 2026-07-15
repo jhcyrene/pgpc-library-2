@@ -63,7 +63,7 @@
         <div class="lg:col-span-1 space-y-6">
             @if(!$isEdit)
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                <h3 class="text-sm font-bold text-[#1A2B56] mb-4 uppercase tracking-wider">Initial Physical Copy</h3>
+                <h3 class="text-sm font-bold text-[#102b70] mb-4 uppercase tracking-wider">Initial Physical Copy</h3>
                 
                 <div class="space-y-4">
                     <x-admin.partials.input name="accession_number" label="Accession Number" placeholder="Required" required="true" value="{{ old('accession_number') }}" />
@@ -76,7 +76,7 @@
                                 name="barcode" 
                                 value="{{ old('barcode') }}" 
                                 placeholder="Optional"
-                                class="w-full px-4 py-2.5 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-[#1A2B56] focus:border-[#1A2B56] outline-none transition-all shadow-sm text-gray-800 text-sm"
+                                class="w-full px-4 py-2.5 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-[#102b70] focus:border-[#102b70] outline-none transition-all shadow-sm text-gray-800 text-sm"
                             >
                             <button type="button" onclick="document.getElementById('barcode').value = 'PGPC-BAR-' + Math.random().toString(36).substr(2, 9).toUpperCase();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2.5 rounded-r-lg border border-l-0 border-gray-300 text-sm font-medium transition-colors" title="Generate Random Barcode">
                                 Generate
@@ -100,7 +100,7 @@
             @endif
 
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                <h3 class="text-sm font-bold text-[#1A2B56] mb-4 uppercase tracking-wider">Book Cover</h3>
+                <h3 class="text-sm font-bold text-[#102b70] mb-4 uppercase tracking-wider">Book Cover</h3>
                 <x-admin.partials.fileUpload name="cover_image" label="" :current-image="$currentCoverImage" />
                 <p class="text-xs text-gray-500 mt-3 text-center">A high-quality cover image helps users easily identify the book in the catalog.</p>
             </div>
@@ -110,7 +110,7 @@
         <div class="lg:col-span-2 space-y-6">
             
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-5">
-                <h3 class="text-sm font-bold text-[#1A2B56] mb-2 uppercase tracking-wider">Bibliographic Information</h3>
+                <h3 class="text-sm font-bold text-[#102b70] mb-2 uppercase tracking-wider">Bibliographic Information</h3>
                 
                 <x-admin.partials.input name="book_title" label="Book Title" placeholder="Enter the complete book title" required="true" value="{{ $val('book_title') }}" />
                 <x-admin.partials.input name="subtitle" label="Subtitle" placeholder="Optional" value="{{ $val('subtitle') }}" />
@@ -157,7 +157,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="form-control">
                         <label class="label"><span class="label-text font-semibold text-gray-700">Categories</span></label>
-                        <select name="categories[]" multiple class="border border-gray-200 rounded-lg text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-[#1A2B56] bg-gray-50 text-gray-700 font-medium w-full h-32">
+                        <select name="categories[]" multiple class="border border-gray-200 rounded-lg text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-[#102b70] bg-gray-50 text-gray-700 font-medium w-full h-32">
                             @foreach($categories as $category)
                                 <option value="{{ $category->category_id }}" @selected(in_array($category->category_id, collect($selectedCategories)->toArray()))>
                                     {{ $category->category_name }}
@@ -175,12 +175,12 @@
 
                 <div class="space-y-1">
                     <label class="block text-sm font-semibold text-gray-700">Book Description</label>
-                    <textarea name="description" rows="4" class="block w-full border border-gray-200 rounded-lg text-sm bg-gray-50 focus:bg-white focus:border-[#1A2B56] focus:ring-1 focus:ring-[#1A2B56] outline-none transition-all shadow-sm p-3" placeholder="Write a brief summary...">{{ $val('description') }}</textarea>
+                    <textarea name="description" rows="4" class="block w-full border border-gray-200 rounded-lg text-sm bg-gray-50 focus:bg-white focus:border-[#102b70] focus:ring-1 focus:ring-[#102b70] outline-none transition-all shadow-sm p-3" placeholder="Write a brief summary...">{{ $val('description') }}</textarea>
                 </div>
                 
                 <div class="space-y-1">
                     <label class="block text-sm font-semibold text-gray-700">Notes</label>
-                    <textarea name="notes" rows="2" class="block w-full border border-gray-200 rounded-lg text-sm bg-gray-50 focus:bg-white focus:border-[#1A2B56] focus:ring-1 focus:ring-[#1A2B56] outline-none transition-all shadow-sm p-3" placeholder="Additional notes...">{{ $val('notes') }}</textarea>
+                    <textarea name="notes" rows="2" class="block w-full border border-gray-200 rounded-lg text-sm bg-gray-50 focus:bg-white focus:border-[#102b70] focus:ring-1 focus:ring-[#102b70] outline-none transition-all shadow-sm p-3" placeholder="Additional notes...">{{ $val('notes') }}</textarea>
                 </div>
 
             </div>
@@ -193,7 +193,7 @@
         <a href="{{ route('admin.books.index') }}" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-200 transition-colors shadow-sm">
             Cancel
         </a>
-        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-[#1A2B56] border border-transparent rounded-lg hover:bg-[#243B73] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#1A2B56] transition-colors shadow-sm flex items-center gap-2">
+        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-[#102b70] border border-transparent rounded-lg hover:bg-[#0b225e] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#102b70] transition-colors shadow-sm flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>

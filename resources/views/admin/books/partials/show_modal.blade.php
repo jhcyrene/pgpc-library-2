@@ -7,7 +7,7 @@
                 <h3 class="font-bold text-xl text-gray-800">Book Details</h3>
             </div>
             <div class="flex items-center gap-3">
-                <a href="{{ route('admin.books.edit', $bookData->book_data_id) }}" class="flex items-center gap-2 bg-[#1A2B56] hover:bg-[#243B73] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm">
+                <a href="{{ route('admin.books.edit', $bookData->book_data_id) }}" class="flex items-center gap-2 bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
@@ -44,7 +44,7 @@
                             <h3 class="text-lg text-gray-600 mt-1">{{ $bookData->subtitle }}</h3>
                         @endif
                         
-                        <p class="text-md text-[#1A2B56] font-semibold mt-1">
+                        <p class="text-md text-[#102b70] font-semibold mt-1">
                             By 
                             @forelse($bookData->authors as $author)
                                 {{ $author->first_name }} {{ $author->last_name }}@if(!$loop->last), @endif
@@ -120,7 +120,7 @@
                 <!-- Physical Copies -->
                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-full">
                     <div class="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50 rounded-t-xl shrink-0">
-                        <h3 class="text-sm font-bold text-[#1A2B56] uppercase tracking-wider">Physical Copies ({{ $bookData->books->count() }})</h3>
+                        <h3 class="text-sm font-bold text-[#102b70] uppercase tracking-wider">Physical Copies ({{ $bookData->books->count() }})</h3>
                         <a href="{{ route('admin.books.copies.index', $bookData->book_data_id) }}" class="text-xs text-blue-600 hover:text-blue-800 font-bold bg-blue-50 px-3 py-1 rounded-full">Manage Copies</a>
                     </div>
                     
@@ -148,7 +148,7 @@
                                                     @endphp
                                                     <div class="hidden" id="modal-barcode-data-{{ $copy->book_id }}">data:image/png;base64,{{ $barcodeBase64 }}</div>
                                                     <div class="hidden" id="modal-qr-data-{{ $copy->book_id }}">{!! $qrSvg !!}</div>
-                                                    <button type="button" onclick="showModalBarcodeView('{{ $copy->book_id }}', '{{ $copy->barcode }}')" class="text-[#1A2B56] hover:text-blue-700 bg-blue-50 hover:bg-blue-100 p-1.5 rounded transition-colors" title="View Barcode">
+                                                    <button type="button" onclick="showModalBarcodeView('{{ $copy->book_id }}', '{{ $copy->barcode }}')" class="text-[#102b70] hover:text-blue-700 bg-blue-50 hover:bg-blue-100 p-1.5 rounded transition-colors" title="View Barcode">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                                                         </svg>

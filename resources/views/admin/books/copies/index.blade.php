@@ -8,7 +8,7 @@
             
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.books.index') }}" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50">Back to Books</a>
-                <a href="{{ route('admin.books.copies.create', $bookData->book_data_id) }}" class="flex items-center gap-2 bg-[#1A2B56] hover:bg-[#243B73] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm">
+                <a href="{{ route('admin.books.copies.create', $bookData->book_data_id) }}" class="flex items-center gap-2 bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>

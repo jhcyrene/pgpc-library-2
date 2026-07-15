@@ -8,7 +8,7 @@
 
 <div class="p-3 shrink-0 border-t border-white/5">
     <div class="flex items-center gap-3 rounded-xl px-2 py-2">
-        <div class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black {{ !$staffAccount?->profile_image ? 'text-[#1A2B56] bg-[#FFC107]' : '' }} overflow-hidden">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black {{ !$staffAccount?->profile_image ? 'text-[#102b70] bg-[#fcc719]' : '' }} overflow-hidden">
             @if($staffAccount?->profile_image)
                 <img src="{{ $staffAccount->profile_image }}" alt="Profile" class="w-full h-full object-cover">
             @else

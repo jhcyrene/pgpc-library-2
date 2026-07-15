@@ -15,7 +15,7 @@
             
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div class="p-6 border-b border-gray-100 bg-gray-50/50">
-                    <h2 class="text-lg font-bold text-[#1A2B56]">Profile Information</h2>
+                    <h2 class="text-lg font-bold text-[#102b70]">Profile Information</h2>
                     <p class="text-sm text-gray-500">Enter the basic details for the {{ $type }}.</p>
                 </div>
                 <div class="p-6">
@@ -26,7 +26,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div class="p-6 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h2 class="text-lg font-bold text-[#1A2B56]">Account Settings</h2>
+                        <h2 class="text-lg font-bold text-[#102b70]">Account Settings</h2>
                         <p class="text-sm text-gray-500">Create login credentials for the system.</p>
                     </div>
                     <!-- Used a standard checkbox if Alpine fails, but Alpine is requested off if absent. Wait, standard JS is safer since the user doesn't want Alpine unless it is already there. -->

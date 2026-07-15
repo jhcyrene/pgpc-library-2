@@ -3,7 +3,7 @@
 <div class="relative w-full">
     <label class="block text-sm font-semibold text-gray-700 mb-1">Publisher</label>
     <input type="text" id="publisher" name="publisher" autocomplete="off"
-           class="block w-full border border-gray-200 rounded-lg text-sm px-3 py-2.5 bg-gray-50 focus:bg-white focus:border-[#1A2B56] focus:ring-1 focus:ring-[#1A2B56] outline-none transition-all shadow-sm" 
+           class="block w-full border border-gray-200 rounded-lg text-sm px-3 py-2.5 bg-gray-50 focus:bg-white focus:border-[#102b70] focus:ring-1 focus:ring-[#102b70] outline-none transition-all shadow-sm" 
            placeholder="Type to search or enter a new publisher..." 
            value="{{ $value }}">
     

@@ -4,7 +4,7 @@
     $staffDashboardRoute = $isAdministrator ? route('admin.dashboard') : route('librarian.dashboard');
 @endphp
 
-<aside id="admin-sidebar" class="w-64 flex flex-col h-screen shrink-0 overflow-hidden bg-[#1A2B56]">
+<aside id="admin-sidebar" class="w-64 flex flex-col h-screen shrink-0 overflow-hidden bg-[#102b70]">
 
     <!-- Branding / Logo -->
     <div class="h-[60px] flex items-center px-6 pb-5 shrink-0 border-b border-white/5">

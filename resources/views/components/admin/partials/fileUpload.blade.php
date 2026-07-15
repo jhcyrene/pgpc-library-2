@@ -25,7 +25,7 @@
         >
         
         <!-- Placeholder / Icon -->
-        <div data-image-preview-placeholder class="flex flex-col items-center justify-center text-gray-400 group-hover:text-[#1A2B56] transition-colors p-4 text-center" @if($currentImage) style="display: none;" @endif>
+        <div data-image-preview-placeholder class="flex flex-col items-center justify-center text-gray-400 group-hover:text-[#102b70] transition-colors p-4 text-center" @if($currentImage) style="display: none;" @endif>
             <svg class="w-10 h-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>

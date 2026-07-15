@@ -4,7 +4,7 @@
     <div>
         <x-admin.breadcrumbs :breadcrumbs="$breadcrumbs" />
         
-        <h1 class="text-2xl font-bold text-[#1A2B56]">{{ $title }}</h1>
+        <h1 class="text-2xl font-bold text-[#102b70]">{{ $title }}</h1>
         @if($description)
             <p class="text-sm text-gray-500 mt-1">{{ $description }}</p>
         @endif

@@ -3,7 +3,7 @@
     $initials = strtoupper(substr($student->first_name ?? 'S', 0, 1) . substr($student->last_name ?? '', 0, 1));
 @endphp
 
-<aside id="student-sidebar" class="flex h-screen w-56 shrink-0 flex-col overflow-hidden bg-[#1A2B56]">
+<aside id="student-sidebar" class="flex h-screen w-56 shrink-0 flex-col overflow-hidden bg-[#102b70]">
     <div class="flex h-[60px] shrink-0 items-center border-b border-white/5 px-4">
         <a href="{{ route('student.dashboard') }}" class="group flex min-w-0 items-center gap-3">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white">
@@ -50,7 +50,7 @@
         <div class="flex items-center gap-1">
             <a href="{{ route('student.profile.show') }}"
                 class="flex min-w-0 flex-1 items-center gap-2 rounded-xl px-2 py-2 transition-colors hover:bg-white/10 {{ request()->routeIs('student.profile.*') ? 'bg-white/10' : '' }}">
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full {{ !Auth::guard('member')->user()->profile_image ? 'bg-[#FFC107] text-[#1A2B56]' : '' }} text-sm font-black overflow-hidden">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full {{ !Auth::guard('member')->user()->profile_image ? 'bg-[#fcc719] text-[#102b70]' : '' }} text-sm font-black overflow-hidden">
                     @if(Auth::guard('member')->user()->profile_image)
                         <img src="{{ Auth::guard('member')->user()->profile_image }}" alt="Profile" class="w-full h-full object-cover">
                     @else

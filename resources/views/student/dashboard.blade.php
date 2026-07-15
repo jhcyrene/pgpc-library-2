@@ -5,16 +5,16 @@
 <x-layout.student title="Dashboard">
     <div class="mx-auto w-full max-w-[1600px] space-y-5">
         <section class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2.2fr)_minmax(280px,0.8fr)]">
-            <div class="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-2xl bg-[#1A2B56] p-6 shadow-md transition-shadow hover:shadow-lg md:p-7">
+            <div class="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-2xl bg-[#102b70] p-6 shadow-md transition-shadow hover:shadow-lg md:p-7">
                 <div class="absolute -right-10 -top-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
-                <div class="absolute right-20 -bottom-20 w-40 h-40 bg-[#FFC107] opacity-10 rounded-full blur-2xl"></div>
+                <div class="absolute right-20 -bottom-20 w-40 h-40 bg-[#fcc719] opacity-10 rounded-full blur-2xl"></div>
 
                 <div class="relative z-10 flex flex-col h-full">
                     <div class="flex-1">
                         <p class="text-white/60 text-xs font-bold uppercase tracking-wider mb-4">{{ now()->format('l, F j, Y') }}</p>
                         <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight mb-2">
                             Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 18 ? 'afternoon' : 'evening') }},
-                            <span class="text-[#FFC107]">{{ $student->first_name }}</span>
+                            <span class="text-[#fcc719]">{{ $student->first_name }}</span>
                         </h1>
                         <p class="text-slate-300 text-sm font-medium max-w-xl leading-relaxed">
                             Review your borrowed books, reservations, and due dates from one place.
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3 mt-6">
-                        <a href="{{ route('opac.index') }}" class="px-6 py-3 bg-[#FFC107] hover:bg-[#FFD54F] text-[#1A2B56] text-sm font-bold rounded-xl shadow-md shadow-[#FFC107]/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                        <a href="{{ route('opac.index') }}" class="px-6 py-3 bg-[#fcc719] hover:bg-[#FFD54F] text-[#102b70] text-sm font-bold rounded-xl shadow-md shadow-[#fcc719]/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                             Browse Catalog
                         </a>

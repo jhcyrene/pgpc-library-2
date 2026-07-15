@@ -1,6 +1,6 @@
 <div class="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-[#1A2B56]">{{ $user->first_name }} {{ $user->last_name }}</h1>
+        <h1 class="text-2xl font-bold text-[#102b70]">{{ $user->first_name }} {{ $user->last_name }}</h1>
         <p class="text-sm text-gray-500 mt-1">{{ ucfirst($type) }} Profile</p>
     </div>
     <div class="flex items-center gap-2">
@@ -28,13 +28,13 @@
         <!-- Profile Card -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                <h2 class="text-lg font-bold text-[#1A2B56]">Profile Information</h2>
+                <h2 class="text-lg font-bold text-[#102b70]">Profile Information</h2>
                 <x-admin.users.type-badge :type="ucfirst($type)" />
             </div>
             <div class="p-6">
                 <div class="flex flex-col sm:flex-row gap-6 items-start">
                     <div class="avatar placeholder">
-                        <div class="bg-indigo-100 text-[#1A2B56] rounded-full w-24 h-24">
+                        <div class="bg-indigo-100 text-[#102b70] rounded-full w-24 h-24 flex items-center justify-center">
                             <span class="font-bold text-3xl">{{ substr($user->first_name, 0, 1) }}{{ substr($user->last_name, 0, 1) }}</span>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-gray-500">Total Borrows</p>
-                        <h3 class="text-2xl font-bold text-[#1A2B56]">{{ $user->book_borrows_count ?? 0 }}</h3>
+                        <h3 class="text-2xl font-bold text-[#102b70]">{{ $user->book_borrows_count ?? 0 }}</h3>
                     </div>
                 </div>
                 
@@ -97,7 +97,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-gray-500">Book Requests</p>
-                        <h3 class="text-2xl font-bold text-[#1A2B56]">{{ $user->book_requests_count ?? 0 }}</h3>
+                        <h3 class="text-2xl font-bold text-[#102b70]">{{ $user->book_requests_count ?? 0 }}</h3>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
     <div class="space-y-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-100 bg-gray-50/50">
-                <h2 class="text-lg font-bold text-[#1A2B56]">System Account</h2>
+                <h2 class="text-lg font-bold text-[#102b70]">System Account</h2>
             </div>
             
             @if($user->memberAuth)

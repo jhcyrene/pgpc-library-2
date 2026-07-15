@@ -12,7 +12,7 @@
                 <form action="{{ route('admin.books.batch-store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="batch_id" value="{{ $batchId }}">
-                    <button type="submit" class="flex items-center gap-2 bg-[#1A2B56] hover:bg-[#243B73] text-white text-sm font-bold px-4 py-2.5 rounded-lg transition-all shadow-sm">
+                    <button type="submit" class="flex items-center gap-2 bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-bold px-4 py-2.5 rounded-lg transition-all shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>

@@ -109,7 +109,7 @@
                                                 type="text"
                                                 name="accessions[{{ $row['index'] }}]"
                                                 placeholder="e.g. ACC-1001"
-                                                class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 placeholder:text-gray-400 focus:border-[#1A2B56] focus:ring-2 focus:ring-blue-100 outline-none"
+                                                class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 placeholder:text-gray-400 focus:border-[#102b70] focus:ring-2 focus:ring-blue-100 outline-none"
                                             >
                                         @else
                                             <span class="text-xs text-gray-400">—</span>
@@ -137,7 +137,7 @@
                 <p class="text-sm text-gray-500">
                     <strong>{{ $valid }}</strong> record(s) will be processed. Records with accession numbers will also create physical copies.
                 </p>
-                <button type="submit" class="flex items-center gap-2 bg-[#1A2B56] hover:bg-[#243B73] text-white text-sm font-bold px-6 py-2.5 rounded-lg transition-all shadow-sm">
+                <button type="submit" class="flex items-center gap-2 bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-bold px-6 py-2.5 rounded-lg transition-all shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>

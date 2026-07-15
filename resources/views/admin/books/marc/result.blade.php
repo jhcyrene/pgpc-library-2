@@ -36,7 +36,7 @@
                     <a href="{{ route('admin.books.batch-create') }}" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-200 transition-colors shadow-sm">
                         Import Another File
                     </a>
-                    <a href="{{ route('admin.books.index') }}" class="px-5 py-2.5 text-sm font-medium text-white bg-[#1A2B56] border border-transparent rounded-lg hover:bg-[#243B73] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#1A2B56] transition-colors shadow-sm">
+                    <a href="{{ route('admin.books.index') }}" class="px-5 py-2.5 text-sm font-medium text-white bg-[#102b70] border border-transparent rounded-lg hover:bg-[#0b225e] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#102b70] transition-colors shadow-sm">
                         Go to Book Manager
                     </a>
                 </div>

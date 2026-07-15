@@ -69,7 +69,7 @@
                             </a>
                             <!-- Edit Button -->
                             <a href="{{ route('admin.books.edit', $book->book_data_id) }}"
-                                class="bg-gray-50 text-gray-500 hover:text-[#1A2B56] hover:bg-gray-100 border border-gray-200 transition-colors px-2 py-1.5 rounded-md flex items-center justify-center shadow-sm"
+                                class="bg-gray-50 text-gray-500 hover:text-[#102b70] hover:bg-gray-100 border border-gray-200 transition-colors px-2 py-1.5 rounded-md flex items-center justify-center shadow-sm"
                                 title="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">

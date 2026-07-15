@@ -115,7 +115,7 @@
             submenu.classList.toggle('max-h-96', !expanded);
             submenu.classList.toggle('opacity-100', !expanded);
             chevron?.classList.toggle('rotate-90', !expanded);
-            chevron?.classList.toggle('text-[#FFC107]', !expanded);
+            chevron?.classList.toggle('text-[#fcc719]', !expanded);
         }
     </script>
 

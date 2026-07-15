@@ -13,7 +13,7 @@
                     </svg>
                     Download CSV Template
                 </a>
-                <a href="{{ route('admin.books.index') }}" class="flex items-center gap-2 text-[#1A2B56] bg-white border border-gray-200 hover:bg-gray-50 text-sm font-bold px-4 py-2.5 rounded-lg transition-all shadow-sm">
+                <a href="{{ route('admin.books.index') }}" class="flex items-center gap-2 text-[#102b70] bg-white border border-gray-200 hover:bg-gray-50 text-sm font-bold px-4 py-2.5 rounded-lg transition-all shadow-sm">
                     Back to Catalog
                 </a>
             </div>
@@ -54,7 +54,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                             </svg>
                             <div class="text-sm text-gray-600 mb-2">
-                                <span id="file-label" class="font-medium text-[#1A2B56] hover:text-[#243B73]">Choose a CSV or MARC file</span>
+                                <span id="file-label" class="font-medium text-[#102b70] hover:text-[#0b225e]">Choose a CSV or MARC file</span>
                                 <span class="pl-1">or drag and drop</span>
                             </div>
                             <p id="file-meta" class="text-xs text-gray-500">.csv, .mrc, .marc, .xml, .marcxml — up to 10 MB</p>
@@ -69,12 +69,12 @@
                             </div>
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" id="auto_generate_barcodes" name="auto_generate_barcodes" class="sr-only peer" checked value="1">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1A2B56]"></div>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#102b70]"></div>
                             </label>
                         </div>
 
 
-                        <button id="submit-btn" type="submit" disabled class="flex w-full items-center justify-center gap-2 rounded-lg border border-transparent bg-[#1A2B56] px-5 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#243B73] focus:outline-none focus:ring-2 focus:ring-[#1A2B56] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
+                        <button id="submit-btn" type="submit" disabled class="flex w-full items-center justify-center gap-2 rounded-lg border border-transparent bg-[#102b70] px-5 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#0b225e] focus:outline-none focus:ring-2 focus:ring-[#102b70] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -144,7 +144,7 @@
                 fileError.textContent = message;
                 fileError.classList.remove('hidden');
                 submitBtn.disabled = true;
-                dropZone.classList.remove('border-[#1A2B56]', 'bg-blue-50');
+                dropZone.classList.remove('border-[#102b70]', 'bg-blue-50');
                 dropZone.classList.add('border-red-300', 'bg-red-50');
             };
             
@@ -167,7 +167,7 @@
                 fileError.classList.add('hidden');
                 errorAlert.classList.add('hidden');
                 dropZone.classList.remove('border-gray-300', 'border-red-300', 'bg-red-50');
-                dropZone.classList.add('border-[#1A2B56]', 'bg-blue-50');
+                dropZone.classList.add('border-[#102b70]', 'bg-blue-50');
                 submitBtn.disabled = false;
                 return true;
             };
@@ -249,7 +249,7 @@
                 dropZone.addEventListener(eventName, (event) => {
                     event.preventDefault();
                     dropZone.classList.remove('border-gray-300');
-                    dropZone.classList.add('border-[#1A2B56]', 'bg-blue-50');
+                    dropZone.classList.add('border-[#102b70]', 'bg-blue-50');
                 });
             });
 

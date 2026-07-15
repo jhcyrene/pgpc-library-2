@@ -17,12 +17,12 @@
                 <td class="px-4 py-3">
                     <div class="flex items-center gap-3">
                         <div class="avatar placeholder">
-                            <div class="bg-indigo-100 text-[#1A2B56] rounded-full w-10">
+                            <div class="bg-indigo-100 text-[#102b70] rounded-full w-10 h-10 flex items-center justify-center">
                                 <span class="font-bold text-sm">{{ substr($user->first_name, 0, 1) }}{{ substr($user->last_name, 0, 1) }}</span>
                             </div>
                         </div>
                         <div>
-                            <div class="font-semibold text-[#1A2B56]">{{ $user->first_name }} {{ $user->last_name }}</div>
+                            <div class="font-semibold text-[#102b70]">{{ $user->first_name }} {{ $user->last_name }}</div>
                             <div class="text-xs text-gray-500">{{ $user->email ?? 'No email' }}</div>
                         </div>
                     </div>

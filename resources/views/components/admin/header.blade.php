@@ -11,7 +11,7 @@
         <!-- Left: Breadcrumbs & Mobile Menu -->
         <div class="flex items-center gap-4 text-sm font-medium text-gray-500">
             <!-- Mobile Menu Button -->
-            <button type="button" id="mobile-menu-btn" class="lg:hidden p-2 -ml-2 rounded-md hover:bg-gray-100 text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#1A2B56]" aria-label="Open sidebar">
+            <button type="button" id="mobile-menu-btn" class="lg:hidden p-2 -ml-2 rounded-md hover:bg-gray-100 text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#102b70]" aria-label="Open sidebar">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>

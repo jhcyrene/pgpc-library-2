@@ -28,7 +28,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Total Members</p>
-                    <h3 class="text-2xl font-bold text-[#1A2B56] mt-1">{{ number_format($totalMembers) }}</h3>
+                    <h3 class="text-2xl font-bold text-[#102b70] mt-1">{{ number_format($totalMembers) }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -38,7 +38,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Total Librarians</p>
-                    <h3 class="text-2xl font-bold text-[#1A2B56] mt-1">{{ number_format($totalLibrarians) }}</h3>
+                    <h3 class="text-2xl font-bold text-[#102b70] mt-1">{{ number_format($totalLibrarians) }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
@@ -73,9 +73,9 @@
                 
                 <!-- Tabs -->
                 <div class="flex gap-2">
-                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'all'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'all' ? 'bg-[#1A2B56] text-white' : 'text-gray-600 hover:bg-gray-100' }}">All Users</a>
-                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'member'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'member' ? 'bg-[#1A2B56] text-white' : 'text-gray-600 hover:bg-gray-100' }}">Members</a>
-                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'librarian'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'librarian' ? 'bg-[#1A2B56] text-white' : 'text-gray-600 hover:bg-gray-100' }}">Librarians</a>
+                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'all'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'all' ? 'bg-[#102b70] text-white' : 'text-gray-600 hover:bg-gray-100' }}">All Users</a>
+                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'member'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'member' ? 'bg-[#102b70] text-white' : 'text-gray-600 hover:bg-gray-100' }}">Members</a>
+                    <a href="{{ route('admin.users.index', array_merge(request()->query(), ['type' => 'librarian'])) }}" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors {{ $type === 'librarian' ? 'bg-[#102b70] text-white' : 'text-gray-600 hover:bg-gray-100' }}">Librarians</a>
                 </div>
 
                 <!-- Search -->
@@ -87,7 +87,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <input type="text" name="search" value="{{ $search }}" placeholder="Search users..." class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1A2B56] focus:border-[#1A2B56]">
+                        <input type="text" name="search" value="{{ $search }}" placeholder="Search users..." class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#102b70] focus:border-[#102b70]">
                     </div>
                     <x-admin.button type="submit" variant="primary" size="md">Search</x-admin.button>
                     @if($search)
@@ -184,11 +184,11 @@
                     
                     // Update active tab styling
                     typeLinks.forEach(link => {
-                        link.classList.remove('bg-[#1A2B56]', 'text-white');
+                        link.classList.remove('bg-[#102b70]', 'text-white');
                         link.classList.add('text-gray-600', 'hover:bg-gray-100');
                     });
                     typeLink.classList.remove('text-gray-600', 'hover:bg-gray-100');
-                    typeLink.classList.add('bg-[#1A2B56]', 'text-white');
+                    typeLink.classList.add('bg-[#102b70]', 'text-white');
 
                     // Update hidden type input in form
                     const url = new URL(typeLink.href);
@@ -255,7 +255,7 @@
     <!-- Add Member Modal -->
     <dialog id="addMemberModal" class="modal">
         <div class="modal-box w-11/12 max-w-5xl overflow-y-auto">
-            <h3 class="font-bold text-lg text-[#1A2B56] mb-4">Add Member</h3>
+            <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Member</h3>
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
@@ -274,14 +274,14 @@
                 @endif
 
                 <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <h2 class="text-base font-bold text-[#1A2B56] mb-4">Profile Information</h2>
+                    <h2 class="text-base font-bold text-[#102b70] mb-4">Profile Information</h2>
                     <x-admin.users.user-form type="member" />
                 </div>
 
                 <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-base font-bold text-[#1A2B56]">Account Settings</h2>
+                            <h2 class="text-base font-bold text-[#102b70]">Account Settings</h2>
                             <p class="text-xs text-gray-500">Create login credentials</p>
                         </div>
                         <label class="flex items-center cursor-pointer">
@@ -308,7 +308,7 @@
     <!-- Add Librarian Modal -->
     <dialog id="addLibrarianModal" class="modal">
         <div class="modal-box w-11/12 max-w-5xl overflow-y-auto">
-            <h3 class="font-bold text-lg text-[#1A2B56] mb-4">Add Librarian</h3>
+            <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Librarian</h3>
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
@@ -327,14 +327,14 @@
                 @endif
 
                 <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <h2 class="text-base font-bold text-[#1A2B56] mb-4">Profile Information</h2>
+                    <h2 class="text-base font-bold text-[#102b70] mb-4">Profile Information</h2>
                     <x-admin.users.user-form type="librarian" />
                 </div>
 
                 <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-base font-bold text-[#1A2B56]">Account Settings</h2>
+                            <h2 class="text-base font-bold text-[#102b70]">Account Settings</h2>
                             <p class="text-xs text-gray-500">Create login credentials</p>
                         </div>
                         <label class="flex items-center cursor-pointer">

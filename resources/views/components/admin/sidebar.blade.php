@@ -7,7 +7,7 @@
 <aside id="admin-sidebar" class="w-64 flex flex-col h-screen shrink-0 overflow-hidden bg-[#1A2B56]">
 
     <!-- Branding / Logo -->
-    <div class="h-[60px] flex items-center px-6 shrink-0 border-b border-white/5">
+    <div class="h-[60px] flex items-center px-6 pb-5 shrink-0 border-b border-white/5">
         <a href="{{ $staffDashboardRoute }}" class="flex items-center gap-4">
             <div class="w-8 h-8 rounded-full border border-white/20 shrink-0 overflow-hidden flex items-center justify-center bg-white">
                 <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="w-full h-full object-cover">

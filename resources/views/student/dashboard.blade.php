@@ -133,8 +133,8 @@
                         <a href="{{ route('opac.index') }}" class="mt-4 text-sm font-bold text-blue-700 hover:text-blue-900">Search the catalog</a>
                     </div>
                 @else
-                    <div class="overflow-x-auto rounded-xl border border-slate-200">
-                        <table class="w-full text-left text-sm text-slate-600 whitespace-nowrap">
+                    <div class="responsive-table-scroll rounded-xl border border-slate-200">
+                        <table class="mobile-card-table w-full text-left text-sm text-slate-600 whitespace-nowrap">
                             <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 uppercase text-xs tracking-wider">
                                 <tr>
                                     <th class="px-5 py-3.5">Book</th>
@@ -149,10 +149,10 @@
                                         $isOverdue = $borrow->due_date?->isPast() ?? false;
                                     @endphp
                                     <tr class="hover:bg-slate-50 transition-colors">
-                                        <td class="px-5 py-4 max-w-xs truncate font-bold text-slate-900">{{ $borrow->book?->bookData?->book_title ?? 'Untitled book' }}</td>
-                                        <td class="hidden px-5 py-4 text-xs font-medium text-slate-500 sm:table-cell">{{ $borrow->book?->accession_number ?? '—' }}</td>
-                                        <td class="px-5 py-4 text-xs font-medium">{{ $borrow->due_date?->format('M d, Y') ?? '—' }}</td>
-                                        <td class="px-5 py-4 text-right">
+                                        <td data-primary class="px-5 py-4 max-w-xs truncate font-bold text-slate-900">{{ $borrow->book?->bookData?->book_title ?? 'Untitled book' }}</td>
+                                        <td data-label="Accession no." class="hidden px-5 py-4 text-xs font-medium text-slate-500 sm:table-cell">{{ $borrow->book?->accession_number ?? '—' }}</td>
+                                        <td data-label="Due date" class="px-5 py-4 text-xs font-medium">{{ $borrow->due_date?->format('M d, Y') ?? '—' }}</td>
+                                        <td data-label="Status" class="px-5 py-4 text-right">
                                             <span class="inline-flex px-2.5 py-1 rounded-md text-xs font-bold border {{ $isOverdue ? 'text-red-700 bg-red-50 border-red-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200' }}">
                                                 {{ $isOverdue ? 'Overdue' : 'Active' }}
                                             </span>

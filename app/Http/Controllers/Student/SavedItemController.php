@@ -36,14 +36,30 @@ class SavedItemController extends Controller
         
         $this->savedItemService->saveItem($member, $bookData);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'saved' => true,
+                'message' => 'Title saved to your list.',
+            ]);
+        }
+
         return back()->with('success', 'Title saved to your list.');
     }
 
-    public function destroy(BookData $bookData)
+    public function destroy(Request $request, BookData $bookData)
     {
         $member = Auth::guard('member')->user()->member;
         
         $this->savedItemService->removeItem($member, $bookData);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'saved' => false,
+                'message' => 'Title removed from your list.',
+            ]);
+        }
 
         return back()->with('success', 'Title removed from your list.');
     }

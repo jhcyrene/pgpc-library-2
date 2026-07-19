@@ -12,10 +12,12 @@
     <link rel="icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    @vite(['resources/css/welcome.css', 'resources/js/app.js'])
+    @vite(['resources/css/preloader.css', 'resources/css/welcome.css', 'resources/js/app.js', 'resources/js/loader.js'])
     
 </head>
-<body class="bg-base-200 min-h-dvh flex text-base-content antialiased font-sans overflow-x-hidden">
+<body class="bg-base-200 min-h-dvh flex text-base-content antialiased font-sans overflow-x-hidden" id="portal-content">
+
+    <x-preloader />
     
     <!-- Mobile Sidebar Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity opacity-0" aria-hidden="true"></div>
@@ -30,7 +32,7 @@
         <x-student.header />
     
         <!-- Content -->
-        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-50 relative">
+        <main class="portal-main flex-1 min-w-0 w-full overflow-y-auto p-3 sm:p-6 lg:p-8 bg-slate-50 relative">
             
             <!-- Global Flash Messages -->
             @if(session('success'))

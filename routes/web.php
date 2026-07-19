@@ -8,6 +8,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookDataController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\LibrarianController;
+use App\Http\Controllers\Librarian\ProfileSettingsController;
 use App\Http\Controllers\MemberAuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PublisherController;
@@ -109,6 +110,9 @@ Route::prefix('librarian')->middleware(['librarian'])->name('librarian.')->group
     Route::redirect('/', '/librarian/dashboard')->name('home');
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/stats', [StaffDashboardController::class, 'stats'])->name('dashboard.stats');
+    Route::get('/settings', [ProfileSettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/profile', [ProfileSettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/password', [ProfileSettingsController::class, 'updatePassword'])->name('settings.password');
 });
 
 Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function () {
@@ -169,6 +173,7 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::get('books-batch/template', [BatchBookController::class, 'template'])->name('books.batch-template');
 
     // MARC Import
+    Route::get('books-marc/create', [BatchBookController::class, 'create'])->name('books.marc-create');
     Route::post('books-marc/preview', [\App\Http\Controllers\MarcImportController::class, 'preview'])->name('books.marc-preview');
     Route::get('books-marc/preview/{batch_id}', [\App\Http\Controllers\MarcImportController::class, 'showPreview'])->name('books.marc-preview.show');
     Route::post('books-marc/import', [\App\Http\Controllers\MarcImportController::class, 'store'])->name('books.marc-store');

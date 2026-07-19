@@ -10,8 +10,8 @@
                 <h3 class="font-bold text-gray-800">Showing {{ $fines->firstItem() ?? 0 }} to {{ $fines->lastItem() ?? 0 }} of {{ $fines->total() }} items</h3>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div class="responsive-table-scroll">
+                <table class="mobile-card-table table w-full">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                             <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -29,22 +29,22 @@
                                 $isPaid = $balance <= 0;
                             @endphp
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
+                                <td data-primary class="px-6 py-4">
                                     <div class="flex flex-col">
                                         <h4 class="font-bold text-gray-800 text-sm">{{ $fine->bookBorrow->book->bookData->book_title }}</h4>
                                         <span class="text-xs text-gray-500">Acc. No: {{ $fine->bookBorrow->book->accession_number }}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Fine date" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $fine->fine_date->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-sm font-medium text-gray-800 text-right">
+                                <td data-label="Amount" class="px-6 py-4 text-sm font-medium text-gray-800 text-right">
                                     ₱{{ number_format($fine->fine_total, 2) }}
                                 </td>
-                                <td class="px-6 py-4 text-sm font-bold {{ $isPaid ? 'text-success' : 'text-error' }} text-right">
+                                <td data-label="Balance" class="px-6 py-4 text-sm font-bold {{ $isPaid ? 'text-success' : 'text-error' }} text-right">
                                     ₱{{ number_format($balance, 2) }}
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td data-label="Status" class="px-6 py-4 text-right">
                                     @if($isPaid)
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-success/10 text-success uppercase tracking-wider">
                                             Paid
@@ -58,7 +58,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                <td data-empty colspan="5" class="px-6 py-12 text-center text-gray-500">
                                     <div class="flex flex-col items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-success/50 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

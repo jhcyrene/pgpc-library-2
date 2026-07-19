@@ -63,8 +63,8 @@
             <input type="hidden" name="batch_id" value="{{ $batchId }}">
 
             <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
-                <div class="overflow-y-auto flex-1">
-                    <table class="w-full text-left border-collapse">
+                <div class="responsive-table-scroll overflow-y-auto flex-1" tabindex="0" role="region" aria-label="MARC import preview">
+                    <table class="responsive-table w-full text-left border-collapse">
                         <thead class="bg-gray-50 sticky top-0 z-10 shadow-sm">
                             <tr>
                                 <th class="px-4 py-3 text-xs font-semibold text-gray-600 uppercase w-12">#</th>

@@ -34,8 +34,8 @@
         <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Activity</h3>
         
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div class="responsive-table-scroll">
+                <table class="mobile-card-table table w-full">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                             <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -47,7 +47,7 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse($currentBorrows as $borrow)
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
+                                <td data-primary class="px-6 py-4">
                                     <div class="flex items-center gap-4">
                                         <div class="w-10 h-14 bg-gray-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,13 +59,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                                <td data-label="Accession no." class="px-6 py-4 text-sm text-gray-600 font-medium">
                                     {{ $borrow->book->accession_number }}
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Date" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $borrow->issue_date->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td data-label="Status" class="px-6 py-4 text-right">
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary uppercase tracking-wider">
                                         Borrowed
                                     </span>
@@ -73,7 +73,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+                                <td data-empty colspan="4" class="px-6 py-8 text-center text-gray-500">
                                     No recent borrowing activity.
                                 </td>
                             </tr>

@@ -36,6 +36,12 @@ class RoleAndPasswordRecoveryTest extends TestCase
             ->assertSee(route('librarian.dashboard'), false);
 
         $this->actingAs($account, 'member')
+            ->get(route('librarian.settings.index'))
+            ->assertOk()
+            ->assertSee(route('librarian.settings.profile'), false)
+            ->assertSee(route('librarian.settings.password'), false);
+
+        $this->actingAs($account, 'member')
             ->get(route('admin.users.index'))
             ->assertRedirect(route('librarian.dashboard'));
     }

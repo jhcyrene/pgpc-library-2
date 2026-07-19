@@ -121,8 +121,8 @@
                         <a href="{{ route('admin.books.copies.index', $bookData->book_data_id) }}" class="text-xs text-blue-600 hover:text-blue-800 font-bold bg-blue-50 px-3 py-1 rounded-full">Manage Copies</a>
                     </div>
                     
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
+                    <div class="responsive-table-scroll" tabindex="0" role="region" aria-label="Book copies table">
+                        <table class="responsive-table w-full text-left text-sm">
                             <thead>
                                 <tr class="text-gray-500 border-b border-gray-100 bg-white">
                                     <th class="py-3 px-4 font-semibold">Accession #</th>

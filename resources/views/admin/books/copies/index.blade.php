@@ -25,8 +25,8 @@
         @endif
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+            <div class="responsive-table-scroll" tabindex="0" role="region" aria-label="Book copies table">
+                <table class="responsive-table w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50 border-b border-gray-200">
                             <th class="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">Accession Number</th>

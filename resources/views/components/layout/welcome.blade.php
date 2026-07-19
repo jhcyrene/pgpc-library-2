@@ -39,7 +39,8 @@
 
 </head>
 
-<body class="is-loading antialiased font-sans bg-base-100 text-base-content min-h-dvh flex flex-col" id="portal-content">
+<body class="is-loading antialiased font-sans bg-base-100 text-base-content min-h-dvh flex flex-col"
+    id="portal-content">
 
     <x-preloader />
 
@@ -54,4 +55,3 @@
 </body>
 
 </html>
-

@@ -26,8 +26,8 @@
                     </div>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="table w-full">
+                <div class="responsive-table-scroll">
+                    <table class="mobile-card-table table w-full">
                         <thead>
                             <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                                 <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -43,7 +43,7 @@
                                     $daysOverdue = now()->diffInDays($borrow->due_date);
                                 @endphp
                                 <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4">
+                                    <td data-primary class="px-6 py-4">
                                         <div class="flex items-center gap-4">
                                             <div class="w-10 h-14 bg-gray-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,16 +55,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                                    <td data-label="Accession no." class="px-6 py-4 text-sm text-gray-600 font-medium">
                                         {{ $borrow->book->accession_number }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-error font-bold">
+                                    <td data-label="Due date" class="px-6 py-4 text-sm text-error font-bold">
                                         {{ $borrow->due_date->format('M d, Y') }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-error font-bold">
+                                    <td data-label="Days overdue" class="px-6 py-4 text-sm text-error font-bold">
                                         {{ $daysOverdue }} days
                                     </td>
-                                    <td class="px-6 py-4 text-right">
+                                    <td data-label="Fine status" class="px-6 py-4 text-right">
                                         @if($borrow->fineDue)
                                             <a href="{{ route('student.fines.index') }}" class="text-sm font-bold text-primary hover:underline">
                                                 ₱{{ number_format($borrow->fineDue->fine_total, 2) }}

@@ -158,8 +158,8 @@
                             <!-- List -->
                             <div id="books-list-container" class="hidden">
                                 <!-- Responsive Table/List Container -->
-                                <div class="hidden md:block overflow-x-auto border border-gray-100 rounded-xl shadow-sm bg-white">
-                                    <table class="w-full text-left text-sm whitespace-nowrap">
+                                <div class="responsive-table-scroll hidden md:block border border-gray-100 rounded-xl shadow-sm bg-white">
+                                    <table class="responsive-table w-full text-left text-sm whitespace-nowrap">
                                         <thead class="bg-gray-50/80 text-gray-500 uppercase text-[10px] font-bold tracking-wider">
                                             <tr>
                                                 <th class="px-4 py-3 w-10"></th>

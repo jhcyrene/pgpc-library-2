@@ -26,8 +26,8 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div class="responsive-table-scroll">
+                <table class="mobile-card-table table w-full">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                             <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -40,7 +40,7 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse($borrows as $borrow)
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
+                                <td data-primary class="px-6 py-4">
                                     <div class="flex items-center gap-4">
                                         <div class="w-10 h-14 bg-gray-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,16 +52,16 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                                <td data-label="Accession no." class="px-6 py-4 text-sm text-gray-600 font-medium">
                                     {{ $borrow->book->accession_number }}
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Issue date" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $borrow->issue_date->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Return date" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $borrow->return_date ? $borrow->return_date->format('M d, Y') : 'N/A' }}
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td data-label="Status" class="px-6 py-4 text-right">
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-success/10 text-success uppercase tracking-wider">
                                         Returned
                                     </span>
@@ -69,7 +69,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                <td data-empty colspan="5" class="px-6 py-12 text-center text-gray-500">
                                     <div class="flex flex-col items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

@@ -27,8 +27,8 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div class="responsive-table-scroll">
+                <table class="mobile-card-table table w-full">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                             <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -44,7 +44,7 @@
                                 $isOverdue = $borrow->due_date < now();
                             @endphp
                             <tr class="hover:bg-gray-50 transition-colors {{ $isOverdue ? 'bg-error/5' : '' }}">
-                                <td class="px-6 py-4">
+                                <td data-primary class="px-6 py-4">
                                     <div class="flex items-center gap-4">
                                         <div class="w-10 h-14 bg-gray-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,16 +56,16 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                                <td data-label="Accession no." class="px-6 py-4 text-sm text-gray-600 font-medium">
                                     {{ $borrow->book->accession_number }}
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Issue date" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $borrow->issue_date->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-sm {{ $isOverdue ? 'text-error font-bold' : 'text-gray-600' }}">
+                                <td data-label="Due date" class="px-6 py-4 text-sm {{ $isOverdue ? 'text-error font-bold' : 'text-gray-600' }}">
                                     {{ $borrow->due_date->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td data-label="Status" class="px-6 py-4 text-right">
                                     @if($isOverdue)
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-error/10 text-error uppercase tracking-wider">
                                             Overdue
@@ -79,7 +79,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                <td data-empty colspan="5" class="px-6 py-12 text-center text-gray-500">
                                     <div class="flex flex-col items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />

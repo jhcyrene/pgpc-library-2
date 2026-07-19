@@ -10,8 +10,8 @@
                 <h3 class="font-bold text-gray-800">Showing {{ $reservations->firstItem() ?? 0 }} to {{ $reservations->lastItem() ?? 0 }} of {{ $reservations->total() }} items</h3>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div class="responsive-table-scroll">
+                <table class="mobile-card-table table w-full">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-500 uppercase text-xs tracking-wider">
                             <th class="px-6 py-4 font-semibold">Book Details</th>
@@ -33,7 +33,7 @@
                                 };
                             @endphp
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
+                                <td data-primary class="px-6 py-4">
                                     <div class="flex items-center gap-4">
                                         <div class="w-10 h-14 bg-gray-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,21 +45,21 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td data-label="Requested" class="px-6 py-4 text-sm text-gray-600">
                                     {{ $reservation->request_date->format('M d, Y h:i A') }}
                                 </td>
-                                <td class="px-6 py-4 text-center">
+                                <td data-label="Status" class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold {{ $statusClass }} uppercase tracking-wider">
                                         {{ $reservation->bookRequestStatus->status_name }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td data-label="Action" class="px-6 py-4 text-right">
                                     <a href="{{ route('student.reservations.show', $reservation) }}" class="btn btn-sm btn-ghost hover:bg-primary/10 hover:text-primary">View</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-gray-500">
+                                <td data-empty colspan="4" class="px-6 py-12 text-center text-gray-500">
                                     <div class="flex flex-col items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

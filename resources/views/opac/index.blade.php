@@ -97,41 +97,56 @@
         :memberAccount="$memberAccount"
     />
 
-    {{-- AJAX Book Detail Modal (wider, with skeleton) --}}
-    <dialog id="opac-book-detail-modal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-2xl bg-white p-0">
-            <!-- Header -->
-            <div class="bg-brand-navy text-white px-6 py-4 flex justify-between items-center sticky top-0 z-20">
-                <h3 class="font-bold text-lg text-white">Book Details</h3>
-                <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost text-white/70 hover:text-white hover:bg-white/10">✕</button></form>
+    {{-- AJAX Book Detail Modal --}}
+    <dialog id="opac-book-detail-modal" class="modal modal-bottom p-0 sm:modal-middle sm:p-4" aria-labelledby="opac-book-detail-title">
+        <div class="modal-box relative max-h-[94dvh] w-full max-w-none overflow-y-auto rounded-t-[1.75rem] bg-white p-0 shadow-2xl sm:w-[min(92vw,52rem)] sm:max-w-[52rem] sm:rounded-[1.75rem]">
+            <div class="sticky top-0 z-20 overflow-hidden bg-gradient-to-r from-[#0b225e] to-[#183c82] text-white">
+                <div class="absolute inset-x-0 bottom-0 h-px bg-[#fcc719]/80"></div>
+                <div class="flex items-center justify-between gap-4 px-5 py-4 sm:px-7 sm:py-5">
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#fcc719]">Library catalog</p>
+                        <h3 id="opac-book-detail-title" class="mt-0.5 text-lg font-bold text-white sm:text-xl">Book Details</h3>
+                    </div>
+                    <form method="dialog" class="shrink-0">
+                        <button type="submit"
+                            class="grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white transition hover:border-white/40 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fcc719]"
+                            aria-label="Close book details">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div id="opac-modal-body" class="p-6 sm:p-8">
+
+            <div id="opac-modal-body" class="p-5 sm:p-7 lg:p-8">
                 {{-- Skeleton loading --}}
                 <div id="opac-modal-skeleton" class="animate-pulse">
-                    <div class="flex flex-col sm:flex-row gap-6">
-                        <div class="w-36 h-52 bg-gray-200 rounded-xl shrink-0 mx-auto sm:mx-0"></div>
-                        <div class="flex-1 space-y-3">
-                            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
-                            <div class="h-7 bg-gray-200 rounded w-3/4"></div>
-                            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
-                            <div class="grid grid-cols-2 gap-3 mt-4">
-                                <div class="h-16 bg-gray-100 rounded-xl"></div>
-                                <div class="h-16 bg-gray-100 rounded-xl"></div>
-                                <div class="h-16 bg-gray-100 rounded-xl"></div>
-                                <div class="h-16 bg-gray-100 rounded-xl"></div>
+                    <div class="grid gap-6 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-7">
+                        <div class="mx-auto aspect-[2/3] w-36 rounded-2xl bg-slate-200 sm:w-40"></div>
+                        <div class="min-w-0 space-y-4">
+                            <div class="h-5 w-28 rounded-full bg-amber-100"></div>
+                            <div class="h-8 w-4/5 rounded-lg bg-slate-200"></div>
+                            <div class="h-5 w-1/2 rounded bg-slate-100"></div>
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div class="h-20 rounded-xl bg-slate-100"></div>
+                                <div class="h-20 rounded-xl bg-slate-100"></div>
+                                <div class="h-20 rounded-xl bg-slate-100"></div>
+                                <div class="h-20 rounded-xl bg-slate-100"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 space-y-2">
-                        <div class="h-4 bg-gray-200 rounded w-1/5"></div>
-                        <div class="h-3 bg-gray-100 rounded w-full"></div>
-                        <div class="h-3 bg-gray-100 rounded w-5/6"></div>
+                    <div class="mt-7 h-20 rounded-2xl bg-slate-100"></div>
+                    <div class="mt-5 space-y-2">
+                        <div class="h-4 w-1/5 rounded bg-slate-200"></div>
+                        <div class="h-3 w-full rounded bg-slate-100"></div>
+                        <div class="h-3 w-5/6 rounded bg-slate-100"></div>
                     </div>
                 </div>
                 {{-- AJAX content injected here --}}
-                <div id="opac-modal-content" class="hidden"></div>
+                <div id="opac-modal-content" class="hidden transition-opacity duration-200"></div>
             </div>
         </div>
-        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+        <form method="dialog" class="modal-backdrop bg-slate-950/60 backdrop-blur-[2px]"><button aria-label="Close book details">close</button></form>
     </dialog>
 </x-layout.welcome>

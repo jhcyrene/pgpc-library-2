@@ -8,8 +8,8 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block w-full">
-        <table class="w-full text-left text-sm whitespace-nowrap">
+    <div class="responsive-table-scroll hidden md:block w-full">
+        <table class="responsive-table w-full text-left text-sm whitespace-nowrap">
             <thead class="bg-white sticky top-0 z-10 shadow-sm ring-1 ring-gray-100 text-gray-500 uppercase text-[10px] font-bold tracking-wider">
                 <tr>
                     <th class="px-6 py-4">Borrower</th>

@@ -39,7 +39,7 @@
         <x-admin.header />
     
         <!-- Content -->
-        <main class="flex-1 m-5 overflow-y-auto p-2 mt-0">
+        <main class="portal-main flex-1 min-w-0 w-full overflow-y-auto px-3 py-4 sm:px-5 lg:px-7">
             {{ $slot }}
         </main>
     </div>

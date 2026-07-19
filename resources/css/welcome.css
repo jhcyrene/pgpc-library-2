@@ -124,3 +124,128 @@
 .sidebar-scroller::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255,255,255,0.4);
 }
+
+/* Dashboard content must be allowed to shrink inside the sidebar layout. */
+.portal-main,
+.portal-main > *,
+.portal-grid > * {
+  min-width: 0;
+}
+
+/* Shared table viewport for admin, librarian, and student pages. */
+.responsive-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.responsive-table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.responsive-table-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.responsive-table {
+  min-width: 42rem;
+}
+
+@media (max-width: 639px) {
+  .responsive-table-scroll {
+    background:
+      linear-gradient(to right, white 30%, transparent),
+      linear-gradient(to left, white 30%, transparent) right,
+      radial-gradient(farthest-side at 0 50%, rgba(15, 23, 42, 0.16), transparent),
+      radial-gradient(farthest-side at 100% 50%, rgba(15, 23, 42, 0.16), transparent) right;
+    background-repeat: no-repeat;
+    background-size: 2.5rem 100%, 2.5rem 100%, 0.75rem 100%, 0.75rem 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  .responsive-table th,
+  .responsive-table td {
+    padding-inline: 0.875rem !important;
+  }
+
+  /* Tables marked as cards remain semantic tables on larger screens. */
+  .mobile-card-table,
+  .mobile-card-table tbody,
+  .mobile-card-table tr,
+  .mobile-card-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-card-table {
+    min-width: 0 !important;
+  }
+
+  .mobile-card-table thead {
+    display: none;
+  }
+
+  .mobile-card-table tbody {
+    padding: 0.75rem;
+  }
+
+  .mobile-card-table tbody tr {
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.875rem;
+    background: white;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  }
+
+  .mobile-card-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .mobile-card-table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0 !important;
+    border: 0 !important;
+    text-align: right !important;
+    white-space: normal;
+  }
+
+  .mobile-card-table tbody td::before {
+    content: attr(data-label);
+    flex: 0 0 7.25rem;
+    color: #64748b;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1rem;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .mobile-card-table tbody td[data-primary] {
+    display: block;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    text-align: left !important;
+  }
+
+  .mobile-card-table tbody td[data-primary]::before,
+  .mobile-card-table tbody td[data-empty]::before {
+    content: none;
+  }
+
+  .mobile-card-table tbody td[data-empty] {
+    display: block;
+    padding: 1.5rem 0 !important;
+    text-align: center !important;
+  }
+}

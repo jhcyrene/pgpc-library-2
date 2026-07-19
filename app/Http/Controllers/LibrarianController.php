@@ -65,10 +65,10 @@ class LibrarianController extends Controller
             return back()->with('error', 'This librarian cannot be deleted because transaction records exist.');
         }
 
-        $librarian->delete();
-        if ($librarian->memberAuth) {
-            $librarian->memberAuth->delete();
-        }
+        // $librarian->delete();
+        // if ($librarian->memberAuth) {
+        //     $librarian->memberAuth->delete();
+        // }
 
         return redirect()->route('admin.users.index', ['type' => 'librarian'])
             ->with('success', 'Librarian deactivated/deleted successfully.');

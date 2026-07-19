@@ -19,7 +19,11 @@
 </head>
 <body class="bg-base-200 min-h-dvh flex text-base-content antialiased font-sans overflow-x-hidden relative" id="portal-content">
 
-    <x-preloader />
+    {{-- <x-preloader /> --}}
+    <div id="site-preloader" role="status" aria-label="Loading PGPC Library">
+        <div class="pgpc-preloader-ring" aria-hidden="true"></div>
+        <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo" class="pgpc-preloader-logo">
+    </div>
 
     <!-- Watermark Background -->
     <div class="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden opacity-5">

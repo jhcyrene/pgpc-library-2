@@ -143,8 +143,15 @@
   scrollbar-color: #cbd5e1 transparent;
 }
 
+.responsive-table-scroll {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
 .responsive-table-scroll::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 
 .responsive-table-scroll::-webkit-scrollbar-thumb {

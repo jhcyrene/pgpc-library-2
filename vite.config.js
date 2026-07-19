@@ -22,13 +22,11 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
-
-        // hmr: {
-        //     host: 'pglibsystem.test',
-        // },
-
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true,
+        allowedHosts: true, // Permits requests from your IP / network hosts
+        cors: true,         // Allows local development requests
     },
 });
+

@@ -17,6 +17,7 @@
         "vite": "^8.0.0"
     },
     "dependencies": {
+        "@capacitor/android": "^8.4.2",
         "@inertiajs/react": "^3.6.1",
         "@vitejs/plugin-react": "^6.0.3",
         "react": "^19.2.7",

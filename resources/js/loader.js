@@ -18,7 +18,7 @@ Promise.all([minimumTimePromise, windowLoadPromise]).then(() => {
             preloader.remove();
         }, 550);
     }
-    
+
     const portal = document.getElementById('portal-content');
     if (portal) {
         portal.classList.add('is-ready');

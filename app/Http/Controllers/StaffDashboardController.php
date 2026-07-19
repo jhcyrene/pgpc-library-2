@@ -7,16 +7,52 @@ use App\Models\BookBorrow;
 use App\Models\BookData;
 use App\Models\BookRequest;
 use App\Models\Member;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class StaffDashboardController extends Controller
 {
-    public function index(): View
+    public function index(): InertiaResponse
     {
-        return view('admin.dashboard');
+        $data = $this->dashboardData();
+
+        return Inertia::render('Staff/Dashboard', [
+            'dashboard' => [
+                'dateLabel' => now()->format('l, F j, Y'),
+                'greeting' => now()->hour < 12 ? 'morning' : (now()->hour < 18 ? 'afternoon' : 'evening'),
+                'summary' => [
+                    'totalTitles' => $data['stats']['total_titles'],
+                    'totalCopies' => $data['stats']['total_copies'],
+                    'activeMembers' => $data['stats']['active_members'],
+                    'borrowedItems' => $data['stats']['borrowed_items'],
+                    'overdueItems' => $data['stats']['overdue_items'],
+                    'pendingReservations' => $data['stats']['pending_reservations'],
+                ],
+                'currentBorrowers' => collect($data['current_borrowers'])->map(fn (array $borrower) => [
+                    'memberName' => $borrower['member_name'],
+                    'bookTitle' => $borrower['book_title'],
+                    'borrowDate' => $borrower['borrow_date'],
+                    'status' => $borrower['status'],
+                ])->values(),
+                'mostBorrowedItems' => collect($data['most_borrowed_items'])->map(fn (array $item) => [
+                    'bookTitle' => $item['book_title'],
+                    'borrowCount' => (int) $item['borrow_count'],
+                    'copiesTotal' => (int) $item['copies_total'],
+                    'copiesAvailable' => (int) $item['copies_available'],
+                ])->values(),
+            ],
+        ]);
     }
 
     public function stats()
+    {
+        return response()->json([
+            'success' => true,
+            ...$this->dashboardData(),
+        ]);
+    }
+
+    private function dashboardData(): array
     {
         $stats = [
             'total_titles' => BookData::query()->count(),
@@ -77,11 +113,10 @@ class StaffDashboardController extends Controller
             }
         }
 
-        return response()->json([
-            'success' => true, 
+        return [
             'stats' => $stats, 
             'current_borrowers' => $current_borrowers,
             'most_borrowed_items' => $most_borrowed_items
-        ]);
+        ];
     }
 }

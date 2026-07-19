@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\MemberAuth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class StudentDashboardTest extends TestCase
@@ -43,10 +44,14 @@ class StudentDashboardTest extends TestCase
         $this->actingAs($account, 'member')
             ->get(route('student.dashboard'))
             ->assertOk()
-            ->assertSee('Good')
-            ->assertSee('Maria')
-            ->assertSee('Database Systems Handbook')
-            ->assertSee('Current Borrows')
-            ->assertSee(route('opac.index'), false);
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Student/Dashboard')
+                ->where('studentPortal.student.firstName', 'Maria')
+                ->where('studentPortal.routes.catalog', route('opac.index'))
+                ->where('dashboard.summary.activeBorrows', 1)
+                ->has('dashboard.currentBorrows', 1)
+                ->where('dashboard.currentBorrows.0.title', 'Database Systems Handbook')
+                ->where('dashboard.currentBorrows.0.isOverdue', false)
+            );
     }
 }

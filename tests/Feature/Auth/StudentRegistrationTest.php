@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\MemberAuth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class StudentRegistrationTest extends TestCase
@@ -16,7 +17,12 @@ class StudentRegistrationTest extends TestCase
     {
         $response = $this->get('/register');
 
-        $response->assertStatus(200);
+        $response->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/Register')
+                ->where('routes.submit', route('register.store'))
+                ->where('routes.login', route('login'))
+            );
     }
 
     public function test_new_students_can_register(): void

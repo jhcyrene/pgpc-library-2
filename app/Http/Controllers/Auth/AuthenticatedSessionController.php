@@ -8,6 +8,7 @@ use App\Models\MemberAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -30,7 +31,15 @@ class AuthenticatedSessionController extends Controller
             return $this->redirectAuthenticatedUser();
         }
 
-        return view('auth.student.login');
+        return Inertia::render('Auth/Login', [
+            'routes' => [
+                'home' => route('home'),
+                'submit' => route('login.store'),
+                'forgotPassword' => route('forgot-password'),
+                'register' => route('register'),
+                'staffLogin' => route('staff.login'),
+            ],
+        ]);
     }
 
     /**
@@ -42,7 +51,13 @@ class AuthenticatedSessionController extends Controller
             return $this->redirectAuthenticatedUser();
         }
 
-        return view('auth.staff.login');
+        return Inertia::render('Auth/StaffLogin', [
+            'routes' => [
+                'home' => route('home'),
+                'submit' => route('staff.login.store'),
+                'studentLogin' => route('login'),
+            ],
+        ]);
     }
 
     /**

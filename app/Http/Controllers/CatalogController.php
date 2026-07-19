@@ -4,24 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\BookData;
 use App\Models\Category;
+use App\Models\SavedItem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CatalogController extends Controller
 {
     /**
      * Display the advanced search page.
      */
-    public function advancedSearch(): View
+    public function advancedSearch(): Response
     {
-        return view('opac.opacSearch');
+        return Inertia::render('Public/AdvancedSearch', [
+            'routes' => [
+                'home' => route('home'),
+                'opac' => route('opac.index'),
+                'login' => route('login'),
+                'register' => route('register'),
+                'logout' => route('logout'),
+            ],
+        ]);
     }
 
     /**
      * Display the public library catalog.
      */
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $rawSearch = (string) ($request->query('q') ?? $request->query('search', ''));
         $search = trim(preg_replace('/\s+/u', ' ', $rawSearch) ?? $rawSearch);
@@ -252,19 +264,111 @@ class CatalogController extends Controller
             ->orderByRaw('LOWER(category_name) ASC')
             ->get();
 
-        return view('opac.index', compact(
-            'books',
-            'categories',
-            'search',
-            'selectedCategoryId',
-            'sort',
-            'sortOptions',
-            'statusOptions',
-            'selectedStatuses',
-            'selectedCategoryIds',
-            'yearFrom',
-            'yearTo'
-        ));
+        $memberAccount = Auth::guard('member')->user();
+        $isStudentAccount = $memberAccount
+            && $memberAccount->member_id
+            && in_array(strtolower((string) $memberAccount->account_type), ['member', 'student'], true);
+
+        $savedBookIds = $isStudentAccount
+            ? SavedItem::query()
+                ->where('member_id', $memberAccount->member_id)
+                ->whereIn('book_data_id', $books->getCollection()->pluck('book_data_id'))
+                ->pluck('book_data_id')
+                ->map(fn ($id) => (int) $id)
+                ->all()
+            : [];
+
+        $bookItems = $books->getCollection()->map(function (BookData $book) use ($isStudentAccount, $memberAccount, $savedBookIds): array {
+            $detail = $book->bookDetail;
+            $coverImage = $detail?->cover_image;
+            $coverUrl = $coverImage
+                ? (str_starts_with($coverImage, 'data:image') ? $coverImage : asset('storage/'.ltrim($coverImage, '/')))
+                : null;
+
+            $authors = $book->authors
+                ->map(fn ($author) => trim(collect([
+                    $author->first_name,
+                    $author->middle_name,
+                    $author->last_name,
+                    $author->suffix,
+                ])->filter()->implode(' ')))
+                ->filter()
+                ->values();
+
+            return [
+                'id' => (int) $book->book_data_id,
+                'title' => $book->book_title,
+                'subtitle' => $book->subtitle,
+                'description' => $book->description,
+                'coverUrl' => $coverUrl,
+                'authors' => $authors->isNotEmpty() ? $authors->all() : ['Unknown author'],
+                'categories' => $book->categories->pluck('category_name')->values()->all(),
+                'copies' => [
+                    'available' => (int) $book->copies_available,
+                    'total' => (int) $book->copies_total,
+                ],
+                'details' => [
+                    'callNumber' => $detail?->call_number,
+                    'isbn' => $detail?->isbn,
+                    'issn' => $detail?->issn,
+                    'publisher' => $detail?->publisher?->publisher_name,
+                    'publicationYear' => $detail?->publication_year,
+                    'format' => $detail?->format,
+                ],
+                'isSaved' => in_array((int) $book->book_data_id, $savedBookIds, true),
+                'actions' => [
+                    'show' => route('opac.book.show', $book),
+                    'login' => route('login'),
+                    'reserve' => $isStudentAccount ? route('student.reservations.create', $book) : null,
+                    'save' => $isStudentAccount ? route('student.saved-items.store', $book) : null,
+                    'unsave' => $isStudentAccount ? route('student.saved-items.destroy', $book) : null,
+                    'reservationAllowed' => (bool) $isStudentAccount,
+                    'staffAccount' => $memberAccount !== null && ! $isStudentAccount,
+                ],
+            ];
+        })->values();
+
+        return Inertia::render('Public/Catalog', [
+            'catalog' => [
+                'data' => $bookItems,
+                'meta' => [
+                    'currentPage' => $books->currentPage(),
+                    'lastPage' => $books->lastPage(),
+                    'perPage' => $books->perPage(),
+                    'total' => $books->total(),
+                    'from' => $books->firstItem(),
+                    'to' => $books->lastItem(),
+                ],
+                'links' => [
+                    'previous' => $books->previousPageUrl(),
+                    'next' => $books->nextPageUrl(),
+                ],
+            ],
+            'categories' => $categories->map(fn (Category $category): array => [
+                'id' => (int) $category->category_id,
+                'name' => $category->category_name,
+            ])->values(),
+            'filters' => [
+                'search' => $search,
+                'sort' => $sort,
+                'statuses' => array_values($selectedStatuses),
+                'categoryIds' => array_map('strval', $selectedCategoryIds),
+                'yearFrom' => $yearFrom,
+                'yearTo' => $yearTo,
+            ],
+            'options' => [
+                'sort' => $sortOptions,
+                'statuses' => $statusOptions,
+            ],
+            'routes' => [
+                'home' => route('home'),
+                'opac' => route('opac.index'),
+                'advancedSearch' => route('opac.search'),
+                'login' => route('login'),
+                'register' => route('register'),
+                'logout' => route('logout'),
+            ],
+        ]);
     }
 
     /**

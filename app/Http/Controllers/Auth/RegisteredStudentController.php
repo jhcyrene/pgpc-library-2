@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\MemberAuth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 use Exception;
 
 class RegisteredStudentController extends Controller
@@ -17,7 +18,13 @@ class RegisteredStudentController extends Controller
      */
     public function create()
     {
-        return view('auth.student.register');
+        return Inertia::render('Auth/Register', [
+            'routes' => [
+                'home' => route('home'),
+                'submit' => route('register.store'),
+                'login' => route('login'),
+            ],
+        ]);
     }
 
     /**

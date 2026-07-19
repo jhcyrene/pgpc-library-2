@@ -4,18 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SettingController extends Controller
 {
     /**
      * Display the settings page.
      */
-    public function index()
+    public function index(): Response
     {
         $defaultBorrowDays = Setting::get('default_borrow_days', env('DEFAULT_BORROW_DAYS', 3));
         $dailyFineAmount = Setting::get('daily_fine_amount', env('DAILY_FINE_AMOUNT', 10.0));
 
-        return view('admin.settings.index', compact('defaultBorrowDays', 'dailyFineAmount'));
+        return Inertia::render('Staff/Settings/Administrator', [
+            'systemSettings' => [
+                'defaultBorrowDays' => (int) $defaultBorrowDays,
+                'dailyFineAmount' => (float) $dailyFineAmount,
+                'updateUrl' => route('admin.settings.store'),
+            ],
+        ]);
     }
 
     /**

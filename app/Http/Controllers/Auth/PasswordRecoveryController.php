@@ -10,14 +10,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 class PasswordRecoveryController extends Controller
 {
-    public function create(): View
+    public function create(): Response
     {
-        return view('auth.student.forgot-password');
+        return Inertia::render('Auth/ForgotPassword', [
+            'routes' => [
+                'home' => route('home'),
+                'login' => route('login'),
+                'submit' => route('forgot-password.send'),
+            ],
+        ]);
     }
 
     public function sendCode(Request $request): RedirectResponse
@@ -69,13 +76,21 @@ class PasswordRecoveryController extends Controller
             ->with('status', 'A six-digit verification code was sent to your email.');
     }
 
-    public function showOtp(Request $request): View|RedirectResponse
+    public function showOtp(Request $request): Response|RedirectResponse
     {
         if (!$request->session()->has('password_reset_account_id')) {
             return redirect()->route('forgot-password');
         }
 
-        return view('auth.student.otp');
+        return Inertia::render('Auth/VerifyCode', [
+            'email' => $request->session()->get('password_reset_email'),
+            'routes' => [
+                'home' => route('home'),
+                'back' => route('forgot-password'),
+                'verify' => route('forgot-password.verify'),
+                'resend' => route('forgot-password.send'),
+            ],
+        ]);
     }
 
     public function verifyCode(Request $request): RedirectResponse
@@ -105,13 +120,18 @@ class PasswordRecoveryController extends Controller
         return redirect()->route('forgot-password.reset');
     }
 
-    public function showReset(Request $request): View|RedirectResponse
+    public function showReset(Request $request): Response|RedirectResponse
     {
         if (!$request->session()->get('password_reset_verified')) {
             return redirect()->route('forgot-password');
         }
 
-        return view('auth.student.reset-password');
+        return Inertia::render('Auth/ResetPassword', [
+            'routes' => [
+                'home' => route('home'),
+                'submit' => route('forgot-password.update'),
+            ],
+        ]);
     }
 
     public function reset(Request $request): RedirectResponse

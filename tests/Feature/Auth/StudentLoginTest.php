@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\MemberAuth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class StudentLoginTest extends TestCase
@@ -17,7 +18,14 @@ class StudentLoginTest extends TestCase
     {
         $response = $this->get('/login');
 
-        $response->assertStatus(200);
+        $response->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/Login')
+                ->where('routes.submit', route('login.store'))
+                ->where('routes.forgotPassword', route('forgot-password'))
+                ->where('routes.register', route('register'))
+                ->where('routes.staffLogin', route('staff.login'))
+            );
     }
 
     public function test_student_can_authenticate_using_username(): void
@@ -66,7 +74,11 @@ class StudentLoginTest extends TestCase
     {
         $this->get(route('staff.login'))
             ->assertOk()
-            ->assertSee('Administrators and librarians');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/StaffLogin')
+                ->where('routes.submit', route('staff.login.store'))
+                ->where('routes.studentLogin', route('login'))
+            );
     }
 
     public function test_administrator_can_sign_in_through_staff_login(): void

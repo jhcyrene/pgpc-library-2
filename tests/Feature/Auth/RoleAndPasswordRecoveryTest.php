@@ -8,6 +8,7 @@ use App\Models\MemberAuth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class RoleAndPasswordRecoveryTest extends TestCase
@@ -28,7 +29,15 @@ class RoleAndPasswordRecoveryTest extends TestCase
         $this->actingAs($account, 'member')
             ->get(route('librarian.dashboard'))
             ->assertOk()
-            ->assertSee('Lina');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Staff/Dashboard')
+                ->where('staffPortal.staff.firstName', 'Lina')
+                ->where('staffPortal.staff.roleLabel', 'Librarian')
+                ->where('staffPortal.staff.isAdministrator', false)
+                ->where('staffPortal.routes.dashboard', route('librarian.dashboard'))
+                ->where('staffPortal.routes.settings', route('librarian.settings.index'))
+                ->where('staffPortal.routes.users', null)
+                ->where('dashboard.summary.totalTitles', 0));
 
         $this->actingAs($account, 'member')
             ->get(route('admin.books.index'))
@@ -38,8 +47,11 @@ class RoleAndPasswordRecoveryTest extends TestCase
         $this->actingAs($account, 'member')
             ->get(route('librarian.settings.index'))
             ->assertOk()
-            ->assertSee(route('librarian.settings.profile'), false)
-            ->assertSee(route('librarian.settings.password'), false);
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Staff/Settings/Librarian')
+                ->where('settings.profile.firstName', 'Lina')
+                ->where('settings.forms.profileUrl', route('librarian.settings.profile'))
+                ->where('settings.forms.passwordUrl', route('librarian.settings.password')));
 
         $this->actingAs($account, 'member')
             ->get(route('admin.users.index'))
@@ -49,6 +61,13 @@ class RoleAndPasswordRecoveryTest extends TestCase
     public function test_student_can_complete_the_verification_code_password_reset_flow(): void
     {
         Mail::fake();
+
+        $this->get(route('forgot-password'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/ForgotPassword')
+                ->where('routes.submit', route('forgot-password.send'))
+            );
 
         $member = Member::factory()->create(['email' => 'reset.student@example.test']);
         $account = MemberAuth::factory()->create([
@@ -63,6 +82,14 @@ class RoleAndPasswordRecoveryTest extends TestCase
             ->assertRedirect(route('forgot-password.otp'))
             ->assertSessionHas('password_reset_account_id', $account->member_auth_id);
 
+        $this->get(route('forgot-password.otp'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/VerifyCode')
+                ->where('email', $member->email)
+                ->where('routes.verify', route('forgot-password.verify'))
+            );
+
         $account->refresh()->forceFill([
             'password_token' => Hash::make('123456'),
             'token_expiry' => now()->addMinutes(10),
@@ -74,6 +101,13 @@ class RoleAndPasswordRecoveryTest extends TestCase
         ])->post(route('forgot-password.verify'), [
             'digits' => ['1', '2', '3', '4', '5', '6'],
         ])->assertRedirect(route('forgot-password.reset'));
+
+        $this->get(route('forgot-password.reset'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/ResetPassword')
+                ->where('routes.submit', route('forgot-password.update'))
+            );
 
         $this->post(route('forgot-password.update'), [
             'password' => 'new-password2',

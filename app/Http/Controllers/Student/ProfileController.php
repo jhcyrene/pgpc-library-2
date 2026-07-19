@@ -4,20 +4,29 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\UpdateStudentProfileRequest;
+use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function show(): Response
     {
-        $member = Auth::guard('member')->user()->member;
-        return view('student.profile.show', compact('member'));
+        $account = Auth::guard('member')->user();
+
+        return Inertia::render('Student/Profile/Show', [
+            'profile' => $this->serializeProfile($account->member, $account->profile_image),
+        ]);
     }
 
-    public function edit()
+    public function edit(): Response
     {
-        $member = Auth::guard('member')->user()->member;
-        return view('student.profile.edit', compact('member'));
+        $account = Auth::guard('member')->user();
+
+        return Inertia::render('Student/Profile/Edit', [
+            'profile' => $this->serializeProfile($account->member, $account->profile_image),
+        ]);
     }
 
     public function update(UpdateStudentProfileRequest $request)
@@ -47,5 +56,27 @@ class ProfileController extends Controller
         }
 
         return redirect()->route('student.profile.show')->with('success', 'Profile updated successfully.');
+    }
+
+    private function serializeProfile(Member $member, ?string $profileImage): array
+    {
+        return [
+            'id' => (int) $member->member_id,
+            'studentId' => $member->student_id_number,
+            'firstName' => $member->first_name,
+            'lastName' => $member->last_name,
+            'email' => $member->email,
+            'contactNumber' => $member->contact_num,
+            'program' => $member->program,
+            'yearLevel' => $member->year_level,
+            'memberSince' => $member->created_at?->format('M d, Y'),
+            'profileImage' => $profileImage,
+            'initials' => strtoupper(substr((string) $member->first_name, 0, 1).substr((string) $member->last_name, 0, 1)),
+            'actions' => [
+                'show' => route('student.profile.show'),
+                'edit' => route('student.profile.edit'),
+                'update' => route('student.profile.update'),
+            ],
+        ];
     }
 }

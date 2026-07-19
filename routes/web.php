@@ -23,9 +23,18 @@ use App\Http\Controllers\Student\SavedItemController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('home');
+    return Inertia::render('Public/Home', [
+        'routes' => [
+            'home' => route('home'),
+            'opac' => route('opac.index'),
+            'login' => route('login'),
+            'register' => route('register'),
+            'logout' => route('logout'),
+        ],
+    ]);
 })->name('home');
 
 Route::get('/opac', [CatalogController::class, 'index'])->name('opac.index');

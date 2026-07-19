@@ -16,7 +16,7 @@ COPY . .
 
 # Run Composer (Requires you to have your vendor folder ignored in .gitignore, which is standard)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 # Expose the port Render uses
 EXPOSE $PORT

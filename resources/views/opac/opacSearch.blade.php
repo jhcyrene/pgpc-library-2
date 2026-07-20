@@ -2,7 +2,7 @@
     <!-- Hero Section -->
     <section class="relative overflow-hidden bg-primaryfade pb-28 pt-32 sm:pb-36 sm:pt-40">
         <div class="absolute inset-0 bg-cover bg-center opacity-[0.05]"
-            style="background-image: url('{{ Vite::asset('resources/images/pgpc-ng.png') }}')" aria-hidden="true">
+            style="background-image: url('{{ Vite::asset('resources/images/webp/pgpc-ng.webp') }}')" aria-hidden="true">
         </div>
         <div class="absolute inset-0 bg-gradient-to-r from-primaryfade" aria-hidden="true"></div>
         <div class="container relative z-10 mx-auto px-5 sm:px-6 md:px-12">

@@ -11,7 +11,33 @@ use Exception;
 
 class ReservationService
 {
-    public function checkEligibility(Member $member, BookData $bookData): array
+    public function getAvailableCopiesCountOnDate(BookData $bookData, $date): int
+    {
+        $targetDate = \Carbon\Carbon::parse($date)->startOfDay();
+        
+        $totalCopies = $bookData->books()->count();
+        if ($totalCopies <= 0) {
+            return 0;
+        }
+
+        $activeBorrows = \App\Models\BookBorrow::whereHas('book', function ($q) use ($bookData) {
+                $q->where('book_data_id', $bookData->book_data_id);
+            })
+            ->whereIn(DB::raw('LOWER(status)'), ['borrowed', 'overdue'])
+            ->count();
+
+        $activeReservations = \App\Models\BookRequest::where('book_data_id', $bookData->book_data_id)
+            ->whereDate('pickup_date', $targetDate)
+            ->whereHas('bookRequestStatus', function ($q) {
+                $q->whereIn(DB::raw('LOWER(status_name)'), ['pending', 'approved', 'ready for pickup']);
+            })
+            ->count();
+
+        $available = $totalCopies - $activeBorrows - $activeReservations;
+        return max(0, $available);
+    }
+
+    public function checkEligibility(Member $member, BookData $bookData, $pickupDate = null): array
     {
         // 1. Check account status (assuming active)
         if ($member->memberAuth && strtolower((string) $member->memberAuth->account_status) !== 'active') {
@@ -56,12 +82,21 @@ class ReservationService
             return ['eligible' => false, 'reason' => 'You have reached the maximum limit of 3 active reservations.'];
         }
 
+        // 5. Check copy availability on selected pickup date
+        if ($pickupDate) {
+            $avail = $this->getAvailableCopiesCountOnDate($bookData, $pickupDate);
+            if ($avail <= 0) {
+                return ['eligible' => false, 'reason' => 'No copies of this book are available for reservation on the selected date.'];
+            }
+        }
+
         return ['eligible' => true, 'reason' => ''];
     }
 
     public function createReservation(Member $member, BookData $bookData, array $data = []): BookRequest
     {
-        $eligibility = $this->checkEligibility($member, $bookData);
+        $pickupDate = $data['pickup_date'] ?? null;
+        $eligibility = $this->checkEligibility($member, $bookData, $pickupDate);
         if (!$eligibility['eligible']) {
             throw new Exception($eligibility['reason']);
         }

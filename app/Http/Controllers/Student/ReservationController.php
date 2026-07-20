@@ -110,6 +110,31 @@ class ReservationController extends Controller
         }
     }
 
+    public function checkAvailability(BookData $bookData, \Illuminate\Http\Request $request)
+    {
+        $year = (int) $request->query('year', now()->year);
+        $month = (int) $request->query('month', now()->month);
+        
+        $startDate = \Carbon\Carbon::create($year, $month, 1)->startOfMonth();
+        $endDate = $startDate->copy()->endOfMonth();
+        
+        $unavailableDates = [];
+        $tempDate = $startDate->copy();
+        
+        while ($tempDate->lte($endDate)) {
+            $avail = $this->reservationService->getAvailableCopiesCountOnDate($bookData, $tempDate);
+            if ($avail <= 0) {
+                $unavailableDates[] = $tempDate->format('Y-m-d');
+            }
+            $tempDate->addDay();
+        }
+        
+        return response()->json([
+            'success' => true,
+            'unavailable_dates' => $unavailableDates
+        ]);
+    }
+
     public function show(BookRequest $reservation)
     {
         $member = Auth::guard('member')->user()->member;

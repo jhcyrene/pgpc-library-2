@@ -25,11 +25,18 @@ class StudentDashboardController extends Controller
         $reservations = $this->dashboardService->getReservationPreview($member, 3);
         $attentionItems = $this->dashboardService->getAttentionItems($member);
 
+        // Fetch recommended books for the new dashboard section
+        $recommendedBooks = \App\Models\BookData::with(['authors', 'bookDetail'])
+            ->latest()
+            ->take(6)
+            ->get();
+
         return view('student.dashboard', compact(
             'summary',
             'currentBorrows',
             'reservations',
-            'attentionItems'
+            'attentionItems',
+            'recommendedBooks'
         ));
     }
 }

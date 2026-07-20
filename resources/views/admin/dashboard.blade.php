@@ -2,10 +2,7 @@
 
 <!-- DASHBOARD MAIN WRAPPER -->
 <div class="w-full mx-auto flex flex-col min-h-full font-sans text-slate-800 pb-6">
-
-    <!-- ========================================== -->
     <!-- ROW 1: HERO & DIRECT ACTIONS (Split Layout) -->
-    <!-- ========================================== -->
     <div class="portal-grid grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 shrink-0 mb-4 sm:mb-5">
         
         @include('admin.partials.greetingBanner')
@@ -14,8 +11,74 @@
         
     </div>
 
-    <!-- ROW 2: 4-COLUMN Card -->
+    <!-- ROW 2: 4-COLUMN Stats Cards -->
     <div class="portal-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 shrink-0 mb-4 sm:mb-5">
+
+        <x-admin.totalcard
+            title="Total Titles"
+            value="<span id='stat-total-titles'><span class='loading loading-spinner loading-sm'></span></span>"
+            description="Unique book records in catalog"
+        />
+
+        <x-admin.totalcard
+            title="Total Copies"
+            value="<span id='stat-total-copies'><span class='loading loading-spinner loading-sm'></span></span>"
+            description="Physical copies across all titles"
+        />
+
+        <x-admin.totalcard
+            title="Active Members"
+            value="<span id='stat-active-members'><span class='loading loading-spinner loading-sm'></span></span>"
+            description="Currently registered students"
+        />
+
+        <x-admin.totalcard
+            title="Borrowed Items"
+            value="<span id='stat-borrowed-items'><span class='loading loading-spinner loading-sm'></span></span>"
+            description="Books currently on loan"
+        />
+
+    </div>
+
+    <!-- ROW 3: Current Borrowers Table + Most Borrowed -->
+    <div class="portal-grid grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+
+        {{-- Current Borrowers Table (2/3) --}}
+        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+                <div>
+                    <h3 class="text-base font-extrabold text-slate-900">Current Borrowers</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Students with active book loans</p>
+                </div>
+                <a href="{{ route('admin.borrows.index') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">
+                    View all
+                </a>
+            </div>
+            <div class="overflow-x-auto flex-1">
+                <table class="mobile-card-table w-full text-left text-sm text-slate-600 whitespace-nowrap">
+                    <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-5 py-3.5">Member</th>
+                            <th class="px-5 py-3.5">Book</th>
+                            <th class="hidden px-5 py-3.5 sm:table-cell">Borrowed</th>
+                            <th class="px-5 py-3.5 text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-borrowers-tbody" class="divide-y divide-slate-100">
+                        <tr>
+                            <td colspan="4" class="px-5 py-8 text-center text-slate-400 font-medium">
+                                <span class="loading loading-spinner loading-md"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {{-- Most Borrowed SubCard (1/3) --}}
+        <x-admin.sub-card
+            title="Most Borrowed Titles"
+            description="Top circulation this period"
         />
 
     </div>

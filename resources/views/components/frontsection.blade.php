@@ -2,7 +2,7 @@
 <section class="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#102b70] pb-16 pt-24 lg:pb-20 lg:pt-28">
     <div
         class="absolute inset-0 bg-cover bg-center"
-        style="background-image: url('{{ Vite::asset('resources/images/pgpc-ng.png') }}')"
+        style="background-image: url('{{ Vite::asset('resources/images/webp/pgpc-ng.webp') }}')"
         aria-hidden="true"
     ></div>
     <div class="absolute inset-0 bg-gradient-to-br from-[#071943]/95 via-[#102b70]/88 to-[#102b70]/70" aria-hidden="true"></div>

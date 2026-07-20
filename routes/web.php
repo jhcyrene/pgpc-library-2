@@ -32,8 +32,17 @@ Route::get('/opac', [CatalogController::class, 'index'])->name('opac.index');
 Route::get('/opac-search', [CatalogController::class, 'advancedSearch'])->name('opac.search');
 Route::get('/opac/book/{bookData}', [CatalogController::class, 'show'])->name('opac.book.show');
 
+Route::get('/api/opac/books', [CatalogController::class, 'index'])->name('api.opac.books');
+Route::get('/api/opac/books/{bookData}', [CatalogController::class, 'show'])->name('api.opac.book');
+
 // Auth Routes
 Route::middleware('guest:member')->group(function () {
+    // Google Social Authentication
+    Route::get('/auth/google', [\App\Http\Controllers\Auth\SocialLoginController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [\App\Http\Controllers\Auth\SocialLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+    Route::get('/auth/google/link', [\App\Http\Controllers\Auth\SocialLoginController::class, 'showLinkForm'])->name('auth.google.link');
+    Route::post('/auth/google/link', [\App\Http\Controllers\Auth\SocialLoginController::class, 'linkAccount'])->name('auth.google.link.submit');
+
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'storeStudent'])->name('login.store');
 
@@ -78,6 +87,7 @@ Route::prefix('student')->name('student.')->group(function () {
         // Reservations
         Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
         Route::get('/reservations/create/{bookData}', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::get('/reservations/check-availability/{bookData}', [ReservationController::class, 'checkAvailability'])->name('reservations.check-availability');
         Route::post('/reservations/{bookData}', [ReservationController::class, 'store'])->name('reservations.store');
         Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
         Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
@@ -141,8 +151,11 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::get('/circulation', [\App\Http\Controllers\CirculationController::class, 'index'])->name('circulation.index');
     Route::get('/api/circulation/stats', [\App\Http\Controllers\CirculationController::class, 'stats'])->name('circulation.stats');
     Route::get('/api/circulation/members/search', [\App\Http\Controllers\CirculationController::class, 'searchMembers'])->name('circulation.member.search');
+    Route::get('/api/circulation/books/search', [\App\Http\Controllers\CirculationController::class, 'searchBooks'])->name('circulation.books.search');
     Route::get('/api/circulation/member/{identifier}', [\App\Http\Controllers\CirculationController::class, 'getMember'])->name('circulation.member');
+    Route::get('/api/circulation/member-details/{identifier}', [\App\Http\Controllers\CirculationController::class, 'getMember'])->name('circulation.member.details');
     Route::get('/circulation/book/{identifier}', [\App\Http\Controllers\CirculationController::class, 'getBook'])->name('circulation.book');
+    Route::get('/circulation/book-lookup', [\App\Http\Controllers\CirculationController::class, 'getBook'])->name('circulation.book.lookup');
     Route::post('/circulation/checkout', [\App\Http\Controllers\CirculationController::class, 'checkout'])->name('circulation.checkout');
     Route::post('/circulation/checkin', [\App\Http\Controllers\CirculationController::class, 'checkin'])->name('circulation.checkin');
 

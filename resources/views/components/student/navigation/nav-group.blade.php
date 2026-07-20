@@ -7,7 +7,7 @@
         @endif
 
         <a href="{{ $href }}"
-           class="min-w-0 flex-1 flex items-center gap-3 pl-3 pr-1 py-2.5 text-sm {{ $active ? 'text-white font-bold' : 'text-slate-300 group-hover:text-white' }}">
+           class="min-w-0 flex-1 flex items-center gap-3 pl-3 pr-1 py-2.5 text-base lg:text-sm {{ $active ? 'text-white font-bold' : 'text-slate-300 group-hover:text-white' }}">
             <svg class="h-5 w-5 shrink-0 {{ $active ? 'text-[#fcc719]' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
                  fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 {!! $icon !!}

@@ -31,7 +31,7 @@
                     </svg>
                 @endif
             </div>
-            <span class="text-sm tracking-wide truncate">{{ $label }}</span>
+            <span class="text-base lg:text-sm tracking-wide truncate">{{ $label }}</span>
         @if($disabled)
         </div>
         @else

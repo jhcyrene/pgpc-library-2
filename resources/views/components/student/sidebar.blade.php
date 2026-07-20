@@ -3,15 +3,15 @@
     $initials = strtoupper(substr($student->first_name ?? 'S', 0, 1) . substr($student->last_name ?? '', 0, 1));
 @endphp
 
-<aside id="student-sidebar" class="flex h-dvh w-64 shrink-0 flex-col overflow-hidden bg-[#102b70]">
+<aside id="student-sidebar" class="flex h-dvh w-full lg:w-64 shrink-0 flex-col overflow-hidden bg-[#102b70]">
     <div class="flex h-[60px] shrink-0 items-center justify-between border-b border-white/5 px-4">
         <a href="{{ route('student.dashboard') }}" class="group flex min-w-0 items-center gap-3">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white">
-                <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="h-full w-full object-cover">
+                <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC Logo" class="h-full w-full object-cover">
             </div>
             <div class="min-w-0">
-                <p class="truncate text-sm font-bold leading-tight text-white">PGPC Library</p>
-                <p class="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-white/45">Student Portal</p>
+                <p class="truncate text-base lg:text-sm font-bold leading-tight text-white">PGPC Library</p>
+                <p class="mt-0.5 text-[11px] lg:text-[10px] font-semibold uppercase tracking-widest text-white/45">Student Portal</p>
             </div>
         </a>
 
@@ -38,7 +38,7 @@
             <x-student.navigation.nav-group
                 id="borrows-group"
                 icon="<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' />"
-                label="Borrows"
+                label="My Borrows"
                 href="{{ route('student.borrow-transactions.index') }}"
                 :active="request()->routeIs('student.borrow-transactions.*')
                     || request()->routeIs('student.overdue-items.*')

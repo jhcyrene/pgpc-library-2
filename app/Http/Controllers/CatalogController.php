@@ -252,6 +252,19 @@ class CatalogController extends Controller
             ->orderByRaw('LOWER(category_name) ASC')
             ->get();
 
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'books' => $books->items(),
+                    'total' => $books->total(),
+                    'current_page' => $books->currentPage(),
+                    'last_page' => $books->lastPage(),
+                    'categories' => $categories,
+                ]
+            ]);
+        }
+
         return view('opac.index', compact(
             'books',
             'categories',
@@ -295,6 +308,16 @@ class CatalogController extends Controller
             $isSaved = \App\Models\SavedItem::where('member_id', $memberAccount->member->member_id)
                 ->where('book_data_id', $bookData->book_data_id)
                 ->exists();
+        }
+
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'book' => $bookData,
+                    'is_saved' => $isSaved,
+                ]
+            ]);
         }
 
         if ($request->ajax()) {

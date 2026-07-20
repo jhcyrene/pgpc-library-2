@@ -66,6 +66,23 @@ class BookDataController extends Controller
             });
         }
 
+        // Status filter
+        if ($status = strtolower((string) $request->input('status'))) {
+            if ($status === 'available') {
+                $query->whereHas('books', function ($q) {
+                    $q->where('status', 'Available');
+                });
+            } elseif ($status === 'borrowed') {
+                $query->whereHas('books', function ($q) {
+                    $q->where('status', 'Borrowed');
+                });
+            } elseif ($status === 'unavailable') {
+                $query->whereDoesntHave('books', function ($q) {
+                    $q->where('status', 'Available');
+                });
+            }
+        }
+
         $query->orderBy('created_at', 'desc');
 
         $allBooks = $query->paginate(10)->withQueryString();

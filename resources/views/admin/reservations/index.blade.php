@@ -13,63 +13,66 @@
         @endif
 
         <!-- Statistics Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 transition-shadow hover:shadow-md">
-                <div class="w-12 h-12 rounded-full bg-yellow-50 text-yellow-600 flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div class="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/80 flex items-center gap-3.5 transition-shadow hover:shadow-md">
+                <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
-                    <p class="text-2xl font-black text-gray-900 leading-none">{{ $pendingCount ?? 0 }}</p>
-                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Pending</p>
+                    <p class="text-xl sm:text-2xl font-black text-slate-900 leading-none">{{ $pendingCount ?? 0 }}</p>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Pending</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 transition-shadow hover:shadow-md">
-                <div class="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div class="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/80 flex items-center gap-3.5 transition-shadow hover:shadow-md">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
-                    <p class="text-2xl font-black text-gray-900 leading-none">{{ $readyForPickupCount ?? 0 }}</p>
-                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Ready for Pickup</p>
+                    <p class="text-xl sm:text-2xl font-black text-slate-900 leading-none">{{ $readyForPickupCount ?? 0 }}</p>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Ready Pickup</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 transition-shadow hover:shadow-md">
-                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            <div class="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/80 flex items-center gap-3.5 transition-shadow hover:shadow-md">
+                <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <div>
-                    <p class="text-2xl font-black text-gray-900 leading-none">{{ $approvedCount ?? 0 }}</p>
-                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Approved</p>
+                    <p class="text-xl sm:text-2xl font-black text-slate-900 leading-none">{{ $approvedCount ?? 0 }}</p>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Approved</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 transition-shadow hover:shadow-md">
-                <div class="w-12 h-12 rounded-full bg-gray-50 text-brand-navy flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            <div class="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/80 flex items-center gap-3.5 transition-shadow hover:shadow-md">
+                <div class="w-11 h-11 rounded-xl bg-slate-100 text-[#102b70] flex items-center justify-center shrink-0 border border-slate-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <div>
-                    <p class="text-2xl font-black text-gray-900 leading-none">{{ $completedCount ?? 0 }}</p>
-                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Completed</p>
+                    <p class="text-xl sm:text-2xl font-black text-slate-900 leading-none">{{ $completedCount ?? 0 }}</p>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Completed</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col flex-1 overflow-hidden relative">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col flex-1 overflow-hidden relative">
             <!-- Filter Bar -->
-            <div class="p-4 md:p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
-                <div class="flex flex-col lg:flex-row gap-4 justify-between items-start">
-                    <!-- Search -->
+            <div class="p-4 border-b border-slate-200 bg-slate-50/50 shrink-0">
+                <div class="flex flex-col lg:flex-row gap-3.5 justify-between items-stretch lg:items-center">
+                    <!-- Search Input -->
                     <div class="relative w-full lg:w-96 shrink-0">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                         </div>
-                        <input type="text" id="search-reservations" class="input input-bordered w-full pl-10 h-10 text-sm focus:border-blue-500 focus:ring-blue-500 transition-colors shadow-sm bg-white" placeholder="Search by student, book, ID..." value="{{ request('search') }}">
+                        <input type="text" id="search-reservations" class="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none transition-colors shadow-xs bg-white" placeholder="Search by student, book, ID..." value="{{ request('search') }}">
+                        <button type="button" id="clear-search-btn" onclick="resetFilters()" class="{{ request('search') ? '' : 'hidden' }} absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
                     </div>
 
                     <!-- Filters -->
-                    <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-start lg:justify-end">
-                        <select id="status-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-36">
+                    <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
+                        <select id="status-filter" class="rounded-xl border border-slate-300 py-2.5 px-3 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs bg-white focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none flex-1 sm:w-36">
                             <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -80,20 +83,20 @@
                             <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
 
-                        <select id="date-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-40">
+                        <select id="date-filter" class="rounded-xl border border-slate-300 py-2.5 px-3 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs bg-white focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none flex-1 sm:w-40">
                             <option value="all" {{ request('date_filter') == 'all' ? 'selected' : '' }}>Any Request Date</option>
                             <option value="today" {{ request('date_filter') == 'today' ? 'selected' : '' }}>Today</option>
                             <option value="this_week" {{ request('date_filter') == 'this_week' ? 'selected' : '' }}>This Week</option>
                             <option value="this_month" {{ request('date_filter') == 'this_month' ? 'selected' : '' }}>This Month</option>
                         </select>
 
-                        <select id="sort-filter" class="select select-bordered h-10 min-h-10 text-sm shadow-sm bg-white w-full sm:w-40">
+                        <select id="sort-filter" class="rounded-xl border border-slate-300 py-2.5 px-3 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs bg-white focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none flex-1 sm:w-40">
                             <option value="request_date_desc" {{ request('sort') == 'request_date' && request('dir') == 'desc' ? 'selected' : '' }}>Newest First</option>
                             <option value="request_date_asc" {{ request('sort') == 'request_date' && request('dir') == 'asc' ? 'selected' : '' }}>Oldest First</option>
                             <option value="student_name_asc" {{ request('sort') == 'student_name' && request('dir') == 'asc' ? 'selected' : '' }}>Student A-Z</option>
                         </select>
 
-                        <button type="button" onclick="resetFilters()" class="btn btn-ghost btn-sm text-gray-500 hover:text-gray-900 w-full sm:w-auto">Reset</button>
+                        <button type="button" onclick="resetFilters()" class="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">Reset</button>
                     </div>
                 </div>
             </div>
@@ -298,8 +301,13 @@
                 loadPage(buildFilterUrl());
             };
 
+            const clearSearchBtn = document.getElementById('clear-search-btn');
+
             let searchTimeout;
             searchInput.addEventListener('input', () => {
+                if (clearSearchBtn) {
+                    clearSearchBtn.classList.toggle('hidden', !searchInput.value);
+                }
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(handleFilterChange, 300);
             });
@@ -310,6 +318,7 @@
 
             window.resetFilters = () => {
                 searchInput.value = '';
+                if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
                 statusFilter.value = 'all';
                 dateFilter.value = 'all';
                 sortFilter.value = 'request_date_desc';

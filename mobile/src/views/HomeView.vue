@@ -1,9 +1,11 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import FrontSection from '@/components/FrontSection.vue'
+import CatalogTab from '@/components/CatalogTab.vue'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <FrontSection />
+    <CatalogTab />
+  </div>
 </template>

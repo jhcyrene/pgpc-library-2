@@ -37,12 +37,16 @@ class BookRequestController extends Controller
                 $q->whereHas('member', function ($subQ) use ($search) {
                     $subQ->where('first_name', 'like', "%{$search}%")
                          ->orWhere('last_name', 'like', "%{$search}%")
-                         ->orWhere('student_number', 'like', "%{$search}%");
+                         ->orWhere('student_number', 'like', "%{$search}%")
+                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
                 })
-                // Search by Book Title
+                // Search by Book Title or ISBN
                 ->orWhereHas('bookData', function ($subQ) use ($search) {
-                    $subQ->where('book_title', 'like', "%{$search}%");
-                });
+                    $subQ->where('book_title', 'like', "%{$search}%")
+                         ->orWhere('isbn', 'like', "%{$search}%");
+                })
+                // Search by Request ID
+                ->orWhere('request_id', 'like', "%{$search}%");
             });
         }
 

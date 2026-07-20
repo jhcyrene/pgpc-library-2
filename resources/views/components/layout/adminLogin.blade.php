@@ -21,7 +21,11 @@
     <meta name="theme-color" content="#102b70">
 
     <title>{{ $title }} | PGPC Library</title>
-    <link rel="icon" href="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}">
+    <link rel="icon" href="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     @vite(['resources/css/preloader.css', 'resources/js/app.js', 'resources/css/loginauth.css', 'resources/js/loader.js'])
 </head>
@@ -29,14 +33,14 @@
 <body class="min-h-dvh bg-slate-100 font-sans text-slate-900 antialiased">
     <div id="site-preloader" role="status" aria-label="Loading PGPC Library">
         <div class="pgpc-preloader-ring" aria-hidden="true"></div>
-        <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo" class="pgpc-preloader-logo">
+        <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC logo" class="pgpc-preloader-logo">
     </div>
 
     <main id="portal-content"
         class="relative min-h-dvh lg:h-dvh overflow-hidden lg:grid {{ $formSide === 'left' ? 'lg:grid-cols-[minmax(440px,0.92fr)_minmax(0,1.08fr)]' : 'lg:grid-cols-[minmax(0,1.08fr)_minmax(440px,0.92fr)]' }}">
         <section
             class="relative hidden min-h-dvh lg:h-dvh overflow-hidden bg-[#102b70] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16 {{ $formSide === 'left' ? 'lg:order-2' : 'lg:order-1' }}">
-            <img src="{{ Vite::asset('resources/images/pgpc-ng.png') }}" alt="PGPC library"
+            <img src="{{ Vite::asset('resources/images/webp/pgpc-ng.webp') }}" alt="PGPC library"
                 class="absolute inset-0 h-full w-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-br from-[#071943]/95 via-[#102b70]/88 to-[#102b70]/70"></div>
             <div class="absolute -left-24 bottom-20 h-80 w-80 rounded-full border border-white/10"></div>
@@ -45,7 +49,7 @@
             <a href="{{ route('home') }}" class="relative z-10 inline-flex w-fit items-center gap-3 text-white">
                 <span
                     class="grid h-12 w-12 place-items-center overflow-hidden rounded-full bg-white shadow-lg ring-4 ring-white/10">
-                    <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo"
+                    <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC logo"
                         class="h-full w-full object-cover">
                 </span>
                 <span>
@@ -124,7 +128,7 @@
                             <span class="block text-[10px] font-bold uppercase tracking-wider text-[#102b70] leading-none">PGPC Library</span>
                             <span class="block text-[8px] font-semibold text-slate-500 uppercase tracking-widest mt-0.5 leading-none">System</span>
                         </div>
-                        <img src="{{ Vite::asset('resources/images/hd-pgpc-logo.png') }}" alt="PGPC logo"
+                        <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC logo"
                             class="h-10 w-10 rounded-full shadow-sm ring-2 ring-[#102b70]/10">
                     </div>
                 </div>

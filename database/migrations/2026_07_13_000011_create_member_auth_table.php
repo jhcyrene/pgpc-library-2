@@ -15,7 +15,9 @@ return new class extends Migration
             $table->string('account_type');
             $table->string('account_status')->default('Active');
             $table->string('username')->unique();
-            $table->string('password_hash');
+            $table->string('password_hash')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
             $table->unsignedInteger('failed_attempts')->default(0);
             $table->timestamp('last_login')->nullable();
             $table->timestamp('password_changed_at')->nullable();

@@ -8,7 +8,7 @@
             <div>
                 <a href="{{ route('home') }}" class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                        <img src="{{ Vite::asset('resources/images/logo.jfif') }}" alt="PGPC Logo" class="w-full h-full object-cover"
+                        <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC Logo" class="w-full h-full object-cover"
                             onerror="this.src='https://ui-avatars.com/api/?name=PG&background=fcc719&color=212e5e'" />
                     </div>
                     <span class="font-bold text-xl text-white">PGPC Library</span>

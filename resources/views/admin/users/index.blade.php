@@ -244,17 +244,29 @@
 
     <!-- Add Member Modal -->
     <dialog id="addMemberModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-white p-6 rounded-2xl">
-            <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Member</h3>
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
-            </form>
-            <form action="{{ route('admin.members.store') }}" method="POST">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-2xl bg-white p-6 rounded-2xl relative">
+            <h3 class="font-extrabold text-xl text-[#102b70] mb-4 sm:mb-6">Add Member</h3>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-gray-500 hover:bg-gray-100" onclick="addMemberModal.close()">✕</button>
+
+            <!-- Wizard Step Indicators (Mobile Only) -->
+            <div class="sm:hidden flex items-center justify-center gap-6 mb-6 pb-4 border-b border-slate-100" id="member-wizard-header">
+                <div class="flex items-center gap-2" id="member-step1-indicator">
+                    <span class="step-num w-6 h-6 rounded-full flex items-center justify-center bg-[#102b70] text-white text-xs font-bold">1</span>
+                    <span class="step-label text-xs font-bold text-slate-800">Profile</span>
+                </div>
+                <div class="w-10 h-[2px] bg-slate-200" id="member-step-divider"></div>
+                <div class="flex items-center gap-2" id="member-step2-indicator">
+                    <span class="step-num w-6 h-6 rounded-full flex items-center justify-center bg-slate-100 text-slate-400 text-xs font-bold">2</span>
+                    <span class="step-label text-xs font-bold text-slate-400">Account</span>
+                </div>
+            </div>
+
+            <form action="{{ route('admin.members.store') }}" method="POST" id="addMemberForm">
                 @csrf
                 <input type="hidden" name="user_type" value="member">
                 
                 @if($errors->any() && old('user_type') === 'member')
-                    <div class="alert alert-error mb-4">
+                    <div class="alert alert-error mb-6 rounded-xl p-4 text-sm text-red-700 bg-red-50 border border-red-200">
                         <ul class="list-disc pl-5">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -263,30 +275,72 @@
                     </div>
                 @endif
 
-                <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <h2 class="text-base font-bold text-[#102b70] mb-4">Profile Information</h2>
-                    <x-admin.users.user-form type="member" />
+                <!-- Step 1: Profile Section -->
+                <div id="member-profile-section" class="space-y-6">
+                    <div class="flex items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-[#102b70] shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM4 21a8 8 0 0116 0" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800">Profile Information</h2>
+                            <p class="text-xs text-slate-400">Basic details about the member.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <x-admin.users.user-form type="member" />
+                    </div>
                 </div>
 
-                <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h2 class="text-base font-bold text-[#102b70]">Account Settings</h2>
-                            <p class="text-xs text-gray-500">Create login credentials</p>
+                <!-- Step 2: Account Setup Section -->
+                <div id="member-account-section" class="space-y-6 mt-6 sm:mt-8">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-[#102b70] shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <div>
+                                <h2 class="text-base font-bold text-slate-800">Account Setup</h2>
+                                <p class="text-xs text-slate-400">Create login credentials for system access.</p>
+                            </div>
                         </div>
                         <label class="flex items-center cursor-pointer">
-                            <span class="mr-3 font-medium text-sm text-gray-700">Create Account</span> 
-                            <input type="checkbox" name="create_account" value="1" class="toggle toggle-primary" {{ old('create_account') && old('user_type') === 'member' ? 'checked' : '' }} onchange="document.getElementById('memberAccountContainer').style.display = this.checked ? 'block' : 'none'" />
+                            <span class="mr-3 font-semibold text-sm text-slate-700">Create Account</span> 
+                            <input type="checkbox" name="create_account" value="1" class="toggle toggle-primary toggle-sm member-account-toggle" {{ old('create_account') && old('user_type') === 'member' ? 'checked' : '' }} onchange="document.getElementById('memberAccountFieldsContainer').style.display = this.checked ? 'block' : 'none'" />
                         </label>
                     </div>
-                    <div id="memberAccountContainer" style="display: {{ old('create_account') && old('user_type') === 'member' ? 'block' : 'none' }}">
+
+                    <!-- Setup Helper Banner -->
+                    <div class="bg-blue-50/70 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-700 font-semibold mb-6">
+                        <svg class="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Account credentials will be created for this member when the toggle is enabled. You can always create or update the account later.</span>
+                    </div>
+
+                    <div id="memberAccountFieldsContainer" style="display: {{ old('create_account') && old('user_type') === 'member' ? 'block' : 'none' }}" class="space-y-4">
                         <x-admin.users.account-form type="member" />
+                        
+                        <div class="bg-blue-50/70 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-700 font-semibold mt-4">
+                            <svg class="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span>The member will be able to log in using the username and password above.</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="modal-action">
-                    <button type="button" class="btn btn-ghost" onclick="addMemberModal.close()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Member</button>
+                <!-- Desktop Action Buttons (Hidden on Mobile) -->
+                <div class="hidden sm:flex justify-end gap-3 mt-8 border-t border-slate-100 pt-5">
+                    <button type="button" class="px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors" onclick="addMemberModal.close()">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold shadow-sm transition-colors">Save Member</button>
+                </div>
+
+                <!-- Mobile Action Buttons Footer (Step 1) -->
+                <div class="flex sm:hidden justify-between gap-3 mt-8 border-t border-slate-100 pt-5" id="member-mobile-footer-step1">
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 text-center" onclick="addMemberModal.close()">Cancel</button>
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold text-center" id="member-next-btn">Next</button>
+                </div>
+
+                <!-- Mobile Action Buttons Footer (Step 2) -->
+                <div class="hidden sm:hidden justify-between gap-3 mt-8 border-t border-slate-100 pt-5" id="member-mobile-footer-step2">
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 text-center" id="member-back-btn">Back</button>
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold text-center">Save Member</button>
                 </div>
             </form>
         </div>
@@ -297,17 +351,29 @@
 
     <!-- Add Librarian Modal -->
     <dialog id="addLibrarianModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-5xl bg-white p-6 rounded-2xl">
-            <h3 class="font-bold text-lg text-[#102b70] mb-4">Add Librarian</h3>
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
-            </form>
-            <form action="{{ route('admin.librarians.store') }}" method="POST">
+        <div class="modal-box w-[calc(100%-1rem)] max-w-none max-h-[calc(100dvh-1rem)] overflow-y-auto sm:w-11/12 sm:max-w-2xl bg-white p-6 rounded-2xl relative">
+            <h3 class="font-extrabold text-xl text-[#102b70] mb-4 sm:mb-6">Add Librarian</h3>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-gray-500 hover:bg-gray-100" onclick="addLibrarianModal.close()">✕</button>
+
+            <!-- Wizard Step Indicators (Mobile Only) -->
+            <div class="sm:hidden flex items-center justify-center gap-6 mb-6 pb-4 border-b border-slate-100" id="librarian-wizard-header">
+                <div class="flex items-center gap-2" id="librarian-step1-indicator">
+                    <span class="step-num w-6 h-6 rounded-full flex items-center justify-center bg-[#102b70] text-white text-xs font-bold">1</span>
+                    <span class="step-label text-xs font-bold text-slate-800">Profile</span>
+                </div>
+                <div class="w-10 h-[2px] bg-slate-200" id="librarian-step-divider"></div>
+                <div class="flex items-center gap-2" id="librarian-step2-indicator">
+                    <span class="step-num w-6 h-6 rounded-full flex items-center justify-center bg-slate-100 text-slate-400 text-xs font-bold">2</span>
+                    <span class="step-label text-xs font-bold text-slate-400">Account</span>
+                </div>
+            </div>
+
+            <form action="{{ route('admin.librarians.store') }}" method="POST" id="addLibrarianForm">
                 @csrf
                 <input type="hidden" name="user_type" value="librarian">
                 
                 @if($errors->any() && old('user_type') === 'librarian')
-                    <div class="alert alert-error mb-4">
+                    <div class="alert alert-error mb-6 rounded-xl p-4 text-sm text-red-700 bg-red-50 border border-red-200">
                         <ul class="list-disc pl-5">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -316,30 +382,72 @@
                     </div>
                 @endif
 
-                <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <h2 class="text-base font-bold text-[#102b70] mb-4">Profile Information</h2>
-                    <x-admin.users.user-form type="librarian" />
+                <!-- Step 1: Profile Section -->
+                <div id="librarian-profile-section" class="space-y-6">
+                    <div class="flex items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-[#102b70] shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM4 21a8 8 0 0116 0" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800">Profile Information</h2>
+                            <p class="text-xs text-slate-400">Basic details about the librarian.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <x-admin.users.user-form type="librarian" />
+                    </div>
                 </div>
 
-                <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h2 class="text-base font-bold text-[#102b70]">Account Settings</h2>
-                            <p class="text-xs text-gray-500">Create login credentials</p>
+                <!-- Step 2: Account Setup Section -->
+                <div id="librarian-account-section" class="space-y-6 mt-6 sm:mt-8">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-[#102b70] shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <div>
+                                <h2 class="text-base font-bold text-slate-800">Account Setup</h2>
+                                <p class="text-xs text-slate-400">Create login credentials for system access.</p>
+                            </div>
                         </div>
                         <label class="flex items-center cursor-pointer">
-                            <span class="mr-3 font-medium text-sm text-gray-700">Create Account</span> 
-                            <input type="checkbox" name="create_account" value="1" class="toggle toggle-primary" {{ old('create_account') && old('user_type') === 'librarian' ? 'checked' : '' }} onchange="document.getElementById('librarianAccountContainer').style.display = this.checked ? 'block' : 'none'" />
+                            <span class="mr-3 font-semibold text-sm text-slate-700">Create Account</span> 
+                            <input type="checkbox" name="create_account" value="1" class="toggle toggle-primary toggle-sm librarian-account-toggle" {{ old('create_account') && old('user_type') === 'librarian' ? 'checked' : '' }} onchange="document.getElementById('librarianAccountFieldsContainer').style.display = this.checked ? 'block' : 'none'" />
                         </label>
                     </div>
-                    <div id="librarianAccountContainer" style="display: {{ old('create_account') && old('user_type') === 'librarian' ? 'block' : 'none' }}">
+
+                    <!-- Setup Helper Banner -->
+                    <div class="bg-blue-50/70 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-700 font-semibold mb-6">
+                        <svg class="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Account credentials will be created for this member when the toggle is enabled. You can always create or update the account later.</span>
+                    </div>
+
+                    <div id="librarianAccountFieldsContainer" style="display: {{ old('create_account') && old('user_type') === 'librarian' ? 'block' : 'none' }}" class="space-y-4">
                         <x-admin.users.account-form type="librarian" />
+                        
+                        <div class="bg-blue-50/70 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-700 font-semibold mt-4">
+                            <svg class="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span>The librarian will be able to log in using the username and password above.</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="modal-action">
-                    <button type="button" class="btn btn-ghost" onclick="addLibrarianModal.close()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Librarian</button>
+                <!-- Desktop Action Buttons (Hidden on Mobile) -->
+                <div class="hidden sm:flex justify-end gap-3 mt-8 border-t border-slate-100 pt-5">
+                    <button type="button" class="px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors" onclick="addLibrarianModal.close()">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold shadow-sm transition-colors">Save Librarian</button>
+                </div>
+
+                <!-- Mobile Action Buttons Footer (Step 1) -->
+                <div class="flex sm:hidden justify-between gap-3 mt-8 border-t border-slate-100 pt-5" id="librarian-mobile-footer-step1">
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 text-center" onclick="addLibrarianModal.close()">Cancel</button>
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold text-center" id="librarian-next-btn">Next</button>
+                </div>
+
+                <!-- Mobile Action Buttons Footer (Step 2) -->
+                <div class="hidden sm:hidden justify-between gap-3 mt-8 border-t border-slate-100 pt-5" id="librarian-mobile-footer-step2">
+                    <button type="button" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 text-center" id="librarian-back-btn">Back</button>
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-[#102b70] hover:bg-[#0b225e] text-white text-sm font-semibold text-center">Save Librarian</button>
                 </div>
             </form>
         </div>
@@ -347,8 +455,6 @@
             <button>close</button>
         </form>
     </dialog>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -360,7 +466,86 @@
                     addLibrarianModal.showModal();
                 @endif
             @endif
+
+            // Wizard Step Navigation Logic (Responsive)
+            function initWizard(modalId, prefix) {
+                const modal = document.getElementById(modalId);
+                if (!modal) return;
+
+                let currentStep = 1;
+
+                const step1Indicator = document.getElementById(`${prefix}-step1-indicator`);
+                const step2Indicator = document.getElementById(`${prefix}-step2-indicator`);
+
+                const profileSection = document.getElementById(`${prefix}-profile-section`);
+                const accountSection = document.getElementById(`${prefix}-account-section`);
+
+                const mobileFooterStep1 = document.getElementById(`${prefix}-mobile-footer-step1`);
+                const mobileFooterStep2 = document.getElementById(`${prefix}-mobile-footer-step2`);
+                
+                const nextBtn = document.getElementById(`${prefix}-next-btn`);
+                const backBtn = document.getElementById(`${prefix}-back-btn`);
+
+                function updateWizardUI() {
+                    if (window.innerWidth < 640) {
+                        if (currentStep === 1) {
+                            profileSection.style.display = 'block';
+                            accountSection.style.display = 'none';
+                            
+                            mobileFooterStep1.style.display = 'flex';
+                            mobileFooterStep2.style.display = 'none';
+
+                            step1Indicator.querySelector('.step-num').className = 'step-num w-6 h-6 rounded-full flex items-center justify-center bg-[#102b70] text-white text-xs font-bold';
+                            step1Indicator.querySelector('.step-label').className = 'step-label text-xs font-bold text-slate-800';
+
+                            step2Indicator.querySelector('.step-num').className = 'step-num w-6 h-6 rounded-full flex items-center justify-center bg-slate-100 text-slate-400 text-xs font-bold';
+                            step2Indicator.querySelector('.step-label').className = 'step-label text-xs font-bold text-slate-400';
+                        } else {
+                            profileSection.style.display = 'none';
+                            accountSection.style.display = 'block';
+
+                            mobileFooterStep1.style.display = 'none';
+                            mobileFooterStep2.style.display = 'flex';
+
+                            step1Indicator.querySelector('.step-num').className = 'step-num w-6 h-6 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-xs font-bold';
+                            step1Indicator.querySelector('.step-label').className = 'step-label text-xs font-bold text-green-600';
+
+                            step2Indicator.querySelector('.step-num').className = 'step-num w-6 h-6 rounded-full flex items-center justify-center bg-[#102b70] text-white text-xs font-bold';
+                            step2Indicator.querySelector('.step-label').className = 'step-label text-xs font-bold text-slate-800';
+                        }
+                    } else {
+                        // Desktop View
+                        profileSection.style.display = 'block';
+                        accountSection.style.display = 'block';
+                    }
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        currentStep = 2;
+                        updateWizardUI();
+                    });
+                }
+
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => {
+                        currentStep = 1;
+                        updateWizardUI();
+                    });
+                }
+
+                window.addEventListener('resize', updateWizardUI);
+                
+                modal.addEventListener('close', () => {
+                    currentStep = 1;
+                    updateWizardUI();
+                });
+                
+                updateWizardUI();
+            }
+
+            initWizard('addMemberModal', 'member');
+            initWizard('addLibrarianModal', 'librarian');
         });
     </script>
 </x-layout.admin>
-

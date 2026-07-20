@@ -1,6 +1,6 @@
     <section class="relative pt-20 pb-12 md:pt-40 md:pb-20 overflow-hidden bg-primaryfade">
         <div class="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
-            style="background-image: url('{{ Vite::asset('resources/images/pgpc-ng.png') }}')"></div>
+            style="background-image: url('{{ Vite::asset('resources/images/webp/pgpc-ng.webp') }}')"></div>
         <div class="absolute inset-0 z-10 bg-gradient-hero"></div>
         <div class="container mx-auto px-6 relative z-20 text-center">
             <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4">Privacy Policy</h1>

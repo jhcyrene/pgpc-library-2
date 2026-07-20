@@ -4,18 +4,18 @@
     $staffDashboardRoute = $isAdministrator ? route('admin.dashboard') : route('librarian.dashboard');
 @endphp
 
-<aside id="admin-sidebar" class="w-70 flex flex-col h-dvh shrink-0 overflow-hidden bg-brand-navy">
+<aside id="admin-sidebar" class="w-full lg:w-70 flex flex-col h-dvh shrink-0 overflow-hidden bg-brand-navy">
 
     <!-- Branding / Logo -->
     <div class="h-[60px] flex items-center justify-between px-6 pb-5 pt-5 shrink-0 border-b border-white/5">
         <a href="{{ $staffDashboardRoute }}" class="flex items-center gap-4">
             <div
                 class="w-8 h-8 rounded-full border border-white/20 shrink-0 overflow-hidden flex items-center justify-center bg-white">
-                <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo"
+                <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC Logo"
                     class="w-full h-full object-cover">
             </div>
             <div class="flex flex-col justify-center">
-                <h2 class="text-sm font-bold text-white leading-tight">PGPC Library</h2>
+                <h2 class="text-base lg:text-sm font-bold text-white leading-tight">PGPC Library</h2>
             </div>
         </a>
 

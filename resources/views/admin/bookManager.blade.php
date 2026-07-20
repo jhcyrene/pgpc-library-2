@@ -16,7 +16,7 @@
             ]"
         >
             <x-slot:actions>
-                <button onclick="document.getElementById('add_book_modal').showModal()" class="btn bg-brand-navy hover:bg-brand-navy-light text-white border-none shadow-sm flex items-center gap-2 px-4 min-h-[2.5rem] h-10">
+                <button onclick="document.getElementById('add_book_modal').showModal()" class="px-4 py-2.5 bg-[#102b70] hover:bg-[#0b225e] text-white font-bold text-sm rounded-xl shadow-xs flex items-center justify-center gap-2 transition-colors w-full sm:w-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>

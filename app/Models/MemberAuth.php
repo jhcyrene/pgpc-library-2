@@ -22,6 +22,8 @@ class MemberAuth extends Authenticatable
         'username',
         'password_hash',
         'profile_image',
+        'provider',
+        'provider_id',
         'failed_attempts',
         'last_login',
         'password_changed_at',
@@ -30,7 +32,6 @@ class MemberAuth extends Authenticatable
         'token_expiry',
         'last_modified',
         'is_verified',
-        'account_status',
     ];
 
     protected $hidden = [

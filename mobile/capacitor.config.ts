@@ -5,10 +5,10 @@ const config: CapacitorConfig = {
   appName: 'PGPC Library App',
   webDir: 'dist',
 
-  server: {
-    url: 'http://192.168.1.35:8000', // Change 192.168.80.1 / 192.168.1.35 to your current Wi-Fi IP
-    cleartext: true,
-  }
+  // server: {
+  //   url: 'http://192.168.1.64:8000', // Change 192.168.80.1 / 192.168.1.35 to your current Wi-Fi IP
+  //   cleartext: true,
+  // }
 };
 
 

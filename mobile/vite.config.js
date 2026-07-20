@@ -1,9 +1,10 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), tailwindcss()],
 
   resolve: {
     alias: {
@@ -11,15 +12,15 @@ export default defineConfig({
     },
   },
 
-  server: {
-    host: '0.0.0.0',
-    port: 5173,
+  // server: {
+  //   host: '0.0.0.0',
+  //   port: 5173,
 
-    proxy: {
-      '/api': {
-        target: 'https://expression-cingular-focus-cheats.trycloudflare.com',
-        changeOrigin: true,
-      },
-    },
-  },
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://clocks-polymer-lifetime-organize.trycloudflare.com',
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 })

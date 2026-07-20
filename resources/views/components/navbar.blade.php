@@ -81,7 +81,7 @@
         <!-- Logo & Wordmark -->
         <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="PGPC Library home">
             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-sm">
-                <img src="{{ Vite::asset('resources/images/pgpc-logo.jpg') }}" alt="PGPC Logo" class="w-full h-full object-cover"
+                <img src="{{ Vite::asset('resources/images/webp/hd-pgpc-logo.webp') }}" alt="PGPC Logo" class="w-full h-full object-cover"
                     onerror="this.src='https://ui-avatars.com/api/?name=PG&background=fcc719&color=212e5e'" />
             </div>
             <span class="brand-text font-bold text-lg hidden sm:block text-white transition-colors">

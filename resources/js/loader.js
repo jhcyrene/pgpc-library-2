@@ -1,6 +1,6 @@
-// 1. Create a promise that finishes when the minimum time (2500ms) is up
+// 1. Create a promise that finishes when the minimum time (800ms) is up
 const minimumTimePromise = new Promise((resolve) => {
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 600);
 });
 
 // 2. Create a promise that finishes when the browser says all CSS/images are loaded
@@ -14,9 +14,6 @@ Promise.all([minimumTimePromise, windowLoadPromise]).then(() => {
 
     if (preloader) {
         preloader.classList.add('is-finished');
-        setTimeout(() => {
-            preloader.remove();
-        }, 550);
     }
 
     const portal = document.getElementById('portal-content');

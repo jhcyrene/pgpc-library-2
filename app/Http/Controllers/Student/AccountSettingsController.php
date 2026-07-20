@@ -22,6 +22,14 @@ class AccountSettingsController extends Controller
             'password_hash' => Hash::make($request->validated('password'))
         ]);
 
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Password updated successfully.',
+                'redirect' => route('student.account-settings.edit')
+            ]);
+        }
+
         return back()->with('success', 'Password updated successfully.');
     }
 }

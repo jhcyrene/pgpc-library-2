@@ -5,7 +5,8 @@
 <x-layout.student title="Dashboard">
     <div class="mx-auto w-full max-w-[1600px] space-y-5">
         <section class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2.2fr)_minmax(280px,0.8fr)]">
-            <div class="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-2xl bg-[#102b70] p-6 shadow-md transition-shadow hover:shadow-lg md:p-7">
+            <!-- Welcome Banner -->
+            <div class="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-[#102b70] to-[#1e46a3] p-6 shadow-md transition-shadow hover:shadow-lg md:p-7">
                 <div class="absolute -right-10 -top-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                 <div class="absolute right-20 -bottom-20 w-40 h-40 bg-[#fcc719] opacity-10 rounded-full blur-2xl"></div>
 
@@ -39,10 +40,11 @@
                 </div>
             </div>
 
+            <!-- Requires Attention -->
             <div class="flex min-h-[220px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
                 <div class="flex items-center justify-between gap-3 mb-4">
                     <div>
-                        <h2 class="text-lg font-extrabold text-slate-900 tracking-tight">Requires Attention</h2>
+                        <h2 class="text-base font-extrabold text-slate-900 tracking-tight">Requires Attention</h2>
                         <p class="text-xs font-medium text-slate-500 mt-0.5">Items that may need action</p>
                     </div>
                     <span class="min-w-8 h-8 px-2 rounded-full bg-red-50 border border-red-100 text-red-700 text-xs font-black flex items-center justify-center">{{ count($attentionItems) }}</span>
@@ -75,13 +77,14 @@
                             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <p class="text-sm font-bold text-slate-800">You're all caught up</p>
-                        <p class="text-xs text-slate-500 mt-1">No overdue, pickup, or fine alerts.</p>
+                        <p class="text-xs text-slate-500 mt-1">No overdue, pickup, or fee alerts.</p>
                     </div>
                 @endif
             </div>
         </section>
 
-        <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <!-- Summary Cards Grid -->
+        <section class="grid grid-cols-2 gap-4 xl:grid-cols-4">
             <x-student.summary-card
                 title="Active Borrows"
                 :value="$summary['active_borrows']"
@@ -95,7 +98,7 @@
                 :value="$summary['overdue_items']"
                 icon="<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' />"
                 :color="$summary['overdue_items'] > 0 ? 'error' : 'success'"
-                description="Past their scheduled due date"
+                description="Items that are past due dates"
                 :link="route('student.overdue-items.index')"
             />
             <x-student.summary-card
@@ -110,31 +113,33 @@
                 title="Books Borrowed"
                 :value="$summary['total_books_borrowed']"
                 icon="<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z' />"
-                color="gold"
-                description="Your complete circulation history"
+                color="warning"
+                description="Total completed circulation history"
                 :link="route('student.borrow-transactions.history')"
             />
         </section>
 
-        <section class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2.2fr)_minmax(280px,0.8fr)]">
+        <!-- Current Borrows & Reservations -->
+        <section class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <!-- Current Borrows Card -->
             <div class="flex min-h-[280px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 class="text-lg font-extrabold text-slate-900 tracking-tight">Current Borrows</h2>
+                        <h2 class="text-base font-extrabold text-slate-900 tracking-tight">Current Borrows</h2>
                         <p class="text-xs font-medium text-slate-500 mt-0.5">Books assigned to your library account</p>
                     </div>
-                    <a href="{{ route('student.borrow-transactions.current') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">View all</a>
+                    <a href="{{ route('student.borrow-transactions.current') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">View all</a>
                 </div>
 
                 @if($currentBorrows->isEmpty())
                     <div class="flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/60 py-8 text-center">
                         <svg class="h-10 w-10 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                         <p class="text-sm font-bold text-slate-700">No books are currently borrowed</p>
-                        <a href="{{ route('opac.index') }}" class="mt-4 text-sm font-bold text-blue-700 hover:text-blue-900">Search the catalog</a>
+                        <a href="{{ route('opac.index') }}" class="mt-4 text-xs font-bold text-blue-700 hover:text-blue-900">Search the catalog</a>
                     </div>
                 @else
-                    <div class="responsive-table-scroll rounded-xl border border-slate-200">
-                        <table class="mobile-card-table w-full text-left text-sm text-slate-600 whitespace-nowrap">
+                    <div class="responsive-table-scroll rounded-xl border border-slate-200 overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600 whitespace-nowrap">
                             <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 uppercase text-xs tracking-wider">
                                 <tr>
                                     <th class="px-5 py-3.5">Book</th>
@@ -149,10 +154,10 @@
                                         $isOverdue = $borrow->due_date?->isPast() ?? false;
                                     @endphp
                                     <tr class="hover:bg-slate-50 transition-colors">
-                                        <td data-primary class="px-5 py-4 max-w-xs truncate font-bold text-slate-900">{{ $borrow->book?->bookData?->book_title ?? 'Untitled book' }}</td>
-                                        <td data-label="Accession no." class="hidden px-5 py-4 text-xs font-medium text-slate-500 sm:table-cell">{{ $borrow->book?->accession_number ?? '—' }}</td>
-                                        <td data-label="Due date" class="px-5 py-4 text-xs font-medium">{{ $borrow->due_date?->format('M d, Y') ?? '—' }}</td>
-                                        <td data-label="Status" class="px-5 py-4 text-right">
+                                        <td class="px-5 py-4 max-w-[200px] truncate font-bold text-slate-900">{{ $borrow->book?->bookData?->book_title ?? 'Untitled book' }}</td>
+                                        <td class="hidden px-5 py-4 text-xs font-medium text-slate-500 sm:table-cell">{{ $borrow->book?->accession_number ?? '—' }}</td>
+                                        <td class="px-5 py-4 text-xs font-medium">{{ $borrow->due_date?->format('M d, Y') ?? '—' }}</td>
+                                        <td class="px-5 py-4 text-right">
                                             <span class="inline-flex px-2.5 py-1 rounded-md text-xs font-bold border {{ $isOverdue ? 'text-red-700 bg-red-50 border-red-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200' }}">
                                                 {{ $isOverdue ? 'Overdue' : 'Active' }}
                                             </span>
@@ -165,20 +170,21 @@
                 @endif
             </div>
 
+            <!-- Reservations Card -->
             <div class="flex min-h-[280px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 class="text-lg font-extrabold text-slate-900 tracking-tight">Reservations</h2>
-                        <p class="text-xs font-medium text-slate-500 mt-0.5">Your latest active requests</p>
+                        <h2 class="text-base font-extrabold text-slate-900 tracking-tight">Reservations</h2>
+                        <p class="text-xs font-medium text-slate-500 mt-0.5">Your place in line for items</p>
                     </div>
-                    <a href="{{ route('student.reservations.index') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900">View all</a>
+                    <a href="{{ route('student.reservations.index') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">View all</a>
                 </div>
 
                 @if($reservations->isEmpty())
-                    <div class="flex-1 flex flex-col items-center justify-center text-center py-8">
+                    <div class="flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/60 py-8 text-center">
                         <svg class="h-10 w-10 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                         <p class="text-sm font-bold text-slate-700">No active reservations</p>
-                        <p class="text-xs text-slate-500 mt-1">Reserve available titles from the catalog.</p>
+                        <p class="text-xs text-slate-500 mt-1">Reservations will be listed here when available.</p>
                     </div>
                 @else
                     <div class="space-y-3">
@@ -203,6 +209,48 @@
                         @endforeach
                     </div>
                 @endif
+            </div>
+        </section>
+
+        <!-- Recommended for You -->
+        <section class="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+            <div class="flex items-center justify-between gap-4 mb-5">
+                <div>
+                    <h2 class="text-base font-extrabold text-slate-900 tracking-tight">Recommended for You</h2>
+                    <p class="text-xs font-medium text-slate-500 mt-0.5">Discover titles based on your interests and borrowing history</p>
+                </div>
+                <a href="{{ route('opac.index') }}" class="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1">
+                    View all
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </div>
+
+            <div class="relative">
+                <div class="flex gap-5 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-slate-200">
+                    @foreach($recommendedBooks as $book)
+                        @php
+                            $authors = $book->authors->map(function($author) {
+                                return $author->first_name . ' ' . $author->last_name;
+                            })->join(', ');
+                        @endphp
+                        <div class="w-36 shrink-0 group cursor-pointer" onclick="window.location.href='{{ route('opac.index') }}?q={{ urlencode($book->book_title) }}'">
+                            <div class="relative aspect-[2/3] w-full overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 shadow-soft transition duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
+                                @if($book->bookDetail?->cover_image)
+                                    <img src="{{ str_starts_with($book->bookDetail->cover_image, 'data:image') ? $book->bookDetail->cover_image : asset('storage/' . ltrim($book->bookDetail->cover_image, '/')) }}" alt="Cover" class="h-full w-full object-cover">
+                                @else
+                                    <div class="flex h-full flex-col items-center justify-center px-3 text-center text-slate-400">
+                                        <svg class="h-8 w-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" />
+                                        </svg>
+                                        <span class="mt-1.5 text-[8px] font-bold uppercase tracking-widest leading-none">PGPC Library</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <h3 class="mt-2.5 text-xs font-bold text-slate-800 line-clamp-2 leading-snug group-hover:text-blue-700 transition-colors">{{ $book->book_title }}</h3>
+                            <p class="mt-1 text-[10px] font-semibold text-slate-400 truncate">{{ $authors ?: 'Unknown Author' }}</p>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </section>
     </div>

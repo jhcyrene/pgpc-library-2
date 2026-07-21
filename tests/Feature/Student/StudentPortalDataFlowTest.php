@@ -144,6 +144,23 @@ class StudentPortalDataFlowTest extends TestCase
         ]);
     }
 
+    public function test_check_availability_returns_unavailable_dates_efficiently(): void
+    {
+        $bookData = BookData::factory()->create();
+        
+        $response = $this->getJson(route('student.reservations.check-availability', [
+            'bookData' => $bookData->book_data_id,
+            'year' => 2026,
+            'month' => 7,
+        ]));
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+            ])
+            ->assertJsonStructure(['success', 'unavailable_dates']);
+    }
+
     public function test_profile_update_persists_the_contact_number_field(): void
     {
         $this->put(route('student.profile.update'), [

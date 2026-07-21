@@ -11,30 +11,30 @@
         
     </div>
 
-    <!-- ROW 2: 4-COLUMN Stats Cards -->
+    <!-- ROW 2: 4-COLUMN Stats Cards with Skeletal Shimmers -->
     <div class="portal-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 shrink-0 mb-4 sm:mb-5">
 
         <x-admin.totalcard
             title="Total Titles"
-            value="<span id='stat-total-titles'><span class='loading loading-spinner loading-sm'></span></span>"
+            value="<span id='stat-total-titles'><div class='h-8 w-16 bg-slate-200 animate-pulse rounded-lg inline-block'></div></span>"
             description="Unique book records in catalog"
         />
 
         <x-admin.totalcard
             title="Total Copies"
-            value="<span id='stat-total-copies'><span class='loading loading-spinner loading-sm'></span></span>"
+            value="<span id='stat-total-copies'><div class='h-8 w-16 bg-slate-200 animate-pulse rounded-lg inline-block'></div></span>"
             description="Physical copies across all titles"
         />
 
         <x-admin.totalcard
             title="Active Members"
-            value="<span id='stat-active-members'><span class='loading loading-spinner loading-sm'></span></span>"
+            value="<span id='stat-active-members'><div class='h-8 w-16 bg-slate-200 animate-pulse rounded-lg inline-block'></div></span>"
             description="Currently registered students"
         />
 
         <x-admin.totalcard
             title="Borrowed Items"
-            value="<span id='stat-borrowed-items'><span class='loading loading-spinner loading-sm'></span></span>"
+            value="<span id='stat-borrowed-items'><div class='h-8 w-16 bg-slate-200 animate-pulse rounded-lg inline-block'></div></span>"
             description="Books currently on loan"
         />
 
@@ -65,10 +65,23 @@
                         </tr>
                     </thead>
                     <tbody id="dashboard-borrowers-tbody" class="divide-y divide-slate-100">
-                        <tr>
-                            <td colspan="4" class="px-5 py-8 text-center text-slate-400 font-medium">
-                                <span class="loading loading-spinner loading-md"></span>
-                            </td>
+                        <tr class="animate-pulse">
+                            <td class="px-5 py-4"><div class="h-4 w-32 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4"><div class="h-4 w-48 bg-slate-200 rounded-md"></div></td>
+                            <td class="hidden px-5 py-4 sm:table-cell"><div class="h-4 w-24 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4 text-right"><div class="h-6 w-16 bg-slate-200 rounded-md ml-auto"></div></td>
+                        </tr>
+                        <tr class="animate-pulse">
+                            <td class="px-5 py-4"><div class="h-4 w-28 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4"><div class="h-4 w-52 bg-slate-200 rounded-md"></div></td>
+                            <td class="hidden px-5 py-4 sm:table-cell"><div class="h-4 w-20 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4 text-right"><div class="h-6 w-16 bg-slate-200 rounded-md ml-auto"></div></td>
+                        </tr>
+                        <tr class="animate-pulse">
+                            <td class="px-5 py-4"><div class="h-4 w-36 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4"><div class="h-4 w-44 bg-slate-200 rounded-md"></div></td>
+                            <td class="hidden px-5 py-4 sm:table-cell"><div class="h-4 w-24 bg-slate-200 rounded-md"></div></td>
+                            <td class="px-5 py-4 text-right"><div class="h-6 w-16 bg-slate-200 rounded-md ml-auto"></div></td>
                         </tr>
                     </tbody>
                 </table>
@@ -197,4 +210,3 @@
 </script>
 
 </x-layout.admin>
-

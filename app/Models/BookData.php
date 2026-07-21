@@ -23,6 +23,11 @@ class BookData extends Model
         'marc_record',
     ];
 
+    public function getTitleAttribute()
+    {
+        return $this->attributes['book_title'] ?? null;
+    }
+
     public function authors()
     {
         return $this->belongsToMany(Author::class, 'book_author', 'book_data_id', 'author_id')->withPivot('role');

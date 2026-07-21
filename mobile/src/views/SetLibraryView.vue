@@ -1,143 +1,127 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { getServerUrl, setServerUrl, getDefaultServerUrl, fetchApi } from '@/services/api'
-import { toast } from 'vue-sonner'
+import { ref } from 'vue'
+import pgpcLogoFile from '@/assets/images/hd-pgpc-logo.webp'
+import { Globe, X, Play, AlertCircle } from 'lucide-vue-next'
 
-// Shadcn Vue components
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Globe, Link as LinkIcon, ShieldCheck, X, BookOpen, Loader2 } from 'lucide-vue-next'
-
-const router = useRouter()
 const inputUrl = ref('')
-const loading = ref(false)
 const errorMessage = ref('')
 
-onMounted(() => {
-  inputUrl.value = getServerUrl()
-})
+const normalizeUrl = (raw) => {
+  const value = raw.trim()
+  if (!value) throw new Error('Please enter an IP address or URL.')
+  const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(value)
+  const full = hasProtocol ? value : `http://${value}`
+  const parsed = new URL(full)
+  if (!['http:', 'https:'].includes(parsed.protocol))
+    throw new Error('Only HTTP and HTTPS are allowed.')
+  if (!parsed.hostname)
+    throw new Error('Enter a valid hostname or IP address.')
+  return parsed.toString()
+}
 
-const handleConnect = async () => {
-  if (!inputUrl.value.trim()) {
-    errorMessage.value = 'Please enter a valid website URL.'
+const connect = () => {
+  errorMessage.value = ''
+
+  let url
+  try {
+    url = normalizeUrl(inputUrl.value)
+  } catch (e) {
+    errorMessage.value = e.message
     return
   }
 
-  loading.value = true
-  errorMessage.value = ''
-
-  const formattedUrl = setServerUrl(inputUrl.value)
-
-  try {
-    const res = await fetchApi('/api/opac/books?limit=1')
-    toast.success('Connected to Library Server', { description: `Configured endpoint: ${formattedUrl}` })
-    router.push('/opac')
-  } catch (err) {
-    // Proceed to catalog fallback
-    toast.info('Saved Library Endpoint', { description: `Using ${formattedUrl}` })
-    router.push('/opac')
-  } finally {
-    loading.value = false
-  }
-}
-
-const useDefault = () => {
-  const defaultUrl = getDefaultServerUrl()
-  inputUrl.value = defaultUrl
-  setServerUrl(defaultUrl)
-  toast.success('Using Default Endpoint', { description: defaultUrl })
-  router.push('/opac')
+  // Navigate — use href (not replace) so Android back button returns here
+  window.location.href = url
 }
 
 const clearInput = () => {
   inputUrl.value = ''
+  errorMessage.value = ''
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-background flex flex-col justify-between p-6 sm:p-8 font-sans max-w-md mx-auto">
-    <div></div>
+  <div class="fixed inset-0 flex flex-col items-center justify-center bg-[#07132b] px-6 font-sans text-white">
 
-    <div class="flex flex-col items-center text-center space-y-6">
-      <!-- Icon Emblem -->
-      <div class="w-20 h-20 rounded-3xl bg-primary/10 border border-primary/20 flex items-center justify-center relative shadow-sm">
-        <BookOpen class="w-10 h-10 text-primary" />
-        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#102b70] text-[#fcc719] flex items-center justify-center border-2 border-background shadow-sm">
-          <LinkIcon class="w-4 h-4" />
+    <!-- Watermark -->
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-5">
+      <img :src="pgpcLogoFile" alt="" class="w-96 h-96 object-contain grayscale" />
+    </div>
+
+    <!-- Card -->
+    <div class="relative z-10 w-full max-w-sm space-y-6">
+
+      <!-- Logo -->
+      <div class="flex flex-col items-center space-y-3">
+        <div class="relative">
+          <div class="flex size-24 items-center justify-center rounded-full border-4 border-[#fcc719] bg-white p-2 shadow-2xl">
+            <img :src="pgpcLogoFile" alt="PGPC Logo" class="size-full object-contain" />
+          </div>
+          <div aria-hidden="true" class="absolute -inset-2 rounded-full border-2 border-dashed border-[#fcc719]/50 animate-spin" style="animation-duration:10s" />
+        </div>
+        <div class="text-center">
+          <h1 class="text-2xl font-black tracking-tight">
+            PGPC Library <span class="text-[#fcc719]">System</span>
+          </h1>
+          <p class="mt-1 text-xs text-slate-400">Enter your server address to connect</p>
         </div>
       </div>
 
-      <!-- Header -->
-      <div class="space-y-1 max-w-xs">
-        <h2 class="text-2xl font-bold tracking-tight text-foreground">Set Library Endpoint</h2>
-        <p class="text-xs text-muted-foreground">
-          Enter your Laravel 13 server domain or local IP address to connect the mobile app.
+      <!-- Input Form -->
+      <form @submit.prevent="connect" novalidate class="space-y-3">
+
+        <!-- URL Input -->
+        <div
+          class="flex items-center rounded-2xl border border-white/20 bg-slate-900 p-1.5 shadow-inner transition-all focus-within:border-[#fcc719] focus-within:ring-2 focus-within:ring-[#fcc719]/20"
+        >
+          <Globe class="ml-2.5 size-5 shrink-0 text-slate-400" aria-hidden="true" />
+
+          <input
+            v-model="inputUrl"
+            type="text"
+            inputmode="url"
+            autocomplete="url"
+            autocapitalize="none"
+            spellcheck="false"
+            placeholder="192.168.1.40:8000"
+            aria-label="Server URL"
+            class="min-w-0 flex-1 bg-transparent px-3 py-3 font-mono text-sm text-white placeholder:text-slate-500 focus:outline-none"
+            @input="errorMessage = ''"
+          />
+
+          <button
+            v-if="inputUrl"
+            type="button"
+            aria-label="Clear"
+            class="mr-1 shrink-0 rounded-full bg-white/10 p-1.5 text-slate-400 transition hover:text-white"
+            @click="clearInput"
+          >
+            <X class="size-4" aria-hidden="true" />
+          </button>
+        </div>
+
+        <!-- Error -->
+        <p v-if="errorMessage" role="alert" class="flex items-center gap-1.5 text-xs font-semibold text-rose-400">
+          <AlertCircle class="size-3.5 shrink-0" aria-hidden="true" />
+          {{ errorMessage }}
         </p>
-      </div>
 
-      <!-- Form Card -->
-      <Card class="w-full border shadow-sm">
-        <CardContent class="p-5 space-y-4">
-          <div class="space-y-1.5 text-left">
-            <label class="text-xs font-semibold text-foreground">Library Server URL</label>
-            <div class="relative">
-              <Globe class="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
-              <Input
-                v-model="inputUrl"
-                type="url"
-                placeholder="http://127.0.0.1:8000"
-                class="pl-9 pr-8 text-xs font-mono"
-                @keyup.enter="handleConnect"
-              />
-              <button
-                v-if="inputUrl"
-                type="button"
-                @click="clearInput"
-                class="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <X class="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+        <!-- Connect Button -->
+        <button
+          type="submit"
+          :disabled="!inputUrl.trim()"
+          class="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#fcc719] to-amber-500 px-6 py-4 text-base font-black text-slate-950 shadow-xl transition-all hover:from-amber-400 hover:to-amber-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <Play class="size-5 fill-slate-950" aria-hidden="true" />
+          Connect to Server
+        </button>
+      </form>
 
-          <p v-if="errorMessage" class="text-xs font-bold text-destructive text-center">{{ errorMessage }}</p>
-
-          <Button
-            type="button"
-            @click="handleConnect"
-            :disabled="loading"
-            class="w-full bg-[#102b70] hover:bg-[#0b225e] text-white font-bold h-10 shadow"
-          >
-            <Loader2 v-if="loading" class="mr-2 h-4 w-4 animate-spin" />
-            <span>{{ loading ? 'Connecting...' : 'Connect to Server' }}</span>
-          </Button>
-
-          <div class="flex items-center gap-3 py-0.5">
-            <div class="flex-1 h-px bg-border"></div>
-            <span class="text-[10px] font-bold text-muted-foreground uppercase">or</span>
-            <div class="flex-1 h-px bg-border"></div>
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            @click="useDefault"
-            class="w-full text-xs font-semibold h-10"
-          >
-            Use Default Local Server
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
-
-    <!-- Footer Note -->
-    <div class="text-center pt-6 space-y-1 text-xs text-muted-foreground">
-      <div class="flex items-center justify-center gap-1.5">
-        <ShieldCheck class="w-4 h-4 text-emerald-600" />
-        <span>Secure Sanctum API Communication</span>
-      </div>
+      <!-- Helper text -->
+      <p class="text-center text-[11px] text-slate-500">
+        Make sure your phone and PC are on the same Wi-Fi network.<br/>
+        Press Android <strong class="text-slate-400">back</strong> to return here if the server is unreachable.
+      </p>
     </div>
   </div>
 </template>

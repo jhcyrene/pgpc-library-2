@@ -19,13 +19,15 @@ class StudentDashboardController extends Controller
     {
         $member = Auth::guard('member')->user()->member;
 
-        // Eager load relationships if needed, though service already handles most
-        $summary = $this->dashboardService->getSummary($member);
-        $currentBorrows = $this->dashboardService->getCurrentBorrows($member, 5);
-        $reservations = $this->dashboardService->getReservationPreview($member, 3);
-        $attentionItems = $this->dashboardService->getAttentionItems($member);
+        // Fetch all student dashboard data in a single optimized pass
+        $dashboardData = $this->dashboardService->getDashboardData($member);
 
-        // Fetch recommended books for the new dashboard section
+        $summary = $dashboardData['summary'];
+        $currentBorrows = $dashboardData['currentBorrows'];
+        $reservations = $dashboardData['reservations'];
+        $attentionItems = $dashboardData['attentionItems'];
+
+        // Fetch recommended books for the dashboard
         $recommendedBooks = \App\Models\BookData::with(['authors', 'bookDetail'])
             ->latest()
             ->take(6)

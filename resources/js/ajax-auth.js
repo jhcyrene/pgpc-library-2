@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Dismiss mobile virtual keyboard on submit
+            if (document.activeElement && typeof document.activeElement.blur === 'function') {
+                document.activeElement.blur();
+            }
+
             // 1. Show the Preloader & Button Loading State
             const preloader = document.getElementById('site-preloader');
             if (preloader) {

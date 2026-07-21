@@ -37,6 +37,71 @@ class ReservationService
         return max(0, $available);
     }
 
+    public function getUnavailableDates(BookData $bookData): array
+    {
+        $totalCopies = $bookData->books()->count();
+        if ($totalCopies <= 0) {
+            return ['all' => true, 'dates' => []];
+        }
+
+        $activeBorrows = \App\Models\BookBorrow::whereHas('book', function ($q) use ($bookData) {
+                $q->where('book_data_id', $bookData->book_data_id);
+            })
+            ->whereIn(DB::raw('LOWER(status)'), ['borrowed', 'overdue'])
+            ->count();
+
+        $availableCopies = $totalCopies - $activeBorrows;
+        if ($availableCopies <= 0) {
+            return ['all' => true, 'dates' => []];
+        }
+
+        $reservations = BookRequest::where('book_data_id', $bookData->book_data_id)
+            ->where('pickup_date', '>=', now()->startOfDay())
+            ->whereHas('bookRequestStatus', function ($q) {
+                $q->whereIn(DB::raw('LOWER(status_name)'), ['pending', 'approved', 'ready for pickup']);
+            })
+            ->get(['pickup_date']);
+
+        $reservationsByDate = [];
+        foreach ($reservations as $res) {
+            if ($res->pickup_date) {
+                $dateStr = $res->pickup_date->format('Y-m-d');
+                $reservationsByDate[$dateStr] = ($reservationsByDate[$dateStr] ?? 0) + 1;
+            }
+        }
+
+        $unavailableDates = [];
+        foreach ($reservationsByDate as $dateStr => $count) {
+            if ($count >= $availableCopies) {
+                $unavailableDates[] = $dateStr;
+            }
+        }
+
+        return [
+            'all' => false,
+            'dates' => $unavailableDates,
+        ];
+    }
+
+    public function getUnavailableDatesForMonth(BookData $bookData, int $year, int $month): array
+    {
+        $info = $this->getUnavailableDates($bookData);
+        $startDate = \Carbon\Carbon::create($year, $month, 1)->startOfMonth();
+        $endDate = $startDate->copy()->endOfMonth();
+
+        if ($info['all']) {
+            $unavailableDates = [];
+            $tempDate = $startDate->copy();
+            while ($tempDate->lte($endDate)) {
+                $unavailableDates[] = $tempDate->format('Y-m-d');
+                $tempDate->addDay();
+            }
+            return $unavailableDates;
+        }
+
+        return $info['dates'];
+    }
+
     public function checkEligibility(Member $member, BookData $bookData, $pickupDate = null): array
     {
         // 1. Check account status (assuming active)
@@ -44,17 +109,16 @@ class ReservationService
             return ['eligible' => false, 'reason' => 'Your account is not active.'];
         }
 
-        // 2. Check for existing active reservation for the same title
-        $hasActiveReservation = BookRequest::where('member_id', $member->member_id)
-            ->where('book_data_id', $bookData->book_data_id)
+        // 2. Fetch all active reservations for member once
+        $activeMemberReservations = BookRequest::where('member_id', $member->member_id)
             ->whereHas('bookRequestStatus', function ($query) {
                 $query->whereRaw(
                     'LOWER(status_name) IN (?, ?, ?)',
                     ['pending', 'approved', 'ready for pickup']
                 );
-            })->exists();
+            })->get();
 
-        if ($hasActiveReservation) {
+        if ($activeMemberReservations->contains('book_data_id', $bookData->book_data_id)) {
             return ['eligible' => false, 'reason' => 'You already have an active reservation for this title.'];
         }
 
@@ -70,15 +134,7 @@ class ReservationService
         }
 
         // 4. Check reservation limits (e.g. max 3 active reservations)
-        $activeReservationsCount = BookRequest::where('member_id', $member->member_id)
-            ->whereHas('bookRequestStatus', function ($query) {
-                $query->whereRaw(
-                    'LOWER(status_name) IN (?, ?, ?)',
-                    ['pending', 'approved', 'ready for pickup']
-                );
-            })->count();
-
-        if ($activeReservationsCount >= 3) {
+        if ($activeMemberReservations->count() >= 3) {
             return ['eligible' => false, 'reason' => 'You have reached the maximum limit of 3 active reservations.'];
         }
 
@@ -102,15 +158,20 @@ class ReservationService
         }
 
         return DB::transaction(function () use ($member, $bookData, $data) {
-            $pendingStatus = BookRequestStatus::whereRaw('LOWER(status_name) = ?', ['pending'])->first();
-            if (!$pendingStatus) {
+            $pendingStatusId = \Illuminate\Support\Facades\Cache::remember('status_id_pending', 3600, function () {
+                return BookRequestStatus::whereIn('status_name', ['Pending', 'pending'])
+                    ->orWhereRaw('LOWER(status_name) = ?', ['pending'])
+                    ->value('book_request_status_id');
+            });
+
+            if (!$pendingStatusId) {
                 throw new Exception('Pending status not found in database.');
             }
 
             $reservation = new BookRequest();
             $reservation->member_id = $member->member_id;
             $reservation->book_data_id = $bookData->book_data_id;
-            $reservation->book_request_status_id = $pendingStatus->book_request_status_id;
+            $reservation->book_request_status_id = $pendingStatusId;
             $reservation->request_date = now();
             $reservation->pickup_date = $data['pickup_date'] ?? null;
             $reservation->remarks = $data['remarks'] ?? null;

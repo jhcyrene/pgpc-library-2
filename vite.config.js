@@ -8,6 +8,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/js/app.js',
+                'resources/js/ajax-auth.js',
                 'resources/js/loader.js',
                 'resources/js/borrows.js',
                 'resources/css/welcome.css',

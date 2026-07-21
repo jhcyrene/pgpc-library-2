@@ -20,6 +20,17 @@ class ProfileController extends Controller
         return view('student.profile.edit', compact('member'));
     }
 
+    public function complete()
+    {
+        $member = Auth::guard('member')->user()->member;
+        return view('student.profile.complete', compact('member'));
+    }
+
+    public function storeComplete(UpdateStudentProfileRequest $request)
+    {
+        return $this->update($request);
+    }
+
     public function update(UpdateStudentProfileRequest $request)
     {
         $memberAuth = Auth::guard('member')->user();
@@ -27,18 +38,32 @@ class ProfileController extends Controller
         
         $validated = $request->validated();
 
-        // Handle password change if requested
+        // Handle password change / creation if requested
         if ($request->filled('new_password')) {
-            if (!\Illuminate\Support\Facades\Hash::check($request->input('current_password'), $memberAuth->password_hash)) {
+            if ($memberAuth->hasPassword()) {
+                if (!$request->filled('current_password') || !\Illuminate\Support\Facades\Hash::check($request->input('current_password'), $memberAuth->password_hash)) {
+                    if ($request->ajax() || $request->wantsJson()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Current password does not match.',
+                            'errors' => ['current_password' => ['Current password does not match.']]
+                        ], 422);
+                    }
+                    return back()->withErrors(['current_password' => 'Current password does not match.']);
+                }
+            }
+
+            if ($request->input('new_password') !== $request->input('new_password_confirmation')) {
                 if ($request->ajax() || $request->wantsJson()) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Current password does not match.',
-                        'errors' => ['current_password' => ['Current password does not match.']]
+                        'message' => 'Password confirmation does not match.',
+                        'errors' => ['new_password' => ['Password confirmation does not match.']]
                     ], 422);
                 }
-                return back()->withErrors(['current_password' => 'Current password does not match.']);
+                return back()->withErrors(['new_password' => 'Password confirmation does not match.']);
             }
+
             $memberAuth->update([
                 'password_hash' => \Illuminate\Support\Facades\Hash::make($request->input('new_password'))
             ]);

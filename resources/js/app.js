@@ -1,6 +1,5 @@
 import '../css/welcome.css';
 import './reserve-modal.js';
-import './ajax-auth.js';
 
 import.meta.glob([
     '../images/**',

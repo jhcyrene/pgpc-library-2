@@ -29,6 +29,7 @@
                     <li><a href="{{ route('home') }}#about" class="hover:text-accent transition-colors">About Us</a></li>
                     <li><a href="{{ route('opac.index') }}" class="hover:text-accent transition-colors">OPAC Search</a></li>
                     <li><a href="{{ route('opac.index', ['sort' => 'newest']) }}" class="hover:text-accent transition-colors">New Arrivals</a></li>
+                    <li><a href="{{ route('privacy') }}" class="hover:text-accent transition-colors">Privacy Policy</a></li>
                     <li><a href="{{ route('login') }}" class="hover:text-accent transition-colors">Student Portal</a></li>
                 </ul>
             </div>

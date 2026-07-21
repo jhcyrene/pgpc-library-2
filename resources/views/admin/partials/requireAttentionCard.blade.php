@@ -13,7 +13,9 @@
                 </div>
                 Overdue Items
             </div>
-            <span id="stat-overdue-items" class="text-2xl font-black text-red-700"><span class="loading loading-spinner loading-md"></span></span>
+            <span id="stat-overdue-items" class="text-2xl font-black text-red-700">
+                <div class="h-7 w-10 bg-red-200/60 animate-pulse rounded-md inline-block"></div>
+            </span>
         </div>
         <!-- Alert Item -->
         <div class="flex justify-between items-center p-4 bg-amber-50/50 rounded-xl border border-amber-100 group">
@@ -23,7 +25,9 @@
                 </div>
                 Pending Reservations
             </div>
-            <span id="stat-pending-reservations" class="text-2xl font-black text-amber-700"><span class="loading loading-spinner loading-md"></span></span>
+            <span id="stat-pending-reservations" class="text-2xl font-black text-amber-700">
+                <div class="h-7 w-10 bg-amber-200/60 animate-pulse rounded-md inline-block"></div>
+            </span>
         </div>
     </div>
 </div>

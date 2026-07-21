@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('student.profile.edit') }}" class="w-full sm:w-auto px-5 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center justify-center gap-2 shrink-0">
+                <a href="{{ route('student.profile.edit') }}" class="px-3.5 py-1.5 text-xs border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all inline-flex items-center gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
@@ -108,32 +108,25 @@
 
                         <div class="flex justify-between items-center py-1 border-t border-slate-100">
                             <span class="text-xs font-bold text-slate-400">Linked Account</span>
-                            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-[11px] font-extrabold text-emerald-700">
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
-                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                                </svg>
-                                Linked to Google
-                            </div>
-                        </div>
-
-                        <!-- Change Password Link -->
-                        <a href="{{ route('student.account-settings.edit') }}" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#102b70] flex items-center justify-center shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            @if($memberAuth->isGoogleLinked())
+                                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-[11px] font-extrabold text-emerald-700">
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                                     </svg>
+                                    Linked to Google
                                 </div>
-                                <div>
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-[#102b70] transition-colors">Change Password</p>
-                                    <p class="text-[10px] font-medium text-slate-400">Update your account password</p>
+                            @else
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-slate-100 text-slate-500 border border-slate-200">Not Linked</span>
+                                    <a href="{{ route('auth.google') }}" class="px-2.5 py-1 bg-[#102b70] hover:bg-[#071943] text-white text-[10px] font-extrabold rounded-lg shadow-2xs transition-all inline-flex items-center gap-1">
+                                        Link Google
+                                    </a>
                                 </div>
-                            </div>
-                            <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
-                        </a>
+                            @endif
+                        </div>
 
                         <!-- Account Security Link -->
                         <a href="{{ route('student.account-settings.edit') }}" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group">
@@ -166,7 +159,7 @@
                     </div>
 
                     <div class="space-y-2.5">
-                        <button type="button" onclick="alert('Notification Settings: You will receive email notifications for upcoming due dates.')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group text-left">
+                        {{-- <button type="button" onclick="alert('Notification Settings: You will receive email notifications for upcoming due dates.')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group text-left">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#102b70] flex items-center justify-center shrink-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
@@ -177,7 +170,7 @@
                                 </div>
                             </div>
                             <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
-                        </button>
+                        </button> --}}
 
                         <button type="button" onclick="alert('Help & Support: Contact PGPC Library Helpdesk at library@pgpc.edu.ph')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group text-left">
                             <div class="flex items-center gap-3">
@@ -205,7 +198,7 @@
                             <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
                         </button>
 
-                        <button type="button" onclick="alert('Terms & Privacy: Standard college library policies and privacy guidelines apply.')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group text-left">
+                        <button type="button" onclick="privacy_modal.showModal()" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-slate-100 transition-colors group text-left">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#102b70] flex items-center justify-center shrink-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
@@ -223,9 +216,8 @@
 
         </div>
 
-        <!-- FULL-WIDTH BOTTOM LOG OUT BAR (Matching Mockup) -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 flex flex-col items-center justify-center space-y-2">
-            <button type="button" onclick="logoutConfirmModal.showModal()" class="w-full max-w-xl py-3 border border-red-500 hover:bg-red-50 text-red-600 font-bold text-sm rounded-xl transition-all shadow-2xs bg-white flex items-center justify-center gap-2">
+            <button type="button" onclick="logoutConfirmModal.showModal()" class="w-full max-w-xl px-5 py-2.5 text-sm border border-red-500 bg-white text-red-600 font-bold rounded-xl hover:bg-red-50 transition-all inline-flex items-center justify-center gap-2">
                 <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -235,21 +227,32 @@
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal -->
-    <dialog id="logoutConfirmModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-[calc(100%-1rem)] max-w-sm bg-white p-6 rounded-2xl text-center relative shadow-xl border border-slate-100">
-            <div class="mx-auto w-14 h-14 rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-4">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+    <!-- Privacy Policy Modal -->
+    <dialog id="privacy_modal" class="modal modal-middle text-center">
+        <div class="modal-box h-[85dvh] w-full max-w-5xl overflow-y-auto bg-slate-50 p-0">
+            <form method="dialog" class="sticky top-4 z-20 ml-auto mr-4 w-fit"><button class="btn btn-circle btn-sm bg-slate-900/70 text-white">✕</button></form>
+            <x-auth.privacypolicyCard />
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>Close</button></form>
+    </dialog>
+
+    <!-- Logout Confirmation Modal (Matching Mockup EXACTLY) -->
+    <dialog id="logoutConfirmModal" class="modal modal-middle">
+        <div class="modal-box w-[calc(100%-2rem)] max-w-sm bg-white p-7 rounded-3xl text-center relative shadow-2xl border border-slate-100/80">
+            <div class="mx-auto w-16 h-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
             </div>
             
-            <h3 class="font-extrabold text-lg text-slate-900">Log out?</h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed">Are you sure you want to log out of your account?</p>
+            <h3 class="font-extrabold text-xl text-[#0A1E4D]">Log out?</h3>
+            <p class="text-xs text-slate-500 font-semibold mt-2 leading-relaxed max-w-[220px] mx-auto">Are you sure you want to log out of your account?</p>
             
-            <div class="flex gap-3 mt-6">
-                <button type="button" class="w-1/2 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition-all" onclick="logoutConfirmModal.close()">Cancel</button>
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button type="button" onclick="logoutConfirmModal.close()" class="w-1/2 py-2.5 bg-[#F1F5F9] hover:bg-slate-200 text-[#0A1E4D] font-bold text-xs rounded-xl transition-all">Cancel</button>
                 <form action="{{ route('logout') }}" method="POST" class="w-1/2">
                     @csrf
-                    <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm">Log out</button>
+                    <button type="submit" class="w-full py-2.5 bg-[#EF4444] hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all">Log out</button>
                 </form>
             </div>
         </div>

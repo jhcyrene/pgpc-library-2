@@ -196,29 +196,87 @@ class BookRequestController extends Controller
 
                 switch (strtolower($newStatusName)) {
                     case 'approved':
-                        $reservation->approved_at = now();
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
+                        }
+                        if (!$reservation->book_id) {
+                            $availableCopy = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                                ->where('status', 'Available')
+                                ->first();
+                            if ($availableCopy) {
+                                $reservation->book_id = $availableCopy->book_id;
+                            }
+                        }
                         break;
                     case 'ready for pickup':
-                        if (!$request->book_id) {
-                            throw new \Exception('A specific book copy must be assigned for pickup.');
+                    case 'ready':
+                        if ($request->filled('book_id')) {
+                            $book = \App\Models\Book::find($request->book_id);
+                            if ($book && strtolower($book->status) !== 'available' && $reservation->book_id !== $book->book_id) {
+                                throw new \Exception('The selected book copy is not available.');
+                            }
+                            if ($book) {
+                                $reservation->book_id = $book->book_id;
+                            }
+                        } elseif (!$reservation->book_id) {
+                            $availableCopy = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                                ->where('status', 'Available')
+                                ->first();
+                            if ($availableCopy) {
+                                $reservation->book_id = $availableCopy->book_id;
+                            } else {
+                                throw new \Exception('No available book copies found for this title.');
+                            }
                         }
-                        
-                        $book = \App\Models\Book::find($request->book_id);
-                        if (strtolower($book->status) !== 'available') {
-                            throw new \Exception('The selected book copy is not available.');
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
                         }
-                        
-                        $reservation->book_id = $book->book_id;
-                        $reservation->ready_at = now();
-                        $reservation->expires_at = now()->addDays((int) env('RESERVATION_EXPIRE_DAYS', 1));
+                        if (!$reservation->ready_at) {
+                            $reservation->ready_at = now();
+                        }
+                        $reservation->expires_at = now()->addDays((int) env('RESERVATION_EXPIRE_DAYS', 3));
                         break;
                     case 'completed':
                     case 'fulfilled':
-                        $reservation->fulfilled_at = now();
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
+                        }
+                        if (!$reservation->ready_at) {
+                            $reservation->ready_at = now();
+                        }
+                        if (!$reservation->fulfilled_at) {
+                            $reservation->fulfilled_at = now();
+                        }
+
+                        if ($reservation->book_id) {
+                            $existingBorrow = \App\Models\BookBorrow::where('book_id', $reservation->book_id)
+                                ->where('member_id', $reservation->member_id)
+                                ->whereNull('return_date')
+                                ->first();
+
+                            if (!$existingBorrow) {
+                                \App\Models\BookBorrow::create([
+                                    'book_id' => $reservation->book_id,
+                                    'member_id' => $reservation->member_id,
+                                    'librarian_id' => auth()->id(),
+                                    'issue_date' => now(),
+                                    'due_date' => now()->addDays((int) \App\Models\Setting::get('default_borrow_days', 3)),
+                                    'status' => 'Borrowed'
+                                ]);
+
+                                $book = \App\Models\Book::find($reservation->book_id);
+                                if ($book) {
+                                    $book->status = 'Borrowed';
+                                    $book->save();
+                                }
+                            }
+                        }
                         break;
                     case 'cancelled':
                     case 'rejected':
-                        $reservation->cancelled_at = now();
+                        if (!$reservation->cancelled_at) {
+                            $reservation->cancelled_at = now();
+                        }
                         break;
                 }
 
@@ -237,15 +295,17 @@ class BookRequestController extends Controller
                 }
 
                 $html = view('admin.reservations.partials.status-card', compact('reservation', 'availableCopies'))->render();
+                $modalHtml = view('admin.reservations.partials.show-content', compact('reservation', 'availableCopies'))->render();
                 
                 return response()->json([
                     'success' => true,
                     'message' => 'Reservation status updated successfully.',
-                    'html' => $html
+                    'html' => $html,
+                    'modal_html' => $modalHtml
                 ]);
             }
 
-            return redirect()->route('admin.reservations.show', $reservation)->with('success', 'Reservation status updated successfully.');
+            return redirect()->back()->with('success', 'Reservation status updated successfully.');
         } catch (\Exception $e) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([

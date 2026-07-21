@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('member_id')->constrained('members', 'member_id')->cascadeOnDelete();
             $table->foreignId('book_request_status_id')->constrained('book_request_statuses', 'book_request_status_id')->cascadeOnDelete();
             $table->dateTime('request_date');
+            $table->date('pickup_date')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->dateTime('ready_at')->nullable();
             $table->dateTime('fulfilled_at')->nullable();

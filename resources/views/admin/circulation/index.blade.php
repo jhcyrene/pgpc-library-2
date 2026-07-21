@@ -81,7 +81,7 @@
                                     <p class="text-xs text-slate-500 mt-0.5" id="member-course">Program - Year</p>
                                     
                                     <div class="mt-3 flex items-center gap-3">
-                                        <a href="javascript:void(0)" id="btn-view-profile" class="text-xs font-bold text-blue-700 hover:text-blue-900 transition-colors uppercase tracking-wider">View Profile</a>
+                                        <a href="javascript:void(0)" id="btn-view-profile" target="_blank" class="text-xs font-bold text-blue-700 hover:text-blue-900 transition-colors uppercase tracking-wider">View Profile</a>
                                         <span class="text-slate-300">•</span>
                                         <button type="button" onclick="resetCheckout()" class="text-xs font-bold text-slate-500 hover:text-[#102b70] transition-colors uppercase tracking-wider flex items-center gap-1">
                                             Change Member

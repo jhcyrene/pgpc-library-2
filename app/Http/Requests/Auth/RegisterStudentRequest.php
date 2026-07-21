@@ -24,16 +24,19 @@ class RegisterStudentRequest extends FormRequest
     {
         return [
             'student_id_number' => ['required', 'string', 'max:50', 'unique:members,student_id_number'],
-            'first_name' => ['required', 'string', 'max:100'],
-            'middle_name' => ['nullable', 'string', 'max:100'],
-            'last_name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:150', 'unique:members,email'],
-            'contact_num' => ['nullable', 'string', 'max:20'],
-            'program' => ['required', 'string', 'max:100'],
-            'year_level' => ['required', 'string', 'max:50'],
-            'username' => ['required', 'string', 'max:100', 'unique:member_auth,username'],
-            'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
-            'terms' => ['required', 'accepted'],
+            'first_name'        => ['required', 'string', 'max:100'],
+            'middle_name'       => ['nullable', 'string', 'max:100'],
+            'last_name'         => ['required', 'string', 'max:100'],
+            'email'             => ['required', 'email', 'max:150', 'unique:members,email'],
+            // Accept contact_num (web form) or contact_number (mobile API)
+            'contact_num'       => ['nullable', 'string', 'max:20'],
+            'contact_number'    => ['nullable', 'string', 'max:20'],
+            'program'           => ['required', 'string', 'max:100'],
+            'year_level'        => ['required', 'string', 'max:50'],
+            'username'          => ['required', 'string', 'max:100', 'unique:member_auth,username'],
+            'password'          => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
+            // Web form requires terms; API callers (mobile) may skip this field
+            'terms'             => [$this->expectsJson() ? 'nullable' : 'required', 'accepted'],
         ];
     }
 }

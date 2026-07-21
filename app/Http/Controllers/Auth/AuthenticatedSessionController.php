@@ -13,10 +13,6 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Canonical account-type groups used across portals and middleware.
-     *
-     * Any variation stored in the database (e.g. "Admin", "Administrator",
-     * "Student", "Member") is normalised to lowercase before comparison so
-     * that casing mismatches never lock a user out.
      */
     private const STAFF_TYPES = ['administrator', 'admin', 'librarian'];
     private const STUDENT_TYPES = ['member', 'student'];
@@ -90,7 +86,21 @@ class AuthenticatedSessionController extends Controller
             })
             ->first();
 
-        if ($user && Hash::check($credentials['password'], $user->password_hash)) {
+        if ($user) {
+            if (! $user->hasPassword() && ! empty($user->provider)) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'login' => 'This account was created via Google Sign-In and does not have a password set. Please sign in using Google.',
+                ]);
+            }
+
+            if (! $user->hasPassword() || ! Hash::check($credentials['password'], $user->password_hash)) {
+                $user->increment('failed_attempts');
+
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'login' => 'The username or password is incorrect.',
+                ]);
+            }
+
             $type = strtolower((string) $user->account_type);
 
             if (! in_array($type, $allowedTypes, true)) {
@@ -119,7 +129,9 @@ class AuthenticatedSessionController extends Controller
                 ]);
             }
 
-            Auth::guard('member')->login($user, $request->boolean('remember'));
+            $remember = $request->boolean('remember') || $request->input('remember') == '1' || $request->input('remember') === true;
+
+            Auth::guard('member')->login($user, $remember);
 
             $request->session()->regenerate();
 
@@ -138,10 +150,6 @@ class AuthenticatedSessionController extends Controller
             }
 
             return redirect()->to($redirectUrl);
-        }
-
-        if ($user) {
-            $user->increment('failed_attempts');
         }
 
         throw \Illuminate\Validation\ValidationException::withMessages([

@@ -21,6 +21,7 @@ use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\ReservationController;
 use App\Http\Controllers\Student\SavedItemController;
 use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\Student\StudentSearchController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,11 +36,12 @@ Route::get('/opac/book/{bookData}', [CatalogController::class, 'show'])->name('o
 Route::get('/api/opac/books', [CatalogController::class, 'index'])->name('api.opac.books');
 Route::get('/api/opac/books/{bookData}', [CatalogController::class, 'show'])->name('api.opac.book');
 
+// Google Social Authentication (Accessible to guests for login & authenticated users for linking)
+Route::get('/auth/google', [\App\Http\Controllers\Auth\SocialLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [\App\Http\Controllers\Auth\SocialLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
 // Auth Routes
 Route::middleware('guest:member')->group(function () {
-    // Google Social Authentication
-    Route::get('/auth/google', [\App\Http\Controllers\Auth\SocialLoginController::class, 'redirectToGoogle'])->name('auth.google');
-    Route::get('/auth/google/callback', [\App\Http\Controllers\Auth\SocialLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
     Route::get('/auth/google/link', [\App\Http\Controllers\Auth\SocialLoginController::class, 'showLinkForm'])->name('auth.google.link');
     Route::post('/auth/google/link', [\App\Http\Controllers\Auth\SocialLoginController::class, 'linkAccount'])->name('auth.google.link.submit');
 
@@ -70,6 +72,10 @@ Route::prefix('student')->name('student.')->group(function () {
 
     // Protected Student Routes
     Route::middleware(['student'])->group(function () {
+        // Unified Topbar Live Search & Dashboard Search Page
+        Route::get('/search', [StudentSearchController::class, 'index'])->name('search');
+        Route::get('/search-unified', [StudentSearchController::class, 'search'])->name('search-unified');
+
         // Dashboard
         Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
 
@@ -98,10 +104,13 @@ Route::prefix('student')->name('student.')->group(function () {
         // Profile & Settings
         Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/profile/complete', [ProfileController::class, 'complete'])->name('profile.complete');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/complete', [ProfileController::class, 'storeComplete'])->name('profile.complete.store');
 
         Route::get('/account-settings', [AccountSettingsController::class, 'edit'])->name('account-settings.edit');
         Route::put('/account-settings/password', [AccountSettingsController::class, 'updatePassword'])->name('account-settings.password');
+        Route::delete('/account-settings/unlink-google', [AccountSettingsController::class, 'unlinkGoogle'])->name('account-settings.unlink-google');
     });
 });
 
@@ -234,9 +243,8 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
 // Route::get('/register', function () { return view('auth.register'); });
 // Route::get('/forgot-password', function () { return view('auth.forgot-password'); });
 
-// // Legal Design Routes
-// Route::get('/terms', function () { return view('terms.terms-of-service'); });
-// Route::get('/privacy', function () { return view('terms.privacy-policy'); });
+// Legal Routes
+Route::get('/privacy', function () { return view('privacy'); })->name('privacy');
 
 // // Admin Design Routes
 // Route::prefix('admin')->group(function () {

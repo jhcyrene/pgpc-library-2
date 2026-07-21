@@ -69,7 +69,7 @@
                     </div>
                 @else
                     <!-- Eligible form -->
-                    <form action="{{ route('student.reservations.store', $bookData) }}" method="POST" class="space-y-6">
+                    <form id="reservation-form" action="{{ route('student.reservations.store', $bookData) }}" method="POST" class="space-y-6">
                         @csrf
                         
                         <!-- Hidden inputs -->
@@ -258,38 +258,59 @@
             const statusDesc = document.getElementById('status-desc');
             const summaryAvailStatus = document.getElementById('summary-avail-status');
 
+            const unavailableInfo = @json($unavailableInfo ?? ['all' => false, 'dates' => []]);
             let currentCalendarDate = new Date();
             let selectedDateStr = dateInput ? dateInput.value : new Date().toISOString().split('T')[0];
-            let unavailableDates = [];
+
+            const formatYmd = (year, monthZeroIndexed, day) => {
+                const m = String(monthZeroIndexed + 1).padStart(2, '0');
+                const d = String(day).padStart(2, '0');
+                return `${year}-${m}-${d}`;
+            };
 
             const formatDate = (dateStr) => {
                 if (!dateStr) return '—';
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    const date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                    if (!isNaN(date.getTime())) {
+                        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                }
                 const date = new Date(dateStr);
                 if (isNaN(date.getTime())) return '—';
                 return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
             };
 
-            const fetchUnavailableDates = async (year, month) => {
-                try {
-                    const response = await fetch(`{{ route('student.reservations.check-availability', $bookData) }}?year=${year}&month=${month}`);
-                    const data = await response.json();
-                    if (data.success) {
-                        unavailableDates = data.unavailable_dates || [];
-                    }
-                } catch (e) {
-                    console.error('Failed to fetch availability', e);
+            const selectDate = (dateStr) => {
+                selectedDateStr = dateStr;
+                if (dateInput) {
+                    dateInput.value = dateStr;
                 }
+
+                const dayButtons = daysGrid.querySelectorAll('button[data-date]');
+                dayButtons.forEach(btn => {
+                    const bDate = btn.getAttribute('data-date');
+                    const isDis = btn.getAttribute('data-disabled') === 'true';
+
+                    if (bDate === selectedDateStr) {
+                        btn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-[#102b70] text-white shadow-sm ring-2 ring-[#102b70]/20';
+                    } else if (isDis) {
+                        btn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-red-50 text-red-400 cursor-not-allowed';
+                    } else {
+                        btn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-emerald-50/50 hover:bg-emerald-100 text-emerald-700 hover:scale-105';
+                    }
+                });
+
+                updateAlertStatus(dateStr, true);
             };
 
-            const renderCalendar = async () => {
+            const renderCalendar = () => {
                 const year = currentCalendarDate.getFullYear();
                 const month = currentCalendarDate.getMonth();
 
                 // Set Header Month Year
                 monthYearLabel.textContent = currentCalendarDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-
-                // Fetch unavailable dates from database
-                await fetchUnavailableDates(year, month + 1);
 
                 // Clear days
                 daysGrid.innerHTML = '';
@@ -313,32 +334,30 @@
 
                 for (let day = 1; day <= totalDays; day++) {
                     const dayDate = new Date(year, month, day);
-                    const dateStr = dayDate.toISOString().split('T')[0];
+                    const dateStr = formatYmd(year, month, day);
 
                     const isPast = dayDate < today;
-                    const isUnavailable = unavailableDates.includes(dateStr) || isPast;
+                    const isUnavailable = unavailableInfo.all || (unavailableInfo.dates || []).includes(dateStr) || isPast;
                     const isSelected = dateStr === selectedDateStr;
 
                     const dayBtn = document.createElement('button');
                     dayBtn.type = 'button';
-                    dayBtn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto ';
+                    dayBtn.setAttribute('data-date', dateStr);
                     dayBtn.textContent = day;
 
-                    if (isSelected) {
-                        dayBtn.className += 'bg-[#102b70] text-white shadow-sm ring-2 ring-[#102b70]/20';
+                    if (isSelected && !isUnavailable) {
+                        dayBtn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-[#102b70] text-white shadow-sm ring-2 ring-[#102b70]/20';
                     } else if (isUnavailable) {
-                        dayBtn.className += 'bg-red-50 text-red-400 cursor-not-allowed';
+                        dayBtn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-red-50 text-red-400 cursor-not-allowed';
                         dayBtn.setAttribute('disabled', 'true');
+                        dayBtn.setAttribute('data-disabled', 'true');
                     } else {
-                        dayBtn.className += 'bg-emerald-50/50 hover:bg-emerald-100 text-emerald-700 hover:scale-105';
+                        dayBtn.className = 'p-2 text-xs font-bold rounded-lg transition-all focus:outline-none flex items-center justify-center h-8 w-8 mx-auto bg-emerald-50/50 hover:bg-emerald-100 text-emerald-700 hover:scale-105';
                     }
 
                     if (!isUnavailable) {
                         dayBtn.addEventListener('click', () => {
-                            selectedDateStr = dateStr;
-                            dateInput.value = dateStr;
-                            renderCalendar();
-                            updateAlertStatus(dateStr, true);
+                            selectDate(dateStr);
                         });
                     }
 
@@ -401,10 +420,72 @@
                 });
             }
 
+            // Handle AJAX form submission with spinner loading & error handling
+            const reservationForm = document.getElementById('reservation-form');
+            if (reservationForm) {
+                reservationForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const originalBtnContent = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `
+                        <svg class="animate-spin h-4 w-4 text-white inline-block mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                    `;
+
+                    try {
+                        const formData = new FormData(reservationForm);
+                        const response = await fetch(reservationForm.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')?.value || ''
+                            }
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            submitBtn.className = 'px-6 py-2.5 bg-emerald-600 text-white font-bold text-sm rounded-xl flex items-center gap-2 shadow-md';
+                            submitBtn.innerHTML = `
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                                Reserved Successfully!
+                            `;
+                            setTimeout(() => {
+                                window.location.href = result.redirect_url || "{{ route('student.reservations.index') }}";
+                            }, 500);
+                        } else {
+                            const errorMsg = result.message || 'Validation failed. Please check your inputs.';
+                            showErrorAlert(errorMsg);
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnContent;
+                        }
+                    } catch (err) {
+                        console.error('Reservation error:', err);
+                        showErrorAlert('Network error occurred. Please check your connection and try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnContent;
+                    }
+                });
+            }
+
+            const showErrorAlert = (msg) => {
+                statusAlertBox.className = 'border rounded-2xl p-4 text-xs font-semibold flex gap-3 shadow-xs transition-colors bg-red-50 border-red-100 text-red-700';
+                statusIconWrapper.className = 'shrink-0 text-red-600';
+                statusIconWrapper.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+                statusTitle.textContent = 'Reservation Failed';
+                statusDesc.textContent = msg;
+                statusAlertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+
             // Initial render
-            renderCalendar().then(() => {
-                updateAlertStatus(selectedDateStr, true);
-            });
+            renderCalendar();
+            updateAlertStatus(selectedDateStr, true);
         });
     </script>
     @endpush

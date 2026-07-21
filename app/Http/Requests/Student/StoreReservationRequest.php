@@ -15,7 +15,7 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pickup_date' => ['required', 'date', 'after_or_equal:today'],
+            'pickup_date' => ['nullable', 'date', 'after_or_equal:today'],
             'remarks' => ['nullable', 'string', 'max:500'],
         ];
     }

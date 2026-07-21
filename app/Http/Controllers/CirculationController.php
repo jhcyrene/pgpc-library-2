@@ -112,9 +112,11 @@ class CirculationController extends Controller
         }
 
         $member = Member::where(function ($q) use ($id) {
-            $q->where('member_id', $id)
-              ->orWhere('student_id_number', $id)
+            $q->where('student_id_number', $id)
               ->orWhere('email', $id);
+            if (is_numeric($id)) {
+                $q->orWhere('member_id', (int) $id);
+            }
         })->first();
 
         if (!$member) {
@@ -222,10 +224,18 @@ class CirculationController extends Controller
     {
         $id = $identifier ?: $request->input('barcode', $request->input('identifier'));
 
+        if (!$id) {
+            return response()->json(['success' => false, 'error' => 'No barcode or identifier provided'], 400);
+        }
+
         $book = Book::with(['bookData.authors', 'bookData.bookDetail'])
-            ->where('accession_number', $id)
-            ->orWhere('barcode', $id)
-            ->orWhere('book_id', $id)
+            ->where(function ($q) use ($id) {
+                $q->where('accession_number', $id)
+                  ->orWhere('barcode', $id);
+                if (is_numeric($id)) {
+                    $q->orWhere('book_id', (int) $id);
+                }
+            })
             ->first();
 
         if (!$book) {
@@ -263,9 +273,13 @@ class CirculationController extends Controller
             DB::transaction(function () use ($member, $request, &$successCount, &$errors) {
                 foreach ($request->book_identifiers as $identifier) {
                     $book = Book::with('bookData')
-                        ->where('accession_number', $identifier)
-                        ->orWhere('barcode', $identifier)
-                        ->orWhere('book_id', $identifier)
+                        ->where(function ($q) use ($identifier) {
+                            $q->where('accession_number', $identifier)
+                              ->orWhere('barcode', $identifier);
+                            if (is_numeric($identifier)) {
+                                $q->orWhere('book_id', (int) $identifier);
+                            }
+                        })
                         ->first();
 
                     if (!$book) {
@@ -289,6 +303,28 @@ class CirculationController extends Controller
 
                     $book->status = 'Borrowed';
                     $book->save();
+
+                    // Fulfill any active reservation for this student & book title
+                    $fulfilledStatus = \App\Models\BookRequestStatus::whereRaw('LOWER(status_name) in (?, ?)', ['completed', 'fulfilled'])->first();
+                    if ($fulfilledStatus) {
+                        $activeReservation = \App\Models\BookRequest::where('member_id', $member->member_id)
+                            ->where('book_data_id', $book->book_data_id)
+                            ->whereHas('bookRequestStatus', function ($q) {
+                                $q->whereRaw('LOWER(status_name) in (?, ?, ?, ?)', ['pending', 'approved', 'ready for pickup', 'ready']);
+                            })
+                            ->orderBy('request_date', 'asc')
+                            ->first();
+
+                        if ($activeReservation) {
+                            $activeReservation->book_request_status_id = $fulfilledStatus->book_request_status_id;
+                            $activeReservation->book_id = $book->book_id;
+                            if (!$activeReservation->approved_at) $activeReservation->approved_at = now();
+                            if (!$activeReservation->ready_at) $activeReservation->ready_at = now();
+                            $activeReservation->fulfilled_at = now();
+                            $activeReservation->save();
+                        }
+                    }
+
                     $successCount++;
                 }
             });
@@ -320,10 +356,13 @@ class CirculationController extends Controller
 
         $identifier = $request->input('book_identifier');
 
-        $book = Book::where('accession_number', $identifier)
-            ->orWhere('barcode', $identifier)
-            ->orWhere('book_id', $identifier)
-            ->first();
+        $book = Book::where(function ($q) use ($identifier) {
+            $q->where('accession_number', $identifier)
+              ->orWhere('barcode', $identifier);
+            if (is_numeric($identifier)) {
+                $q->orWhere('book_id', (int) $identifier);
+            }
+        })->first();
 
         if (!$book) {
             return response()->json(['success' => false, 'message' => 'Book not found.'], 404);

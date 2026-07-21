@@ -15,9 +15,17 @@ class UpdateStudentPasswordRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'current_password' => ['required', 'current_password:member'],
+        $user = Auth::guard('member')->user();
+        $hasPassword = $user && $user->hasPassword();
+
+        $rules = [
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
+
+        if ($hasPassword) {
+            $rules['current_password'] = ['required', 'current_password:member'];
+        }
+
+        return $rules;
     }
 }

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
 class MemberAuth extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
 
     protected $table = 'member_auth';
     protected $primaryKey = 'member_auth_id';
@@ -32,6 +33,7 @@ class MemberAuth extends Authenticatable
         'token_expiry',
         'last_modified',
         'is_verified',
+        'remember_token',
     ];
 
     protected $hidden = [
@@ -49,7 +51,17 @@ class MemberAuth extends Authenticatable
 
     public function getAuthPassword()
     {
-        return $this->password_hash;
+        return $this->password_hash ?? '';
+    }
+
+    public function hasPassword(): bool
+    {
+        return !empty($this->password_hash);
+    }
+
+    public function isGoogleLinked(): bool
+    {
+        return $this->provider === 'google' && !empty($this->provider_id);
     }
 
     public function member()

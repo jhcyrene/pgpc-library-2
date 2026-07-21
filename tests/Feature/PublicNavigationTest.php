@@ -16,11 +16,11 @@ class PublicNavigationTest extends TestCase
         $this->get(route('home'))
             ->assertOk()
             ->assertSee(route('opac.index'), false)
-            ->assertSee('finishPreloader', false);
+            ->assertSee('site-preloader', false);
 
         $this->get(route('opac.index'))
             ->assertOk()
-            ->assertSee('Library Catalog');
+            ->assertSee('Online Public Access Catalog');
     }
 
     public function test_catalog_search_returns_real_titles_and_availability(): void

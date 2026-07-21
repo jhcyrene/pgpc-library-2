@@ -12,6 +12,8 @@
             {{ $label }} @if($required) <span class="text-red-500">*</span> @endif
         </label>
     @endif
+
+    <input type="hidden" name="{{ $name }}_base64" id="{{ $name }}_base64" value="{{ old($name.'_base64') }}">
     
     <div class="relative w-full h-48 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
         <input 
@@ -21,7 +23,6 @@
             accept="{{ $accept }}"
             {{ $required ? 'required' : '' }}
             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-            @change="previewImage($event)"
         >
         
         <!-- Placeholder / Icon -->
@@ -43,9 +44,10 @@
 </div>
 
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[data-image-preview]').forEach((component) => {
             const input = component.querySelector('input[type="file"]');
+            const hiddenBase64 = component.querySelector('input[type="hidden"]');
             const image = component.querySelector('[data-image-preview-image]');
             const placeholder = component.querySelector('[data-image-preview-placeholder]');
 
@@ -61,14 +63,25 @@
 
                 if (!file) {
                     image.src = currentImage;
+                    if (hiddenBase64) hiddenBase64.value = '';
                     image.style.display = currentImage ? 'block' : 'none';
                     placeholder.style.display = currentImage ? 'none' : 'flex';
                     return;
                 }
 
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Image file size must be 5MB or smaller.');
+                    input.value = '';
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.addEventListener('load', (loadEvent) => {
-                    image.src = loadEvent.target.result;
+                    const base64Data = loadEvent.target.result;
+                    image.src = base64Data;
+                    if (hiddenBase64) {
+                        hiddenBase64.value = base64Data;
+                    }
                     image.style.display = 'block';
                     placeholder.style.display = 'none';
                 });

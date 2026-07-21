@@ -21,9 +21,7 @@ class BookService
      */
     public function createBook(array $data): BookData
     {
-        $storedCoverImage = isset($data['cover_image']) && $data['cover_image'] instanceof UploadedFile
-            ? $this->storeCoverImage($data['cover_image'])
-            : null;
+        $storedCoverImage = $this->resolveCoverImage($data);
 
         try {
             return DB::transaction(function () use ($data, $storedCoverImage) {
@@ -142,9 +140,7 @@ class BookService
     public function updateBook(BookData $bookData, array $data): BookData
     {
         $oldCoverImage = $bookData->bookDetail?->cover_image;
-        $storedCoverImage = isset($data['cover_image']) && $data['cover_image'] instanceof UploadedFile
-            ? $this->storeCoverImage($data['cover_image'])
-            : null;
+        $storedCoverImage = $this->resolveCoverImage($data);
 
         try {
             $updatedBook = DB::transaction(function () use ($bookData, $data, $storedCoverImage) {
@@ -297,16 +293,38 @@ class BookService
         return true;
     }
 
-    private function storeCoverImage(UploadedFile $coverImage): string
+    private function resolveCoverImage(array $data): ?string
     {
-        $mime = $coverImage->getClientMimeType();
-        $base64 = base64_encode($coverImage->get());
+        // 1. Uploaded File
+        if (isset($data['cover_image']) && $data['cover_image'] instanceof UploadedFile) {
+            $mime = $data['cover_image']->getClientMimeType();
+            $base64 = base64_encode($data['cover_image']->get());
+            return "data:{$mime};base64,{$base64}";
+        }
 
-        return "data:{$mime};base64,{$base64}";
+        // 2. Base64 input string
+        if (! empty($data['cover_image_base64']) && is_string($data['cover_image_base64'])) {
+            $base64 = $data['cover_image_base64'];
+            if (! str_starts_with($base64, 'data:image/')) {
+                $base64 = 'data:image/jpeg;base64,' . $base64;
+            }
+            return $base64;
+        }
+
+        // 3. Directly passed cover_image string (data URL or plain base64)
+        if (! empty($data['cover_image']) && is_string($data['cover_image'])) {
+            $base64 = $data['cover_image'];
+            if (! str_starts_with($base64, 'data:image/') && ! str_starts_with($base64, 'http://') && ! str_starts_with($base64, 'https://')) {
+                $base64 = 'data:image/jpeg;base64,' . $base64;
+            }
+            return $base64;
+        }
+
+        return null;
     }
 
     private function deleteCoverImage(?string $path): void
     {
-        // No-op: cover image is now stored as base64 in the database.
+        // No-op: cover image is stored as base64 in database.
     }
 }

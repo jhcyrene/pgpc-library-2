@@ -42,7 +42,8 @@ class StoreBookDataRequest extends FormRequest
             'classification' => ['nullable', 'string', 'max:50'],
             'book_type' => ['nullable', 'string', 'max:50'],
             'format' => ['nullable', 'string', 'max:50'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'cover_image' => ['nullable'],
+            'cover_image_base64' => ['nullable', 'string'],
 
             'main_author_id' => ['nullable', 'exists:authors,author_id'],
             'main_author_last_name' => ['nullable', 'string', 'max:255'],

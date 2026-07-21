@@ -19,7 +19,7 @@
             @csrf
             <div>
                 <label for="password" class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Password</label>
-                <input type="password" name="password" id="password" required autofocus class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none text-slate-900 transition-all placeholder:text-slate-400">
+                <input type="password" name="password" id="password" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-[#102b70] focus:ring-2 focus:ring-[#102b70]/20 outline-none text-slate-900 transition-all placeholder:text-slate-400">
                 @error('password')
                     <span class="text-xs text-rose-500 font-bold mt-1.5 block">{{ $message }}</span>
                 @enderror

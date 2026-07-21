@@ -21,7 +21,7 @@ class CatalogController extends Controller
     /**
      * Display the public library catalog.
      */
-    public function index(Request $request): View
+    public function index(Request $request): mixed
     {
         $rawSearch = (string) ($request->query('q') ?? $request->query('search', ''));
         $search = trim(preg_replace('/\s+/u', ' ', $rawSearch) ?? $rawSearch);
@@ -265,6 +265,14 @@ class CatalogController extends Controller
             ]);
         }
 
+        $memberAccount = \Illuminate\Support\Facades\Auth::guard('member')->user();
+        $savedBookIds = [];
+        if ($memberAccount && $memberAccount->member_id && $memberAccount->member) {
+            $savedBookIds = \App\Models\SavedItem::where('member_id', $memberAccount->member->member_id)
+                ->pluck('book_data_id')
+                ->toArray();
+        }
+
         return view('opac.index', compact(
             'books',
             'categories',
@@ -276,7 +284,8 @@ class CatalogController extends Controller
             'selectedStatuses',
             'selectedCategoryIds',
             'yearFrom',
-            'yearTo'
+            'yearTo',
+            'savedBookIds'
         ));
     }
 
@@ -320,11 +329,12 @@ class CatalogController extends Controller
             ]);
         }
 
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'html' => view('components.opac.book-detail-content', compact('bookData', 'isStudentAccount', 'memberAccount', 'isSaved'))->render()
-            ]);
+        if ($request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest') {
+            return response(
+                view('components.opac.book-detail-content', compact('bookData', 'isStudentAccount', 'memberAccount', 'isSaved'))->render(),
+                200,
+                ['Content-Type' => 'text/html']
+            );
         }
         
         return redirect()->route('opac.index');

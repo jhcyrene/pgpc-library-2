@@ -53,6 +53,13 @@
                 <x-student.navigation.nav-subitem href="{{ route('student.saved-items.index') }}" label="Saved Items" :active="request()->routeIs('student.saved-items.*')" />
                 <x-student.navigation.nav-subitem href="{{ route('student.fines.index') }}" label="Fines & Penalties" :active="request()->routeIs('student.fines.*')" />
             </x-student.navigation.nav-group>
+
+            {{-- <x-student.navigation.nav-item
+                href="{{ route('student.profile.show') }}"
+                icon="<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM4 21a8 8 0 0116 0' />"
+                label="Profile"
+                :active="request()->routeIs('student.profile.*')"
+            /> --}}
         </ul>
     </nav>
 

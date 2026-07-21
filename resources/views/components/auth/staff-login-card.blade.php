@@ -37,7 +37,6 @@
                     type="text"
                     value="{{ old('login') }}"
                     required
-                    autofocus
                     autocomplete="username"
                     placeholder="Enter your staff username"
                     class="h-14 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-base sm:text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#102b70] focus:ring-4 focus:ring-blue-100"

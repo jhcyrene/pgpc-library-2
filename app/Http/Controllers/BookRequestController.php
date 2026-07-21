@@ -3,17 +3,112 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookRequest;
-use App\Http\Requests\StoreBookRequestRequest;
-use App\Http\Requests\UpdateBookRequestRequest;
+use App\Models\BookRequestStatus;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class BookRequestController
+class BookRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $status = $request->query('status', 'all');
+        $search = $request->query('search');
+        $dateFilter = $request->query('date_filter', 'all');
+        $sort = $request->query('sort', 'request_date');
+        $dir = $request->query('dir', 'desc');
+
+        // Base query with relations
+        $query = BookRequest::with(['member', 'bookData', 'bookRequestStatus', 'book']);
+
+        // Apply Status Filter
+        if ($status !== 'all') {
+            $query->whereHas('bookRequestStatus', function ($q) use ($status) {
+                $q->whereRaw('LOWER(status_name) = ?', [strtolower(str_replace('-', ' ', $status))]);
+            });
+        }
+
+        // Apply Search Filter
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                // Search by Student Name or Number
+                $q->whereHas('member', function ($subQ) use ($search) {
+                    $subQ->where('first_name', 'like', "%{$search}%")
+                         ->orWhere('last_name', 'like', "%{$search}%")
+                         ->orWhere('student_number', 'like', "%{$search}%")
+                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
+                })
+                // Search by Book Title or ISBN
+                ->orWhereHas('bookData', function ($subQ) use ($search) {
+                    $subQ->where('book_title', 'like', "%{$search}%")
+                         ->orWhere('isbn', 'like', "%{$search}%");
+                })
+                // Search by Request ID
+                ->orWhere('request_id', 'like', "%{$search}%");
+            });
+        }
+
+        // Apply Date Filter
+        if ($dateFilter !== 'all') {
+            $now = \Carbon\Carbon::now();
+            switch ($dateFilter) {
+                case 'today':
+                    $query->whereDate('request_date', $now->toDateString());
+                    break;
+                case 'this_week':
+                    $query->whereBetween('request_date', [$now->startOfWeek()->toDateString(), $now->endOfWeek()->toDateString()]);
+                    break;
+                case 'this_month':
+                    $query->whereMonth('request_date', $now->month)
+                          ->whereYear('request_date', $now->year);
+                    break;
+            }
+        }
+
+        // Apply Sorting
+        $allowedSorts = ['request_date', 'student_name'];
+        if (in_array($sort, $allowedSorts)) {
+            if ($sort === 'student_name') {
+                $query->join('members', 'book_requests.member_id', '=', 'members.id')
+                      ->orderBy('members.first_name', $dir)
+                      ->orderBy('members.last_name', $dir)
+                      ->select('book_requests.*');
+            } else {
+                $query->orderBy($sort, $dir);
+            }
+        } else {
+            $query->orderBy('request_date', 'desc');
+        }
+
+        $reservations = $query->paginate(15)->withQueryString();
+
+        // Calculate Stats
+        $pendingCount = BookRequest::whereHas('bookRequestStatus', function ($q) {
+            $q->whereRaw('LOWER(status_name) = ?', ['pending']);
+        })->count();
+
+        $approvedCount = BookRequest::whereHas('bookRequestStatus', function ($q) {
+            $q->whereRaw('LOWER(status_name) = ?', ['approved']);
+        })->count();
+
+        $readyForPickupCount = BookRequest::whereHas('bookRequestStatus', function ($q) {
+            $q->whereRaw('LOWER(status_name) = ?', ['ready for pickup']);
+        })->count();
+
+        $completedCount = BookRequest::whereHas('bookRequestStatus', function ($q) {
+            $q->whereIn(DB::raw('LOWER(status_name)'), ['completed', 'fulfilled']);
+        })->count();
+
+        
+        if ($request->ajax()) {
+            return view('admin.reservations.partials.table', compact('reservations', 'status'));
+        }
+        
+        return view('admin.reservations.index', compact(
+            'reservations', 'status', 'pendingCount', 'approvedCount', 'readyForPickupCount', 'completedCount'
+        ));
     }
 
     /**
@@ -27,7 +122,7 @@ class BookRequestController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequestRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -35,9 +130,23 @@ class BookRequestController
     /**
      * Display the specified resource.
      */
-    public function show(BookRequest $bookRequest)
+    public function show(Request $request, BookRequest $reservation)
     {
-        //
+        $reservation->load(['member', 'bookData.authors', 'bookData.bookDetail', 'book', 'bookRequestStatus']);
+        
+        $availableCopies = collect();
+        if (strtolower((string) $reservation->bookRequestStatus->status_name) === 'approved') {
+            // Get books that belong to this book_data_id and are 'Available'
+            $availableCopies = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                ->where('status', 'Available')
+                ->get();
+        }
+
+        if ($request->ajax()) {
+            return view('admin.reservations.partials.show-content', compact('reservation', 'availableCopies'));
+        }
+
+        return view('admin.reservations.show', compact('reservation', 'availableCopies'));
     }
 
     /**
@@ -51,7 +160,7 @@ class BookRequestController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBookRequestRequest $request, BookRequest $bookRequest)
+    public function update(Request $request, BookRequest $bookRequest)
     {
         //
     }
@@ -62,5 +171,149 @@ class BookRequestController
     public function destroy(BookRequest $bookRequest)
     {
         //
+    }
+
+    /**
+     * Update the status of the reservation.
+     */
+    public function updateStatus(Request $request, BookRequest $reservation)
+    {
+        $request->validate([
+            'status' => 'required|string',
+            'book_id' => 'nullable|exists:books,book_id'
+        ]);
+
+        $newStatusName = $request->input('status');
+        $newStatus = BookRequestStatus::whereRaw('LOWER(status_name) = ?', [strtolower($newStatusName)])->first();
+
+        if (!$newStatus) {
+            return back()->with('error', 'Invalid status selected.');
+        }
+
+        try {
+            DB::transaction(function () use ($reservation, $newStatusName, $newStatus, $request) {
+                $reservation->book_request_status_id = $newStatus->book_request_status_id;
+
+                switch (strtolower($newStatusName)) {
+                    case 'approved':
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
+                        }
+                        if (!$reservation->book_id) {
+                            $availableCopy = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                                ->where('status', 'Available')
+                                ->first();
+                            if ($availableCopy) {
+                                $reservation->book_id = $availableCopy->book_id;
+                            }
+                        }
+                        break;
+                    case 'ready for pickup':
+                    case 'ready':
+                        if ($request->filled('book_id')) {
+                            $book = \App\Models\Book::find($request->book_id);
+                            if ($book && strtolower($book->status) !== 'available' && $reservation->book_id !== $book->book_id) {
+                                throw new \Exception('The selected book copy is not available.');
+                            }
+                            if ($book) {
+                                $reservation->book_id = $book->book_id;
+                            }
+                        } elseif (!$reservation->book_id) {
+                            $availableCopy = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                                ->where('status', 'Available')
+                                ->first();
+                            if ($availableCopy) {
+                                $reservation->book_id = $availableCopy->book_id;
+                            } else {
+                                throw new \Exception('No available book copies found for this title.');
+                            }
+                        }
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
+                        }
+                        if (!$reservation->ready_at) {
+                            $reservation->ready_at = now();
+                        }
+                        $reservation->expires_at = now()->addDays((int) env('RESERVATION_EXPIRE_DAYS', 3));
+                        break;
+                    case 'completed':
+                    case 'fulfilled':
+                        if (!$reservation->approved_at) {
+                            $reservation->approved_at = now();
+                        }
+                        if (!$reservation->ready_at) {
+                            $reservation->ready_at = now();
+                        }
+                        if (!$reservation->fulfilled_at) {
+                            $reservation->fulfilled_at = now();
+                        }
+
+                        if ($reservation->book_id) {
+                            $existingBorrow = \App\Models\BookBorrow::where('book_id', $reservation->book_id)
+                                ->where('member_id', $reservation->member_id)
+                                ->whereNull('return_date')
+                                ->first();
+
+                            if (!$existingBorrow) {
+                                \App\Models\BookBorrow::create([
+                                    'book_id' => $reservation->book_id,
+                                    'member_id' => $reservation->member_id,
+                                    'librarian_id' => auth()->id(),
+                                    'issue_date' => now(),
+                                    'due_date' => now()->addDays((int) \App\Models\Setting::get('default_borrow_days', 3)),
+                                    'status' => 'Borrowed'
+                                ]);
+
+                                $book = \App\Models\Book::find($reservation->book_id);
+                                if ($book) {
+                                    $book->status = 'Borrowed';
+                                    $book->save();
+                                }
+                            }
+                        }
+                        break;
+                    case 'cancelled':
+                    case 'rejected':
+                        if (!$reservation->cancelled_at) {
+                            $reservation->cancelled_at = now();
+                        }
+                        break;
+                }
+
+                $reservation->save();
+            });
+
+            if ($request->ajax() || $request->wantsJson()) {
+                $reservation->refresh();
+                $reservation->load(['member', 'bookData.authors', 'bookData.bookDetail', 'book', 'bookRequestStatus']);
+                
+                $availableCopies = collect();
+                if (strtolower((string) $reservation->bookRequestStatus->status_name) === 'approved') {
+                    $availableCopies = \App\Models\Book::where('book_data_id', $reservation->book_data_id)
+                        ->where('status', 'Available')
+                        ->get();
+                }
+
+                $html = view('admin.reservations.partials.status-card', compact('reservation', 'availableCopies'))->render();
+                $modalHtml = view('admin.reservations.partials.show-content', compact('reservation', 'availableCopies'))->render();
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Reservation status updated successfully.',
+                    'html' => $html,
+                    'modal_html' => $modalHtml
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Reservation status updated successfully.');
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 400);
+            }
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Publisher extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'publisher_id';
+
     protected $fillable = [
         'publisher_name',
         'publication_origin',
-        'publication_type'
+        'publication_type',
     ];
 
-    public function bookData()
+    public function bookDetails()
     {
-        return $this->hasMany(BookData::class);
+        return $this->hasMany(BookDetail::class, 'publisher_id', 'publisher_id');
     }
 }

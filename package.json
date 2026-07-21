@@ -7,13 +7,26 @@
         "dev": "vite"
     },
     "devDependencies": {
+        "@capacitor/cli": "8.4.2",
         "@tailwindcss/vite": "^4.3.2",
         "autoprefixer": "^10.5.2",
         "concurrently": "^9.0.1",
-        "daisyui": "^5.5.23",
+        "daisyui": "^5.7.0",
         "laravel-vite-plugin": "^3.1",
         "postcss": "^8.5.15",
         "tailwindcss": "^4.3.2",
         "vite": "^8.0.0"
+    },
+    "dependencies": {
+        "@capacitor/android": "^8.4.2",
+        "@capacitor/app": "8.1.1",
+        "@capacitor/core": "8.4.2",
+        "@capacitor/haptics": "8.0.2",
+        "@capacitor/keyboard": "8.0.5",
+        "@capacitor/status-bar": "8.0.3",
+        "@inertiajs/react": "^3.6.1",
+        "@vitejs/plugin-react": "^6.0.3",
+        "react": "^19.2.7",
+        "react-dom": "^19.2.7"
     }
 }

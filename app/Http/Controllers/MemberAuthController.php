@@ -2,65 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member_Auth;
-use App\Http\Requests\StoreMember_AuthRequest;
-use App\Http\Requests\UpdateMember_AuthRequest;
+use Illuminate\Routing\Controller;
 
-class MemberAuthController
+use App\Models\MemberAuth;
+use App\Http\Requests\UpdateMemberAuthRequest;
+use App\Http\Requests\ResetUserPasswordRequest;
+use App\Services\UserManagementService;
+use Illuminate\Http\Request;
+
+class MemberAuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $userService;
+
+    public function __construct(UserManagementService $userService)
     {
-        //
+        $this->userService = $userService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function updateStatus(UpdateMemberAuthRequest $request, MemberAuth $memberAuth)
     {
-        //
+        $this->userService->changeAccountStatus($memberAuth, $request->validated('account_status'));
+
+        return back()->with('success', 'Account status updated successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMember_AuthRequest $request)
+    public function unlock(MemberAuth $memberAuth)
     {
-        //
+        $this->userService->unlockAccount($memberAuth);
+
+        return back()->with('success', 'Account unlocked successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Member_Auth $member_Auth)
+    public function resetPassword(ResetUserPasswordRequest $request, MemberAuth $memberAuth)
     {
-        //
-    }
+        $this->userService->resetPassword($memberAuth, $request->validated('password'));
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Member_Auth $member_Auth)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMember_AuthRequest $request, Member_Auth $member_Auth)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Member_Auth $member_Auth)
-    {
-        //
+        return back()->with('success', 'Password reset successfully.');
     }
 }

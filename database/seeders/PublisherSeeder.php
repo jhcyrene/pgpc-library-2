@@ -2,31 +2,36 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Publisher;
 
 class PublisherSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $publishers = [
-            ['publisher_name' => 'O\'Reilly Media'],
-            ['publisher_name' => 'Addison-Wesley Professional'],
-            ['publisher_name' => 'Packt Publishing'],
-            ['publisher_name' => 'Apress'],
-            ['publisher_name' => 'Manning Publications'],
-            ['publisher_name' => 'No Starch Press'],
-            ['publisher_name' => 'Prentice Hall'],
-            ['publisher_name' => 'Wiley'],
-            ['publisher_name' => 'Springer'],
-            ['publisher_name' => 'Cambridge University Press'],
+            'Oxford University Press',
+            'Pearson Education',
+            'McGraw-Hill Education',
+            'Cengage Learning',
+            'Springer',
+            'Wiley',
+            'Cambridge University Press',
+            'MIT Press',
+            'Elsevier',
+            'Routledge',
+            'O\'Reilly Media',
+            'Addison-Wesley',
         ];
 
-        foreach ($publishers as $publisher) {
-            \App\Models\Publisher::create($publisher);
+        foreach ($publishers as $name) {
+            Publisher::firstOrCreate(
+                ['publisher_name' => $name],
+                [
+                    'publication_origin' => 'USA',
+                    'publication_type' => 'Academic',
+                ]
+            );
         }
     }
 }

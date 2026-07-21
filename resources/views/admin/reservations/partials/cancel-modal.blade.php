@@ -47,8 +47,15 @@
                 <button type="button" onclick="closeCancelModal()" class="w-1/2 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition-all">
                     Keep Reservation
                 </button>
-                <button type="submit" class="w-1/2 py-2.5 bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs rounded-xl transition-all shadow-sm">
-                    Confirm Cancel
+                <button type="submit"
+                    data-loading-text="Cancelling..."
+                    style="background-color: #dc2626; color: #ffffff;"
+                    class="btn-submit-action w-1/2 py-2.5 hover:opacity-90 active:opacity-100 text-white font-extrabold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5">
+                    <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    <span class="btn-label">Confirm Cancel</span>
                 </button>
             </div>
         </form>

@@ -180,7 +180,7 @@
                                                             : false);
                                                 @endphp
                                                 @if($isSaved)
-                                                    <form action="{{ route('student.saved-items.destroy', $book) }}" method="POST" class="ajax-save-form inline" data-book-id="{{ $book->book_data_id }}" data-saved="true" data-save-variant="icon" onclick="event.stopPropagation()">
+                                                    <form action="{{ route('student.saved-items.destroy', $book) }}" method="POST" class="ajax-save-form inline" data-book-id="{{ $book->book_data_id }}" data-store-url="{{ route('student.saved-items.store', $book) }}" data-destroy-url="{{ route('student.saved-items.destroy', $book) }}" data-saved="true" data-save-variant="icon" onclick="event.stopPropagation()">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="p-1.5 sm:p-2 rounded-xl border border-red-200 bg-red-50 text-red-600 transition hover:bg-red-100" title="Remove from saved" aria-label="Remove from saved">
@@ -188,7 +188,7 @@
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('student.saved-items.store', $book) }}" method="POST" class="ajax-save-form inline" data-book-id="{{ $book->book_data_id }}" data-saved="false" data-save-variant="icon" onclick="event.stopPropagation()">
+                                                    <form action="{{ route('student.saved-items.store', $book) }}" method="POST" class="ajax-save-form inline" data-book-id="{{ $book->book_data_id }}" data-store-url="{{ route('student.saved-items.store', $book) }}" data-destroy-url="{{ route('student.saved-items.destroy', $book) }}" data-saved="false" data-save-variant="icon" onclick="event.stopPropagation()">
                                                         @csrf
                                                         <button type="submit" class="p-1.5 sm:p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:border-brand-navy hover:text-brand-navy transition-colors" title="Save to list" aria-label="Save to list">
                                                             <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>

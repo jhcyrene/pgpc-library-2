@@ -92,9 +92,16 @@
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="Approved">
-                                    <button type="submit" class="h-8 px-3.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all active:scale-95">
-                                        Approve
-                                    </button>
+                            <button type="submit"
+                                data-loading-text="Approving..."
+                                style="background-color: #059669; color: #ffffff;"
+                                class="btn-submit-action h-8 px-3.5 rounded-lg hover:opacity-90 active:opacity-100 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5">
+                                <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <span class="btn-label">Approve</span>
+                            </button>
                                 </form>
                                 <button type="button" 
                                         onclick="openCancelModal('{{ route('admin.reservations.status', $reservation) }}', '{{ $reservation->book_request_id }}'); event.stopPropagation();"
@@ -195,8 +202,15 @@
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="Approved">
-                            <button type="submit" class="py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all active:scale-95">
-                                Approve
+                            <button type="submit"
+                                data-loading-text="Approving..."
+                                style="background-color: #059669; color: #ffffff;"
+                                class="btn-submit-action py-1.5 px-3 rounded-lg hover:opacity-90 active:opacity-100 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5">
+                                <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <span class="btn-label">Approve</span>
                             </button>
                         </form>
                         <button type="button" 

@@ -233,6 +233,44 @@
                 const confirmMsg = form.getAttribute('data-confirm');
                 if (confirmMsg && !confirm(confirmMsg)) return;
 
+                // --- Universal Button loading state ---
+                const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
+                const allBtns = form.querySelectorAll('button');
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-80', 'cursor-wait');
+
+                    const spinner = submitBtn.querySelector('.btn-spinner');
+                    const icon = submitBtn.querySelector('.btn-icon');
+                    const label = submitBtn.querySelector('.btn-label');
+
+                    if (spinner) spinner.classList.remove('hidden');
+                    if (icon) icon.classList.add('hidden');
+
+                    if (label) {
+                        submitBtn.dataset.originalText = label.textContent;
+                        if (submitBtn.dataset.loadingText) label.textContent = submitBtn.dataset.loadingText;
+                    }
+                }
+
+                allBtns.forEach(btn => {
+                    if (btn !== submitBtn) btn.disabled = true;
+                });
+
+                function resetLoading() {
+                    allBtns.forEach(btn => { btn.disabled = false; });
+                    if (!submitBtn) return;
+                    submitBtn.classList.remove('opacity-80', 'cursor-wait');
+                    const spinner = submitBtn.querySelector('.btn-spinner');
+                    const icon = submitBtn.querySelector('.btn-icon');
+                    const label = submitBtn.querySelector('.btn-label');
+                    if (spinner) spinner.classList.add('hidden');
+                    if (icon) icon.classList.remove('hidden');
+                    if (label && submitBtn.dataset.originalText) label.textContent = submitBtn.dataset.originalText;
+                }
+                // --- End button loading state ---
+
                 const formData = new FormData(form);
                 if (e.submitter && e.submitter.name && e.submitter.value) {
                     formData.set(e.submitter.name, e.submitter.value);
@@ -259,10 +297,13 @@
                             openDetailsModal(currentModalUrl);
                         }
                     } else {
+                        // Restore buttons on error so user can retry
+                        resetLoading();
                         alert(data.message || 'An error occurred updating the reservation.');
                     }
                 })
                 .catch(err => {
+                    resetLoading();
                     console.error('AJAX form submit error:', err);
                     alert('An unexpected error occurred.');
                 });

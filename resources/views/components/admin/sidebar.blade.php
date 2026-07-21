@@ -4,7 +4,7 @@
     $staffDashboardRoute = $isAdministrator ? route('admin.dashboard') : route('librarian.dashboard');
 @endphp
 
-<aside id="admin-sidebar" class="w-full lg:w-70 flex flex-col h-dvh shrink-0 overflow-hidden bg-brand-navy">
+<aside id="admin-sidebar" class="lg:w-70 flex flex-col h-dvh shrink-0 overflow-hidden bg-brand-navy">
 
     <!-- Branding / Logo -->
     <div class="h-[60px] flex items-center justify-between px-6 pb-5 pt-5 shrink-0 border-b border-white/5">
@@ -109,7 +109,7 @@
 
         <x-admin.navigation.nav-section label="System" />
 
-        <x-admin.navigation.nav-item label="Reports" badge="Coming soon" badgeColor="bg-gray-600" disabled>
+        {{-- <x-admin.navigation.nav-item label="Reports" badge="Coming soon" badgeColor="bg-gray-600" disabled>
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -117,7 +117,7 @@
                         d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
             </x-slot:icon>
-        </x-admin.navigation.nav-item>
+        </x-admin.navigation.nav-item> --}}
 
         @if ($isAdministrator)
             <x-admin.navigation.nav-item label="Settings" :href="route('admin.settings.index')" :active="request()->routeIs('admin.settings.*')">

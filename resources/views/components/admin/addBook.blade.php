@@ -193,11 +193,58 @@
         <a href="{{ route('admin.books.index') }}" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-200 transition-colors shadow-sm">
             Cancel
         </a>
-        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-[#102b70] border border-transparent rounded-lg hover:bg-[#0b225e] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#102b70] transition-colors shadow-sm flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button type="submit" id="save-book-submit-btn" class="px-5 py-2.5 text-sm font-medium text-white bg-[#102b70] border border-transparent rounded-lg hover:bg-[#0b225e] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#102b70] transition-colors shadow-sm flex items-center justify-center gap-2 min-w-[160px]">
+            <svg id="save-btn-icon" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            Save Book Details
+            <svg id="save-btn-spinner" class="hidden animate-spin h-4 w-4 text-white shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <span id="save-btn-text">{{ $isEdit ? 'Update Book Details' : 'Save Book Details' }}</span>
         </button>
     </div>
 </form>
+
+<!-- SAVING LOADING MODAL OVERLAY -->
+<div id="book-saving-loading-overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-[9999] hidden flex items-center justify-center p-4">
+    <div class="bg-white text-slate-900 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 max-w-sm w-full text-center border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+        <div class="w-16 h-16 rounded-full bg-blue-50 text-[#102b70] flex items-center justify-center shadow-xs">
+            <svg class="animate-spin h-8 w-8 text-[#102b70]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+        </div>
+        <div>
+            <h3 class="text-lg font-extrabold text-slate-900">{{ $isEdit ? 'Updating Book Details...' : 'Saving Book Details...' }}</h3>
+            <p class="text-xs text-slate-500 font-semibold mt-1 leading-relaxed">Processing book catalog information and uploading cover image. Please wait...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const bookForm = document.querySelector('form[action*="/admin/books"]');
+        if (!bookForm) return;
+
+        bookForm.addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('save-book-submit-btn');
+            const btnIcon = document.getElementById('save-btn-icon');
+            const btnSpinner = document.getElementById('save-btn-spinner');
+            const btnText = document.getElementById('save-btn-text');
+            const loadingOverlay = document.getElementById('book-saving-loading-overlay');
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                if (btnIcon) btnIcon.classList.add('hidden');
+                if (btnSpinner) btnSpinner.classList.remove('hidden');
+                if (btnText) btnText.textContent = 'Saving...';
+            }
+
+            if (loadingOverlay) {
+                loadingOverlay.classList.remove('hidden');
+                loadingOverlay.classList.add('flex');
+            }
+        });
+    });
+</script>

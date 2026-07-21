@@ -44,7 +44,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function initFileUploads() {
         document.querySelectorAll('[data-image-preview]').forEach((component) => {
             const input = component.querySelector('input[type="file"]');
             const hiddenBase64 = component.querySelector('input[type="hidden"]');
@@ -88,5 +88,11 @@
                 reader.readAsDataURL(file);
             });
         });
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFileUploads);
+    } else {
+        initFileUploads();
+    }
 </script>

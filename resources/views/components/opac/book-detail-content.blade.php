@@ -122,7 +122,7 @@
         <div class="flex w-full flex-col gap-2 min-[420px]:flex-row sm:w-auto">
             @if($isStudentAccount)
                 @if($isSaved)
-                    <form action="{{ route('student.saved-items.destroy', $bookData) }}" method="POST" class="ajax-save-form w-full min-[420px]:w-auto" data-book-id="{{ $bookData->book_data_id }}" data-saved="true" data-save-variant="button">
+                    <form action="{{ route('student.saved-items.destroy', $bookData) }}" method="POST" class="ajax-save-form w-full min-[420px]:w-auto" data-book-id="{{ $bookData->book_data_id }}" data-store-url="{{ route('student.saved-items.store', $bookData) }}" data-destroy-url="{{ route('student.saved-items.destroy', $bookData) }}" data-saved="true" data-save-variant="button">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn h-11 min-h-11 w-full rounded-xl border border-red-200 bg-white px-4 text-sm font-bold text-red-600 shadow-sm transition hover:bg-red-50 min-[420px]:w-auto" title="Remove from saved items" aria-pressed="true">
@@ -131,7 +131,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('student.saved-items.store', $bookData) }}" method="POST" class="ajax-save-form w-full min-[420px]:w-auto" data-book-id="{{ $bookData->book_data_id }}" data-saved="false" data-save-variant="button">
+                    <form action="{{ route('student.saved-items.store', $bookData) }}" method="POST" class="ajax-save-form w-full min-[420px]:w-auto" data-book-id="{{ $bookData->book_data_id }}" data-store-url="{{ route('student.saved-items.store', $bookData) }}" data-destroy-url="{{ route('student.saved-items.destroy', $bookData) }}" data-saved="false" data-save-variant="button">
                         @csrf
                         <button type="submit" class="btn h-11 min-h-11 w-full rounded-xl border border-brand-navy/20 bg-white px-4 text-sm font-bold text-brand-navy shadow-sm transition hover:bg-brand-navy/5 min-[420px]:w-auto" title="Save to your list" aria-pressed="false">
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5Z"/></svg>

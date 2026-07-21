@@ -113,16 +113,24 @@ class BookDataController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreBookDataRequest $request, BookService $bookService)
     {
+        $data = array_merge($request->all(), $request->validated());
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $request->file('cover_image');
+        }
+
         // Check for duplicates first
-        $duplicate = $bookService->checkDuplicate($request->validated());
+        $duplicate = $bookService->checkDuplicate($data);
         if ($duplicate) {
             return back()->withInput()->with('error', 'A book with this ISBN or Title/Year already exists. Consider adding a copy instead.');
         }
 
         try {
-            $bookData = $bookService->createBook($request->validated());
+            $bookData = $bookService->createBook($data);
             return redirect()->route('admin.books.index')->with('success', 'Book added successfully!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Failed to add book: ' . $e->getMessage());
@@ -167,8 +175,13 @@ class BookDataController extends Controller
      */
     public function update(UpdateBookDataRequest $request, BookData $bookData, BookService $bookService)
     {
+        $data = array_merge($request->all(), $request->validated());
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $request->file('cover_image');
+        }
+
         try {
-            $bookService->updateBook($bookData, $request->validated());
+            $bookService->updateBook($bookData, $data);
             return redirect()->route('admin.books.index')->with('success', 'Book updated successfully!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Failed to update book: ' . $e->getMessage());

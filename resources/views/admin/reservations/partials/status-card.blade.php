@@ -73,16 +73,24 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="Approved">
-                        <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                            Approve
+                        <button type="submit" data-loading-text="Approving..." class="btn-submit-action w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            <span class="btn-label">Approve</span>
                         </button>
                     </form>
                     <form action="{{ route('admin.reservations.status', $reservation) }}" method="POST" class="flex-1 ajax-form" data-confirm="Are you sure you want to reject this request?">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="Rejected">
-                        <button type="submit" class="w-full bg-error/10 hover:bg-error/20 text-error font-bold py-2 px-4 rounded-lg transition-colors">
-                            Reject
+                        <button type="submit" data-loading-text="Rejecting..." class="btn-submit-action w-full bg-error/10 hover:bg-error/20 text-error font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            <span class="btn-label">Reject</span>
                         </button>
                     </form>
                 </div>
@@ -105,16 +113,24 @@
                         @endif
                     </div>
 
-                    <button type="submit" class="w-full bg-success hover:bg-success/90 text-white font-bold py-2 px-4 rounded-lg transition-colors" {{ $availableCopies->isEmpty() ? 'disabled' : '' }}>
-                        Mark Ready for Pickup
+                    <button type="submit" data-loading-text="Processing..." class="btn-submit-action w-full bg-success hover:bg-success/90 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2" {{ $availableCopies->isEmpty() ? 'disabled' : '' }}>
+                        <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span class="btn-label">Mark Ready for Pickup</span>
                     </button>
                 </form>
                 <form action="{{ route('admin.reservations.status', $reservation) }}" method="POST" class="mt-3 ajax-form" data-confirm="Are you sure you want to cancel this approved request?">
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="status" value="Cancelled">
-                    <button type="submit" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors">
-                        Cancel Request
+                    <button type="submit" data-loading-text="Cancelling..." class="btn-submit-action w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                        <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span class="btn-label">Cancel Request</span>
                     </button>
                 </form>
             @elseif($currentStatus === 'ready for pickup')
@@ -122,16 +138,24 @@
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="status" value="Fulfilled">
-                    <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                        Mark as Fulfilled
+                    <button type="submit" data-loading-text="Processing..." class="btn-submit-action w-full bg-brand-navy hover:bg-brand-navy-light text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                        <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span class="btn-label">Mark as Fulfilled</span>
                     </button>
                 </form>
                 <form action="{{ route('admin.reservations.status', $reservation) }}" method="POST" class="mt-3 ajax-form" data-confirm="Are you sure you want to cancel? (e.g. Student didn't pick up)">
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="status" value="Cancelled">
-                    <button type="submit" class="w-full bg-error/10 hover:bg-error/20 text-error font-bold py-2 px-4 rounded-lg transition-colors">
-                        Cancel Request
+                    <button type="submit" data-loading-text="Cancelling..." class="btn-submit-action w-full bg-error/10 hover:bg-error/20 text-error font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                        <svg class="btn-spinner hidden w-4 h-4 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span class="btn-label">Cancel Request</span>
                     </button>
                 </form>
             @endif

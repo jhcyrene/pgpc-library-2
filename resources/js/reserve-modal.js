@@ -101,3 +101,120 @@ window.showGlobalToast = function (message, type = 'success', customTitle = null
 
     window.setTimeout(dismiss, 4000);
 };
+
+// --- AJAX Bookmark / Save Item Form Handler ---
+document.addEventListener('submit', async function (e) {
+    const form = e.target.closest('.ajax-save-form');
+    if (!form) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (!submitBtn || submitBtn.dataset.loading === 'true') return;
+
+    submitBtn.dataset.loading = 'true';
+    submitBtn.disabled = true;
+
+    const isCurrentlySaved = form.dataset.saved === 'true';
+    const variant = form.dataset.saveVariant || 'button';
+    const origHtml = submitBtn.innerHTML;
+
+    // Set spinner loading state on button
+    if (variant === 'icon') {
+        submitBtn.innerHTML = `<svg class="animate-spin h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+    } else {
+        submitBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-current shrink-0 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> <span>${isCurrentlySaved ? 'Removing...' : 'Saving...'}</span>`;
+    }
+
+    try {
+        const formData = new FormData(form);
+        const res = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            const nowSaved = data.saved;
+            const bookId = form.dataset.bookId;
+            const storeUrl = form.dataset.storeUrl || form.action;
+            const destroyUrl = form.dataset.destroyUrl || form.action;
+
+            // Sync all matching forms for this book ID on the page (cards, modals, etc.)
+            document.querySelectorAll(`.ajax-save-form[data-book-id="${bookId}"]`).forEach(matchingForm => {
+                matchingForm.dataset.saved = nowSaved ? 'true' : 'false';
+                matchingForm.action = nowSaved ? destroyUrl : storeUrl;
+
+                let methodInput = matchingForm.querySelector('input[name="_method"]');
+                if (nowSaved) {
+                    if (!methodInput) {
+                        methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = '_method';
+                        methodInput.value = 'DELETE';
+                        matchingForm.appendChild(methodInput);
+                    }
+                } else if (methodInput) {
+                    methodInput.remove();
+                }
+
+                const btn = matchingForm.querySelector('button[type="submit"]');
+                if (!btn) return;
+                btn.disabled = false;
+                delete btn.dataset.loading;
+
+                const v = matchingForm.dataset.saveVariant || 'button';
+                if (v === 'icon') {
+                    if (nowSaved) {
+                        btn.className = 'p-1.5 sm:p-2 rounded-xl border border-red-200 bg-red-50 text-red-600 transition hover:bg-red-100';
+                        btn.title = 'Remove from saved';
+                        btn.setAttribute('aria-label', 'Remove from saved');
+                        btn.innerHTML = `<svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>`;
+                    } else {
+                        btn.className = 'p-1.5 sm:p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:border-brand-navy hover:text-brand-navy transition-colors';
+                        btn.title = 'Save to list';
+                        btn.setAttribute('aria-label', 'Save to list');
+                        btn.innerHTML = `<svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>`;
+                    }
+                } else {
+                    if (nowSaved) {
+                        btn.className = 'btn h-11 min-h-11 w-full rounded-xl border border-red-200 bg-white px-4 text-sm font-bold text-red-600 shadow-sm transition hover:bg-red-50 min-[420px]:w-auto';
+                        btn.title = 'Remove from saved items';
+                        btn.setAttribute('aria-pressed', 'true');
+                        btn.innerHTML = `<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5Z"/></svg> Saved`;
+                    } else {
+                        btn.className = 'btn h-11 min-h-11 w-full rounded-xl border border-brand-navy/20 bg-white px-4 text-sm font-bold text-brand-navy shadow-sm transition hover:bg-brand-navy/5 min-[420px]:w-auto';
+                        btn.title = 'Save to your list';
+                        btn.setAttribute('aria-pressed', 'false');
+                        btn.innerHTML = `<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5Z"/></svg> Save`;
+                    }
+                }
+            });
+
+            if (typeof window.showGlobalToast === 'function') {
+                window.showGlobalToast(data.message || 'Saved list updated.', 'success', nowSaved ? 'Book Saved' : 'Book Removed');
+            }
+        } else {
+            submitBtn.disabled = false;
+            delete submitBtn.dataset.loading;
+            submitBtn.innerHTML = origHtml;
+            if (typeof window.showGlobalToast === 'function') {
+                window.showGlobalToast(data.message || 'Failed to update saved list.', 'error');
+            }
+        }
+    } catch (err) {
+        console.error('AJAX save error:', err);
+        submitBtn.disabled = false;
+        delete submitBtn.dataset.loading;
+        submitBtn.innerHTML = origHtml;
+        if (typeof window.showGlobalToast === 'function') {
+            window.showGlobalToast('An error occurred. Please try again.', 'error');
+        }
+    }
+});

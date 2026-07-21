@@ -32,7 +32,7 @@
         </div>
     </div>
     
-    <button type="button" disabled class="mt-4 shrink-0 w-full py-2.5 border-2 border-slate-200 bg-slate-50 text-slate-400 font-bold rounded-xl text-sm cursor-not-allowed">
+    {{-- <button type="button" disabled class="mt-4 shrink-0 w-full py-2.5 border-2 border-slate-200 bg-slate-50 text-slate-400 font-bold rounded-xl text-sm cursor-not-allowed">
         Reports coming soon
-    </button>
+    </button> --}}
 </div>

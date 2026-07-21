@@ -179,11 +179,25 @@
                         @endif
 
                         <div class="flex gap-2 pt-1">
-                            <button type="submit" onclick="document.getElementById('status-target-{{ $reservation->book_request_id }}').value='Approved'" class="flex-1 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition-all">
-                                Approve
+                            <button type="submit" onclick="document.getElementById('status-target-{{ $reservation->book_request_id }}').value='Approved'"
+                                data-loading-text="Processing..."
+                                style="background-color: #2563eb; color: #ffffff;"
+                                class="btn-submit-action flex-1 py-2.5 px-3 rounded-xl hover:opacity-90 active:opacity-100 font-extrabold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5">
+                                <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <span class="btn-label">Approve</span>
                             </button>
-                            <button type="submit" onclick="document.getElementById('status-target-{{ $reservation->book_request_id }}').value='Ready for Pickup'" class="flex-1 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition-all">
-                                Approve & Make Ready
+                            <button type="submit" onclick="document.getElementById('status-target-{{ $reservation->book_request_id }}').value='Ready for Pickup'"
+                                data-loading-text="Processing..."
+                                style="background-color: #059669; color: #ffffff;"
+                                class="btn-submit-action flex-1 py-2.5 px-3 rounded-xl hover:opacity-90 active:opacity-100 font-extrabold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5">
+                                <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <span class="btn-label">Approve &amp; Make Ready</span>
                             </button>
                         </div>
                         <button type="button" 
@@ -218,8 +232,15 @@
                             </div>
                         @endif
 
-                        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition-all">
-                            Mark Ready for Pickup
+                        <button type="submit"
+                            data-loading-text="Processing..."
+                            style="background-color: #059669; color: #ffffff;"
+                            class="btn-submit-action w-full py-2.5 px-4 rounded-xl hover:opacity-90 active:opacity-100 font-extrabold text-xs shadow-sm transition-all flex items-center justify-center gap-2">
+                            <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            <span class="btn-label">Mark Ready for Pickup</span>
                         </button>
                     </form>
                 @elseif(in_array($statusName, ['ready for pickup', 'ready']))
@@ -229,14 +250,31 @@
                             Copy #{{ $reservation->book->book_id }} (Acc: {{ $reservation->book->accession_number ?? 'N/A' }})
                         </div>
                     @endif
-                    <form action="{{ route('admin.reservations.status', $reservation) }}" method="POST" class="ajax-form pt-1">
+                    <form action="{{ route('admin.reservations.status', $reservation) }}" method="POST" class="ajax-form mt-2">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="Completed">
-                        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-sm transition-all">
-                            Complete & Fulfill Reservation
+                        <button type="submit"
+                            data-loading-text="Processing..."
+                            style="background-color: #2563eb; color: #ffffff;"
+                            class="btn-submit-action w-full py-2.5 px-4 rounded-xl hover:opacity-90 active:opacity-100 font-extrabold text-xs shadow-sm transition-all flex items-center justify-center gap-2">
+                            {{-- Spinner (shown while loading) --}}
+                            <svg class="btn-spinner hidden w-3.5 h-3.5 animate-spin shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            {{-- Checkmark icon (shown by default) --}}
+                            <svg class="btn-icon w-3.5 h-3.5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="btn-label">Mark as Complete</span>
                         </button>
                     </form>
+                    <button type="button" 
+                            onclick="openCancelModal('{{ route('admin.reservations.status', $reservation) }}', '{{ $reservation->book_request_id }}')" 
+                            class="w-full mt-2 py-1 text-red-600 hover:text-red-700 font-bold text-xs hover:underline transition-colors text-center block">
+                        Cancel Reservation
+                    </button>
                 @endif
             </div>
 

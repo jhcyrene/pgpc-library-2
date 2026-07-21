@@ -224,7 +224,7 @@
                         <div class="divide-y divide-slate-100 text-xs font-bold">
                             <div class="py-2.5 flex justify-between">
                                 <span class="text-slate-400">Borrow Limit</span>
-                                <span class="text-slate-800" id="summary-borrow-limit">10 items</span>
+                                <span class="text-slate-800" id="summary-borrow-limit">3 items</span>
                             </div>
                             <div class="py-2.5 flex justify-between">
                                 <span class="text-slate-400">Currently Borrowed</span>

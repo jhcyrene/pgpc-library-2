@@ -91,7 +91,7 @@
             const searchForm = container.querySelector('form');
 
             // Generic fetch and replace function
-            const loadPage = (url) => {
+            const loadPage = (url, triggerBtn = null) => {
                 const tableContainer = document.getElementById('books-table-container');
                 if (tableContainer) {
                     tableContainer.style.opacity = '0.5';
@@ -99,7 +99,7 @@
                 }
 
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
 
                 fetch(url, {
                     headers: {
@@ -117,7 +117,6 @@
                     if (tableContainer) {
                         tableContainer.outerHTML = html;
                     }
-                    // Update URL without reloading
                     window.history.pushState(null, '', url);
                 })
                 .catch(error => {
@@ -127,18 +126,61 @@
                         tableContainer.style.pointerEvents = 'auto';
                         tableContainer.innerHTML = '<div class="p-8 text-center text-red-500 font-bold border rounded-xl bg-white shadow-sm mt-4">Failed to load data. Please refresh the page.</div>';
                     }
+                })
+                .finally(() => {
+                    if (triggerBtn && triggerBtn.dataset.origHtml) {
+                        triggerBtn.disabled = false;
+                        triggerBtn.innerHTML = triggerBtn.dataset.origHtml;
+                    }
                 });
             };
 
-            // Intercept Pagination Clicks
+            // Intercept Clicks (View Details, Edit, Clear, Pagination)
             container.addEventListener('click', function(e) {
-                const viewBtn = e.target.closest('a[title="View"]');
+                // 1. View Details Modal Click
+                const viewBtn = e.target.closest('a[title="View Details"], a[title="View"]');
                 if (viewBtn) {
                     e.preventDefault();
-                    window.openDetailModal(viewBtn.href, 'bookDetailModal');
+                    if (viewBtn.dataset.loading === 'true') return;
+                    viewBtn.dataset.loading = 'true';
+                    
+                    const origSvg = viewBtn.innerHTML;
+                    viewBtn.style.pointerEvents = 'none';
+                    viewBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-blue-600 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+
+                    window.openDetailModal(viewBtn.href, 'bookDetailModal')
+                        .finally(() => {
+                            viewBtn.dataset.loading = 'false';
+                            viewBtn.style.pointerEvents = 'auto';
+                            viewBtn.innerHTML = origSvg;
+                        });
                     return;
                 }
 
+                // 2. Edit Book Link Click
+                const editBtn = e.target.closest('a[title="Edit Book"], a[title="Edit"]');
+                if (editBtn) {
+                    editBtn.style.pointerEvents = 'none';
+                    editBtn.classList.add('opacity-75', 'cursor-wait');
+                    editBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-[#102b70] shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+                    return;
+                }
+
+                // 3. Clear Filters Button Click
+                const clearBtn = e.target.closest('a[href="{{ route('admin.books.index') }}"]');
+                if (clearBtn && searchForm) {
+                    e.preventDefault();
+                    clearBtn.dataset.origHtml = clearBtn.innerHTML;
+                    clearBtn.innerHTML = `<svg class="animate-spin h-3.5 w-3.5 text-slate-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Clearing...`;
+                    
+                    searchForm.reset();
+                    const inputs = searchForm.querySelectorAll('input, select');
+                    inputs.forEach(i => i.value = '');
+                    loadPage('{{ route('admin.books.index') }}', clearBtn);
+                    return;
+                }
+
+                // 4. Pagination Link Click
                 const paginationLink = e.target.closest('.ajax-pagination-wrapper a');
                 if (paginationLink) {
                     e.preventDefault();
@@ -146,23 +188,44 @@
                 }
             });
 
-            // Intercept Search and Filter Form Submission
-            if (searchForm) {
-                searchForm.addEventListener('submit', function(e) {
+            // Intercept Form Submissions (Search & Delete)
+            container.addEventListener('submit', function(e) {
+                const form = e.target.closest('form');
+                if (!form) return;
+
+                // Delete Form
+                if (form.action.includes('/admin/books/') && form.querySelector('input[name="_method"][value="DELETE"]')) {
+                    const deleteBtn = form.querySelector('button[type="submit"]');
+                    if (deleteBtn) {
+                        deleteBtn.disabled = true;
+                        deleteBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-rose-600 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+                    }
+                    return;
+                }
+
+                // Search & Filter Form
+                if (form === searchForm) {
                     e.preventDefault();
+                    const searchBtn = searchForm.querySelector('button[type="submit"]');
+                    if (searchBtn) {
+                        searchBtn.disabled = true;
+                        searchBtn.dataset.origHtml = searchBtn.innerHTML;
+                        searchBtn.innerHTML = `<svg class="animate-spin h-3.5 w-3.5 text-white inline shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+                    }
+
                     const formData = new FormData(searchForm);
-                    
-                    // Filter out empty values
                     const params = new URLSearchParams();
                     for (const [key, value] of formData.entries()) {
                         if (value) params.append(key, value);
                     }
                     
                     const url = `${searchForm.action}?${params.toString()}`;
-                    loadPage(url);
-                });
-                
-                // Intercept Select change events to auto-submit
+                    loadPage(url, searchBtn);
+                }
+            });
+
+            // Auto-submit filter selects with loading indicator
+            if (searchForm) {
                 const selects = searchForm.querySelectorAll('select');
                 selects.forEach(select => {
                     select.addEventListener('change', () => {
